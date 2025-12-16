@@ -1,7 +1,5 @@
 # node
-node_modules/
-npm-debug.log*
-client/node_modules
+**/node_modules/
 
 # env
 .env
