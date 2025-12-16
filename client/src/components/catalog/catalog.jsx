@@ -108,7 +108,7 @@ const catalog = () => {
           </p>
           <h3 className='product_name' key={product.id}>{product.name}</h3>
           <div className="footer-card">
-            <div className="price">$<span className="sort-price">12.56</span></div>
+            <div className="price">$<span className="sort-price">{product.price}</span></div>
             <button onClick={()=>toProduct(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></button>
           </div>
           </div>

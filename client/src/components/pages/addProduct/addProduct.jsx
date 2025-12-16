@@ -17,6 +17,8 @@ const addProduct = (e) => {
     const [formData, setFormData] = useState({
         name: '',
         type: '',
+        price: '',
+        description: '',
     });
 
     const handleChange = (e) => {
@@ -31,6 +33,8 @@ const addProduct = (e) => {
             const payload ={
                 name: formData.name,
                 type: formData.type,
+                price: formData.price,
+                description: formData.description,
             }
             const response = await axios.post('https://localhost:3000/addProduct', formData, {
                 withCredentials: true
@@ -92,18 +96,7 @@ const addProduct = (e) => {
                     ))}
                 </datalist>
                 </label>
-                <br/>
-                <label>
-                    Product price:
-                    <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    />
-                </label>
-                {/* <br />
+                <br />
                 <label>
                     Price:
                     <input
@@ -124,16 +117,6 @@ const addProduct = (e) => {
                     required
                 />
                 </label>
-                <br />
-                <label>
-                    Product Image:
-                    <input
-                    type="file"
-                    name="image"
-                    // required
-                    />
-                </label>
-                <br /> */}
                 <button type="submit">Add Product</button>
             </form>
         </main>

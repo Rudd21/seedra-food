@@ -8,7 +8,7 @@ export const addProduct = async(req, res) => {
 
     console.log("Отриманий запит:", req.body); // 🔍 Дебаг
 
-    const { name, type } = req.body;
+    const { name, type, price, description } = req.body;
     const cleanType = type.trim().toUpperCase();
 
     if (!name) {
@@ -19,9 +19,17 @@ export const addProduct = async(req, res) => {
         return res.status(400).json({ error: "Не підходить під жодний тип! Челллл" });
     }
 
+    if (!price) {
+        return res.status(400).json({ error: "Немає ціни!" });
+    }
+
+    if (!description) {
+        return res.status(400).json({ error: "Ну чел, постарайся хочаби трошки написати!" });
+    }
+
     try {
         const newProduct = await prisma.product.create({
-            data: { name, type: cleanType, user: { connect: { id: req.user.id } } }
+            data: { name, type: cleanType, price, description, user: { connect: { id: req.user.id } } }
         });
         res.status(200).json({ message: "Продукт успішно додано!", data: newProduct });
     } catch (err) {

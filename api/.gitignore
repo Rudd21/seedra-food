@@ -1,12 +1,12 @@
-# node
+# node_modules everywhere
 **/node_modules/
 
-# env
-.env
-.env.local
+# env files
+**/.env
+**/.env.local
 
 # certs
-*.pem
+**/*.pem
 
 # build
 client/build/
