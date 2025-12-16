@@ -1,0 +1,74 @@
+import express from 'express';
+import cors from 'cors';
+import fs from "fs"
+import https from "https"
+
+import { addProduct } from './controllers/addProduct.controller.js';
+import { reqCatalog } from './controllers/reqCatalog.controller.js';
+import { register } from './controllers/register.controller.js';
+import { login } from './controllers/login.controller.js';
+import { PrismaClient } from '@prisma/client';
+
+import { verifyToken } from './middleware/auth.middleware.js';
+import cookieParser from 'cookie-parser';
+import { userProducts } from './controllers/userProducts.controller.js';
+import { addComment } from './controllers/addComment.controller.js';
+import { reqComment } from './controllers/reqComment.controller.js';
+const prisma = new PrismaClient();
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors({
+    origin: ['https://localhost:5000', 'https://localhost:3000'],
+    credentials: true,
+}));
+app.use(express.json());
+app.use(cookieParser())
+
+const httpOptions = {
+    key: fs.readFileSync('../client/localhost-key.pem'),
+    cert: fs.readFileSync('../client/localhost.pem'),
+}
+
+app.get("/user-data", verifyToken, async(req, res) => {
+    const user = await prisma.user.findUnique({
+        where: { id: req.user.id }
+    });
+    res.json(user);
+})
+
+app.post('/addProduct', verifyToken, addProduct);
+app.post('/addComment', verifyToken, addComment);
+
+app.get('/reqComment', reqComment);
+app.get('/catalog', reqCatalog);
+app.get('/userProducts', verifyToken, userProducts);
+
+app.get('/productPage/:id', async(req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await prisma.product.findUnique({ where: { id } });
+        res.status(200).json(product)
+    } catch (err) {
+        res.status(500).json({ error: 'Не вдалось дістати дані продукту' })
+    }
+})
+
+app.post('/register', register);
+app.post('/login', login);
+
+app.post('/logout', (req, res) => {
+
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'Strict',
+        path: '/',
+    });
+    return res.status(200).json({ message: 'Ви вийшли з аккаунту!' });
+});
+
+https.createServer(httpOptions, app).listen(PORT, () => {
+    console.log('ку')
+})
