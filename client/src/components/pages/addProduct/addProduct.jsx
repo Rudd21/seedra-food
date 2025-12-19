@@ -45,7 +45,7 @@ const addProduct = (e) => {
         }
   };
   return (
-    <div>
+    <div className='container'>
         <nav>
             <div className="text-nav">
                 <img height={"25px"} src="Frame.svg" alt="" />

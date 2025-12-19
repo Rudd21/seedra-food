@@ -4,11 +4,12 @@ const prisma = new PrismaClient();
 
 export const addComment = async(req, res) => {
 
-    const { productId, text } = req.body
+    const { productId, text, rating } = req.body
+    const cleanRating = Number(rating)
 
     try {
-        const newComment = await prisma.comment.create({
-            data: { productId, text, userId: req.user.id }
+        await prisma.comment.create({
+            data: { productId, text, rating: cleanRating, userId: req.user.id }
         })
         res.status(200).json({ message: "Продукт додано!" })
     } catch (err) {

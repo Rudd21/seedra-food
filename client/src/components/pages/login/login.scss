@@ -6,30 +6,3 @@
 .inputs {
     margin: 0 auto;
 }
-
-.form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-content: center;
-    input {
-        width: 300px;
-        padding: 15px;
-        margin: 0 auto;
-    }
-    textarea {
-        width: 200px;
-        padding: 15px;
-        margin: 0 auto;
-        margin-top: 15px;
-    }
-    button {
-        width: 200px;
-        padding: 10px;
-        margin: 0 auto;
-        margin-top: 15px;
-    }
-    label {
-        padding: 10px;
-    }
-}

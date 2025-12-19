@@ -35,7 +35,8 @@ model User {
 
 model Comment {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  text String 
+  text String
+  rating Float
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams} from 'react-router-dom';
+import "../../../index.css"
 import "./productPage.scss"
 import axios from 'axios';
 
@@ -9,7 +10,8 @@ const ProductPage = () => {
     const [checkToken, setCheckToken] = useState();
     const [productInfo, setProductInfo] = useState(null);
     const [commentText, setCommentText] = useState('');
-    const [getComments, setGetComments] = useState()
+    const [commentRating, setCommentRating] = useState();
+    const [getComments, setGetComments] = useState();
 
     useEffect(()=>{
       axios.get("https://localhost:3000/user-data",{
@@ -46,7 +48,8 @@ const ProductPage = () => {
         try{
             const response = await axios.post('https://localhost:3000/addComment', {
                 productId,
-                text: commentText
+                text: commentText,
+                rating: commentRating
             }, {
                 withCredentials: true
             });
@@ -57,7 +60,7 @@ const ProductPage = () => {
     }
 
   return (
-    <div>
+    <div className='container'>
         <nav>
             <div className="text-nav">
             <img height={"25px"} src="Frame.svg" alt="" />
@@ -90,39 +93,45 @@ const ProductPage = () => {
         </nav>
         <main>
             <div className="product-info">
-            <img src="../../../public/tomato.png" width={'400px'} alt="Product_photo" />
+                <img src="../../../public/tomato.png" width={'400px'} alt="Product_photo" />
                 <div className="product-text">
                     <h3>{productInfo?.name}</h3>
                     <p>Тип: {productInfo?.type}</p>
                     <p>ID користувача: {productInfo?.userId}</p>
                 </div>
             </div>
+            <h3>Зформувати коментар:</h3>
             <div className="feedbacks">
-                <h3>Написати коментар:</h3>
                 <div className="inputs">
-                <label>
-                        <p>Форма для написання коментаря:</p>
+                    <label>
+                        <input id='rating' type="range" min={0.5} max={5} step={0.5} defaultValue={4.5} onChange={e => setCommentRating(e.target.value)} />
+                        <label htmlFor="rating">{commentRating}</label>
+                    </label>
+                    <label>
+                        <p>Коментар:</p>
                         <input
                         type="text"
                         onChange={e => setCommentText(e.target.value)}
+                        className='w-full px-3 py-2 border border-gray-300 rounded-md'
                         required
-                    />
-                </label>
+                        />
+                    </label>
+                    <button onClick={addComment} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Submit</button>
                 </div>
-                <button onClick={addComment}>Submit</button>
                 <h3>Коментарі:</h3>
                 <div>
-                {getComments && getComments.length > 0 ? (
-                    getComments.map((comment) => (
-                    <div key={comment.id} className="comment">
-                        <p><strong>User ID:</strong> {comment.userId}</p>
-                        <p><strong>Username:</strong> {comment.user.name}</p>
-                        <p><strong>Feedback:</strong>{comment.text}</p>
-                    </div>
-                    ))
-                ) : (
-                    <p>Коментарів поки немає</p>
-                )}
+                    {getComments && getComments.length > 0 ? (
+                        getComments.map((comment) => (
+                        <div key={comment.id} className="comment">
+                            <p><strong>User ID:</strong> {comment.userId}</p>
+                            <p><strong>Username:</strong> {comment.user.name}</p>
+                            <p><strong>Rating:</strong> {comment.rating}</p>
+                            <p><strong>Feedback:</strong>{comment.text}</p>
+                        </div>
+                        ))
+                    ) : (
+                        <p>Коментарів поки немає</p>
+                    )}
                 </div>
             </div>
         </main>

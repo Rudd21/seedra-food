@@ -1,13 +1,18 @@
 .formToProduct {
     width: 50%;
     height: 500px;
+    background: rgb(255, 248, 239);
+}
+
+.formRegister {
+    display: flex;
+    justify-content: center;
 }
 
 .form {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin: 0 auto;
     width: 80%;
     input {
         width: 300px;

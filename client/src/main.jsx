@@ -7,6 +7,7 @@ import Login from "./components/pages/login/login.jsx"
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Profile from './components/pages/profile/profile.jsx';
 import ProductPage from './components/pages/productPage/productPage.jsx';
+import './index.css'
 
 // React монтується у елемент з id="root"
 ReactDOM.createRoot(document.getElementById('root')).render(
