@@ -1,0 +1,30 @@
+.footer-nav {
+    color: #70737C;
+    margin: 0 auto;
+    border-bottom: 1px solid #4FA083;
+    width: 90%;
+    padding-bottom: 25px;
+    position: sticky;
+    li {
+        border-right: 1px solid #4FA083;
+        list-style-type: none;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    ul {
+        display: flex;
+        width: 80%;
+        flex-direction: row;
+        height: 25px;
+        margin: 0 auto;
+        align-items: center;
+    }
+}
+
+.social-footer {
+    display: flex;
+    margin-top: 15px;
+    width: 80%;
+    margin: 0 auto;
+    justify-content: space-between;
+}

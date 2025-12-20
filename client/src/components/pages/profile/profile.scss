@@ -1,0 +1,104 @@
+main {
+    width: 80%;
+    margin: 0 auto;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    align-items: center;
+    box-shadow: 5px 5px 5px lightgrey;
+}
+
+.text-nav {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-ul {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.nav-list {
+    color: #70737C;
+    list-style-type: none;
+    padding-right: 15px;
+    font-size: 16px;
+    margin: 5px;
+    width: 150px;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    background: none;
+    &:hover {
+        color: #359740;
+    }
+}
+
+.search-block {
+    display: flex;
+    align-content: center;
+    border-radius: 71px;
+    border: 3px solid #EFEFEF;
+    height: 25px;
+    padding: 10px;
+    img {
+        align-content: center;
+    }
+    input {
+        border: none;
+        color: #70737C;
+    }
+}
+
+#search-text {
+    font-size: 16px;
+    margin-top: 35px;
+}
+
+.info_user {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+
+.data_user {
+    width: 50%;
+    margin: 0 auto;
+    p {
+        padding: 4px;
+    }
+}
+
+.edit_data_user {
+    display: flex;
+    flex-direction: column;
+    button {
+        padding: 3px;
+        margin: 4px;
+    }
+}
+
+.cata {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    row-gap: 15px;
+    column-gap: 15px;
+    margin: 5px auto;
+}
+
+.cardName {
+    font-size: 17px;
+}
+
+.price-card {
+    font-size: 20px;
+}
