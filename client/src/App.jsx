@@ -6,16 +6,15 @@ import Feedback from "./components/feedbacks/feedbacks"
 import Footer from "./components/footer/footer"
 
 const App=()=> {
-  useEffect(() => {
-  axios.get('https://localhost:3000/user-data', {
-    withCredentials: true
-  }).then(res => {
-    console.log("Автоматичний логін, користувач:", res.data);
-  }).catch(() => {
-    console.log("Неавторизований або токен протух.");
-  });
-}, []);
-
+  useEffect(()=>{
+    const init = async () =>{
+      try{
+        await axios.get('https://localhost:3000/createGuestSession', {withCredentials: true})
+        await axios.get('https://localhost:3000/user-data', {withCredentials: true})
+      }catch{}
+    };
+    init();
+  }, [])
   return (
     <div>
         <Banner/>

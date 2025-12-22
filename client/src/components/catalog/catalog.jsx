@@ -9,9 +9,7 @@ const catalog = () => {
   const [products, setProducts] = useState([]) 
   
   useEffect(() =>{
-    axios.get("https://localhost:3000/catalog",{
-        withCredentials: true
-      })
+    axios.get("https://localhost:3000/catalog")
      .then(response => {
       setProducts(response.data)
     })
@@ -19,10 +17,20 @@ const catalog = () => {
       console.error("Помилка при отримані каталогу: ", error)
     })
   }, [])
-
+  
   const toProduct = (productId)=>{
     navigate(`/productPage/${productId}`)
   }
+
+  const addToBasket = (productId) => {
+    try{
+      axios.post("https://localhost:3000/addToBasket", {productId} ,{withCredentials: true});
+      console.log("Товар добавлено в корзину:", productId)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   const [catalogFilter, SetCatalogFilter] = useState(null)
   return (
     <div className="catalog-block">
@@ -94,7 +102,7 @@ const catalog = () => {
       </ul>
 
       {/* Продукти */}
-        <div className="products">
+        <div className="h-150 products">
           {products
           .filter(product => !catalogFilter || product.type == catalogFilter)
           .map((product) => (
@@ -103,21 +111,22 @@ const catalog = () => {
             animate={{opacity: 1, y:0}}
             transition={{duration: 0.3}}
 
+            key={product.id}
             data-heart="no"
-            className="product" 
+            className="h-95 product" 
             data-hashtag={product.type}>
             <div className="safe-productaImage">
               <button value="1" className="heart" type="button"></button>
               <img src="bungles.png" alt="Product" />
             </div>
             <p className="flex">
-              <p>Rating:</p>
+              Rating:
               <span>{product.avgRating}</span>
             </p>
             <h3 className='product_name' key={product.id}>{product.name}</h3>
             <div className="footer-card">
-              <div className="price">$<span className="sort-price">{product.price}</span></div>
-              <button onClick={()=>toProduct(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></button>
+              <div className="price">$<span className="sort-price">{product.id}</span></div>
+              <motion.button className='rounded-md hover:bg-[#0D4715] transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" />В Кошик</motion.button>
             </div>
           </motion.div>
         ))}

@@ -66,7 +66,7 @@ const addProduct = (e) => {
         </nav>
         <main className='formRegister'>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className='form'>
-            <div className="inputs">
+            <div className="flex flex-col items-center">
             <label>
                     <p>Username:</p>
                     <input
@@ -81,6 +81,7 @@ const addProduct = (e) => {
                 <label>
                     <p>Email:</p>
                     <input
+                    className='bg-blue'
                     type="email"
                     name="email"
                     value={formData.email}
@@ -110,7 +111,7 @@ const addProduct = (e) => {
                     />
                 </label>
                 <br /> */}
-                <button type="submit">Submit</button>
+                <button className='bg-[#eaf1eb] cursor-pointer hover:bg-[#67AE6E] transition duration-300' type="submit">Submit</button>
             </form>
         </main>
         <div className="footer-nav">

@@ -62,7 +62,7 @@ const addProduct = (e) => {
         </nav>
         <main className='formRegister'>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className='form'>
-            <div className="inputs">
+            <div className="flex flex-col items-center">
             <label>
                     <p>Email:</p>
                     <input

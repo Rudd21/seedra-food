@@ -10,10 +10,13 @@ import { login } from './controllers/login.controller.js';
 import { PrismaClient } from '@prisma/client';
 
 import { verifyToken } from './middleware/auth.middleware.js';
+import { guestSession } from './middleware/guestSession.middleware.js';
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
 import { addComment } from './controllers/addComment.controller.js';
 import { reqComment } from './controllers/reqComment.controller.js';
+import { reqBasket } from './controllers/reqBasket.controller.js';
+import { addToBasket } from './controllers/addToBasket.controller.js';
 const prisma = new PrismaClient();
 
 const app = express();
@@ -40,6 +43,10 @@ app.get("/user-data", verifyToken, async(req, res) => {
 
 app.post('/addProduct', verifyToken, addProduct);
 app.post('/addComment', verifyToken, addComment);
+
+app.get('/createGuestSession', guestSession);
+app.post('/addToBasket', addToBasket);
+app.get('/reqBasket', reqBasket);
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);
@@ -70,5 +77,5 @@ app.post('/logout', (req, res) => {
 });
 
 https.createServer(httpOptions, app).listen(PORT, () => {
-    console.log('ку')
+    console.log('Бекенд включився')
 })

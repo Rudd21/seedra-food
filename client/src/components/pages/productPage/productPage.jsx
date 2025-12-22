@@ -119,10 +119,10 @@ const ProductPage = () => {
                     <button onClick={addComment} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Submit</button>
                 </div>
                 <h3>Коментарі:</h3>
-                <div className='p-5 border'>
+                <div>
                     {getComments && getComments.length > 0 ? (
                         getComments.map((comment) => (
-                        <div key={comment.id} className="comment">
+                        <div key={comment.id} className='m-5 p-5 border'>
                             <p><strong>User ID:</strong> {comment.userId}</p>
                             <p><strong>Username:</strong> {comment.user.name}</p>
                             <p><strong>Rating:</strong> {comment.rating}</p>
