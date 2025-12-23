@@ -125,8 +125,8 @@ const catalog = () => {
             </p>
             <h3 className='product_name' key={product.id}>{product.name}</h3>
             <div className="footer-card">
-              <div className="price">$<span className="sort-price">{product.id}</span></div>
-              <motion.button className='rounded-md hover:bg-[#0D4715] transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" />В Кошик</motion.button>
+              <div className="price">$<span className="sort-price">{product.price}</span></div>
+              <motion.button className='rounded-md hover:bg-[#0D4715] transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></motion.button>
             </div>
           </motion.div>
         ))}

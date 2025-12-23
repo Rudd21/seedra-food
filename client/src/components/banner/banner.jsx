@@ -9,7 +9,7 @@ const banner = () => {
   const openBasket = "w-100 h-200 mx-[75%] my-[-44%] bg-[#eaf1eb] fixed z-1 transition translate-x-0"
   
   const [checkToken, setCheckToken] = useState();
-  const [userBasket, setUserBasket] = useState();
+  const [userBasket, setUserBasket] = useState([]);
   const [stateBasket, setStateBasket] = useState(closeBasket);
   const navigate = useNavigate()
 
@@ -31,6 +31,10 @@ const banner = () => {
     })
     .catch(err => console.error("Помилка при отримані корзини", err));
   }
+
+  useEffect(()=>{
+    console.log("Оновилось?:", userBasket)
+  }, [userBasket])
 
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
@@ -115,14 +119,15 @@ const banner = () => {
         </main>
         <div className={stateBasket}>
                 <h1 className='m-5'>Basket:</h1>
-                <p>{stateBasket}</p>
-                {/* {userBasket.map((productBasket)=>(
-                  <div key={productBasket.id}>
+                {/* <p>{userBasket}</p> */}
+                {userBasket.map((productBasket)=>(
+                  <div key={productBasket.id} className='m-5 p-3 border'>
                     <h1>{productBasket.name}</h1>
                     <p>{productBasket.description}</p>
-                    <p>{productBasket.price}</p>
+                    <p>${productBasket.price}</p>
+                    <a className='bg-green-700 p-1 rounded' href={`https://localhost:5000/productPage/${productBasket.id}`}>Детальніше</a>
                   </div>
-                ))} */}
+                ))}
                 <button className='m-5 bg-green-700' onClick={()=> setStateBasket(closeBasket)}>Close</button>
         </div>
     </div>
