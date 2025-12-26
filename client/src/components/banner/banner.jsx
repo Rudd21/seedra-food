@@ -4,12 +4,11 @@ import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
 import {motion, transform} from 'framer-motion'
 
-const banner = () => {
+const banner = ({userBasket, removeFromBasket}) => {
   const closeBasket = "w-100 h-200 mx-[75%] my-[-44%] bg-[#eaf1eb] fixed z-1 transition translate-x-full"
   const openBasket = "w-100 h-200 mx-[75%] my-[-44%] bg-[#eaf1eb] fixed z-1 transition translate-x-0"
   
   const [checkToken, setCheckToken] = useState();
-  const [userBasket, setUserBasket] = useState([]);
   const [stateBasket, setStateBasket] = useState(closeBasket);
   const navigate = useNavigate()
 
@@ -20,21 +19,6 @@ const banner = () => {
       .then(res=>{setCheckToken(res.data)})
       .catch(err=>{console.error("Немає токену або що:", err)})
   },[])
-
-  function reqBasket() {
-    setStateBasket(openBasket)
-
-    axios.get("https://localhost:3000/reqBasket", {
-      withCredentials: true
-    }).then(res => {
-      setUserBasket(res.data)
-    })
-    .catch(err => console.error("Помилка при отримані корзини", err));
-  }
-
-  useEffect(()=>{
-    console.log("Оновилось?:", userBasket)
-  }, [userBasket])
 
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
@@ -67,13 +51,13 @@ const banner = () => {
                 {!checkToken ? (
                   <>
                     <Link className='nav-list' to="/register">Register</Link>
-                    <button className='nav-list' onClick={reqBasket}>Basket</button>
+                    <button className='nav-list' onClick={()=>{setStateBasket(openBasket)}}>Basket</button>
                     <Link className='nav-list' to="/login">Login</Link>
                   </>
                 ) : (
                   <>
                     <Link className='nav-list' to="/profile">Profile</Link>
-                    <Link className='nav-list' to="/basket">Basket</Link>
+                    <Link className='nav-list' onClick={()=>{handleLogout}}>Logout</Link>
                     <Link className='nav-list' to="/addProduct">AddProduct</Link>
                   </>
                 )}
@@ -120,14 +104,22 @@ const banner = () => {
         <div className={stateBasket}>
                 <h1 className='m-5'>Basket:</h1>
                 {/* <p>{userBasket}</p> */}
-                {userBasket.map((productBasket)=>(
+                {userBasket.length === 0 ? (
+                  <p className="m-5 text-gray-500">Корзина пуста</p>
+                ) : (
+                  userBasket.map((productBasket)=>(
                   <div key={productBasket.id} className='m-5 p-3 border'>
+                    <button 
+                      className='w-5 h-5 color-red bg-red-700' 
+                      onClick={()=> removeFromBasket(productBasket.id)}>
+                      x
+                    </button>
                     <h1>{productBasket.name}</h1>
                     <p>{productBasket.description}</p>
                     <p>${productBasket.price}</p>
                     <a className='bg-green-700 p-1 rounded' href={`https://localhost:5000/productPage/${productBasket.id}`}>Детальніше</a>
                   </div>
-                ))}
+                )))}
                 <button className='m-5 bg-green-700' onClick={()=> setStateBasket(closeBasket)}>Close</button>
         </div>
     </div>

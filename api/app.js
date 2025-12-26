@@ -16,7 +16,7 @@ import { userProducts } from './controllers/userProducts.controller.js';
 import { addComment } from './controllers/addComment.controller.js';
 import { reqComment } from './controllers/reqComment.controller.js';
 import { reqBasket } from './controllers/reqBasket.controller.js';
-import { addToBasket } from './controllers/addToBasket.controller.js';
+import { addToBasket, removeFromBasket } from './controllers/changeBasket.controller.js';
 const prisma = new PrismaClient();
 
 const app = express();
@@ -46,6 +46,7 @@ app.post('/addComment', verifyToken, addComment);
 
 app.get('/createGuestSession', guestSession);
 app.post('/addToBasket', addToBasket);
+app.post('/removeFromBasket', removeFromBasket);
 app.get('/reqBasket', reqBasket);
 
 app.get('/reqComment', reqComment);

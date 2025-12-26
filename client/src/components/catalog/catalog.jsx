@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./catalog.scss"
 import { useNavigate } from 'react-router-dom';
 
-const catalog = () => {
+const catalog = ({addToBasket}) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]) 
   
@@ -21,16 +21,7 @@ const catalog = () => {
   const toProduct = (productId)=>{
     navigate(`/productPage/${productId}`)
   }
-
-  const addToBasket = (productId) => {
-    try{
-      axios.post("https://localhost:3000/addToBasket", {productId} ,{withCredentials: true});
-      console.log("Товар добавлено в корзину:", productId)
-    }catch(err){
-      console.log(err)
-    }
-  }
-
+  
   const [catalogFilter, SetCatalogFilter] = useState(null)
   return (
     <div className="catalog-block">
