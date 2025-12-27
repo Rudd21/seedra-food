@@ -48,7 +48,7 @@ const addProduct = (e) => {
     <div className='container'>
         <nav>
             <div className="text-nav">
-                <img height={"25px"} src="Frame.svg" alt="" />
+                <img className='h-5' src="Frame.svg" alt="" />
                 <ul className="nav-ul">
                     <li className="nav-list">ALL PRODUCTS</li>
                     <li className="nav-list">ABOUT SEEDRA</li>
@@ -74,6 +74,7 @@ const addProduct = (e) => {
                 <label>
                     Product Name:
                     <input
+                    className='bg-white rounded-xl'
                     type="text"
                     name="name"
                     value={formData.name}
@@ -85,6 +86,7 @@ const addProduct = (e) => {
                 <label>
                     Product Type:
                     <input id="productType" list="TypesProduct"
+                    className='bg-white rounded-xl'
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
@@ -100,6 +102,7 @@ const addProduct = (e) => {
                 <label>
                     Price:
                     <input
+                    className='bg-white rounded-xl'
                     type="number"
                     name="price"
                     value={formData.price}
@@ -111,6 +114,7 @@ const addProduct = (e) => {
                 <label>
                     Description:
                     <textarea
+                    className='bg-white rounded-xl'
                     name="description"
                     value={formData.description}
                     onChange={handleChange}

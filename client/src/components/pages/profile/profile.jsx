@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
+// import multer from 'multer';
 import "./profile.scss"
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
+import { userProducts } from '../../../../../api/controllers/userProducts.controller';
 
 const Profile = () => {
   const [checkToken, setCheckToken] = useState();
   const [userCatalog, setUserCatalog] = useState();
+  const [productComments, setProductComments] = useState([]);
   const navigate = useNavigate()
+
+
 
   useEffect(()=>{
       axios.get("https://localhost:3000/user-data",{
@@ -18,9 +23,21 @@ const Profile = () => {
       axios.get("https://localhost:3000/userProducts",{
         withCredentials: true
       })
-      .then(res=>{setUserCatalog(res.data)})
+      .then(res=>{
+        setUserCatalog(res.data);
+        setProductComments(res.data[0][0].comment);
+        })
       .catch(err=>{console.error("Помлка при отримані каталогу", err)})
+
+      console.log("Вмістимість каталогу юхера", userCatalog);
   },[])
+
+  const deleteProduct = (productId)=>{
+    console.log("deleteProduct:", productId)
+    axios.delete(`https://localhost:3000/deleteProduct/${productId}`, {
+        withCredentials: true
+    })
+  }
 
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
@@ -65,40 +82,70 @@ const Profile = () => {
             </div>
         </nav>
         <main>
-            <div className="info_user">
+            <div className="flex-col">
                 <h3>Інформація про вас:</h3>
-                <div className="data_user">
-                    <p className="username">Ваш username: {checkToken?.name}</p>
-                    <p className='id_user'>Ваш id: {checkToken?.id}</p>
-                    <p className="email">Ваш email: {checkToken?.email}</p> 
-                </div>
-                <div className="edit_data_user">
-                    <button>Змінити username</button>
-                    <button>Змінити пароль</button>
-
-                    <button onClick={handleLogout}>Log out</button>
+                <div className='flex justify-around'>
+                    <div className='flex-col'>
+                        <div className='border-3 rounded-xl bg-green-200'><img className='m-3 rounded-xl  bg-white' src="user-default.png" alt="" /></div>
+                        <button className='bg-green-400 p-3 my-3 mx-10 hover:bg-green-600 transition'>Змінити аватарку</button>
+                    </div>
+                    <div className="data_user">
+                        <p className="username">Ваш username: {checkToken?.name}</p>
+                        <p className='id_user'>Ваш id: {checkToken?.id}</p>
+                        <p className="email">Ваш email: {checkToken?.email}</p> 
+                    </div>
+                    <div className="edit_data_user">
+                        <button>Змінити username</button>
+                        <button>Змінити пароль</button>
+                        <button onClick={handleLogout}>Log out</button>
+                    </div>
                 </div>
             </div>
             <div className="cata_user">
                 <h3>Товари користувача:</h3>
                 <div className='cata'>
-                {userCatalog?.map((userCata) => (
-                    <div data-heart="no" className="product" data-hashtag={userCata.type}>
-                        <div className="safe-productaImage">
-                            <button value="1" className="heart" type="button"></button>
-                            <img src="bungles.png" alt="Product" />
-                        </div>
-                        <p className="rainting rain-sort">
-                            <img src="user-rainting.png" alt="Rating" />
-                            <span>5.2</span>
-                        </p>
-                        <h3 className='cardName' key={userCata.id}>{userCata.name}</h3>
-                        <div className="footer-card">
-                            <div className="price-card">$<span className="sort-price">12.56</span></div>
-                            <img className="basket-product" src="basket.png" alt="Basket" />
+                {userCatalog && userCatalog.length > 0 ? (
+                    userCatalog.map((userCata) => (
+                    <div>
+                        <div data-heart="no" className="product" data-hashtag={userCata.type}>
+                            <div className="safe-productaImage">
+                                <button value="1" className="heart" type="button"></button>
+                                <img src="bungles.png" alt="Product" />
+                            </div>
+                            <p className="rainting rain-sort">
+                                <span className='flex'><p>Rating: </p>{userCata.avgRating}</span>
+                            </p>
+                            <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata[0].id)}>Видалити товар</button>
+                            <h3 className='cardName' key={userCata.id}>{userCata.name}</h3>
+                            <div className="footer-card">
+                                <div className="price-card">$<span className="sort-price">{userCata.price}</span></div>
+                                <img className="basket-product" src="basket.png" alt="Basket" />
+                            </div>
                         </div>
                     </div>
-                ))}
+                ))) : (
+                    <p className='mx-5 my-10 text-center underline text-gray-400'>...Товарів поки немає...</p>
+                )}
+                </div>
+            </div>
+            <div className="comment_user">
+                <h3>Коментарі щодо товарів:</h3>
+                <div className='comments'>
+                    {productComments && productComments.length > 0 ? (
+                        productComments.map((comment) => (
+                        <div key={comment.id} className='flex m-5 p-5 border'>
+                        <img className='w-25' src="user-default.png" alt="" />
+                        <div className='flex mx-5 flex-col justify-center'>
+                            <p><strong>User ID:</strong> {comment.userId}</p>
+                            <p><strong>Username:</strong> {comment.name}</p>
+                            <p><strong>Rating:</strong> {comment.rating}</p>
+                            <p><strong>Feedback:</strong>{comment.text}</p>
+                        </div>
+                        </div>
+                        ))
+                    ) : (
+                        <p className='mx-5 my-10 text-center underline text-gray-400'>...Коментарів поки немає...</p>
+                    )}
                 </div>
             </div>
         </main>
