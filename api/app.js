@@ -56,10 +56,32 @@ app.get('/userProducts', verifyToken, userProducts);
 app.get('/productPage/:id', async(req, res) => {
     const { id } = req.params;
     try {
-        const product = await prisma.product.findUnique({ where: { id } });
+        const product = await prisma.product.findUnique({ where: { id: id } });
         res.status(200).json(product)
     } catch (err) {
         res.status(500).json({ error: 'Не вдалось дістати дані продукту' })
+    }
+})
+
+app.delete('/deleteProduct/:id', verifyToken, async(req, res) => {
+    const { id } = req.params;
+    console.log("Товар що приходить:", id, " Від кого:", req.user.id)
+    try {
+        const deleted = await prisma.product.delete({
+            where: {
+                id: id,
+                userId: req.user.id
+            }
+        });
+
+        if (deleted.count === 0) {
+            return res.status(404).json({ message: "Товар не знайдено" })
+        }
+
+        res.status(200).json({ message: "Товар успішно видалено" })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Не вдалось видалити товар' })
     }
 })
 
