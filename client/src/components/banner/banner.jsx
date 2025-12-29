@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useParams } from 'react'
 import "./banner.scss"
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
@@ -9,7 +9,11 @@ const banner = ({userBasket, removeFromBasket}) => {
   const openBasket = "w-100 h-200 mx-[75%] my-[-44%] bg-[#eaf1eb] fixed z-1 transition translate-x-0"
   
   const [checkToken, setCheckToken] = useState();
+  const [stateSearch, setStateSearch] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
   const [stateBasket, setStateBasket] = useState(closeBasket);
+  const [resultSearch, setResultSearch] = useState(closeBasket);
   const navigate = useNavigate()
 
   useEffect(()=>{
@@ -19,6 +23,31 @@ const banner = ({userBasket, removeFromBasket}) => {
       .then(res=>{setCheckToken(res.data)})
       .catch(err=>{console.error("Немає токену або що:", err)})
   },[])
+
+  const searchByUser = ()=>{
+    console.log("Знайти чувака за таким ім'ям:", searchText)
+
+    axios.get(`https://localhost:3000/search/user?q=${encodeURIComponent(searchText)}`      
+    ).then(res=>{
+      setSearchResult(res.data)
+      setResultSearch(openBasket)
+    });
+  }
+
+  const searchByProduct = ()=>{
+    console.log("Знайти товар за такою назвою:", searchText)
+
+    axios.get(`https://localhost:3000/search/product?q=${encodeURIComponent(searchText)}`      
+    ).then(res=>{
+      setSearchResult(res.data)
+      console.log(res.data)
+      setResultSearch(openBasket)
+    });
+  }
+
+  const navigateBySearch = (productId)=>{
+    navigate(`/productPage/${productId}`)
+  }
 
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
@@ -44,7 +73,19 @@ const banner = ({userBasket, removeFromBasket}) => {
                     <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>
                     <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
                 </div>
-                <input className='h-7 mx-30' placeholder={"Search"} type="text" />
+                <div>
+                  <input className="w-50 h-7 mx-30 after:content-['*'] after:ml-0.5 after:text-red-500" placeholder={"Search"} type="text" onInput={()=>setStateSearch(true)} onChange={(e)=> setSearchText(e.target.value)}/>
+                  {stateSearch ? (
+                    <div className='fixed'>
+                      <div className="w-50 flex mx-30 flex-col">
+                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={searchByUser}>Search among users</button>
+                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={searchByProduct}>Search among products</button>
+                      </div>
+                    </div>
+                  ):(
+                    <p className=''></p>
+                  )}
+                </div>
                 <div className="sort-heart">
                     <img src="Outline-green.png" alt="" />
                 </div>
@@ -92,7 +133,7 @@ const banner = ({userBasket, removeFromBasket}) => {
                   <button className="banner-button2">Discover</button>
                 </div>
               </div>
-              <img className="product-banner" src="bungles.png" alt="" />
+              <img className="product-banner z-0" src="bungles.png" alt="" />
           </div>
           <div className="banner-footer">
             <div className="banner-footer-text">
@@ -121,6 +162,22 @@ const banner = ({userBasket, removeFromBasket}) => {
                   </div>
                 )))}
                 <button className='m-5 bg-green-700' onClick={()=> setStateBasket(closeBasket)}>Close</button>
+        </div>
+        <div className={resultSearch}>
+                <h1 className='m-5'>Result of search:</h1>
+                {/* <p>{userBasket}</p> */}
+                {searchResult.length === 0 ? (
+                  <p className="m-5 text-gray-500">Нема результатів пошуку</p>
+                ) : (
+                  searchResult.map((searchOneResult)=>(
+                  <div key={searchOneResult.id} className='m-5 p-3 border'>
+                    <h1>{searchOneResult.name}</h1>
+                    <p>Type: {searchOneResult.type}</p>
+                    <p>${searchOneResult.price}</p>
+                    <button onClick={()=>{navigateBySearch(searchOneResult.id)}}>Детальніше</button>
+                  </div>
+                )))}
+                <button className='m-5 bg-green-700' onClick={()=> setResultSearch(closeBasket)}>Close</button>
         </div>
     </div>
   )

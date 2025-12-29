@@ -17,6 +17,7 @@ import { addComment } from './controllers/addComment.controller.js';
 import { reqComment } from './controllers/reqComment.controller.js';
 import { reqBasket } from './controllers/reqBasket.controller.js';
 import { addToBasket, removeFromBasket } from './controllers/changeBasket.controller.js';
+import { searchUsers, searchProduct } from './controllers/search.controller.js';
 const prisma = new PrismaClient();
 
 const app = express();
@@ -62,6 +63,9 @@ app.get('/productPage/:id', async(req, res) => {
         res.status(500).json({ error: 'Не вдалось дістати дані продукту' })
     }
 })
+
+app.get('/search/user', searchUsers)
+app.get('/search/product', searchProduct)
 
 app.delete('/deleteProduct/:id', verifyToken, async(req, res) => {
     const { id } = req.params;
