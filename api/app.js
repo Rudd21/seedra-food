@@ -18,6 +18,7 @@ import { reqComment } from './controllers/reqComment.controller.js';
 import { reqBasket } from './controllers/reqBasket.controller.js';
 import { addToBasket, removeFromBasket } from './controllers/changeBasket.controller.js';
 import { searchUsers, searchProduct } from './controllers/search.controller.js';
+import { reqUser } from './controllers/reqUser.controller.js';
 const prisma = new PrismaClient();
 
 const app = express();
@@ -52,9 +53,10 @@ app.get('/reqBasket', reqBasket);
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);
-app.get('/userProducts', verifyToken, userProducts);
+app.get('/userProducts/:id', userProducts);
+app.get('/reqUser', reqUser)
 
-app.get('/productPage/:id', async(req, res) => {
+app.get('/productPage', async(req, res) => {
     const { id } = req.params;
     try {
         const product = await prisma.product.findUnique({ where: { id: id } });
@@ -66,6 +68,8 @@ app.get('/productPage/:id', async(req, res) => {
 
 app.get('/search/user', searchUsers)
 app.get('/search/product', searchProduct)
+
+app.get('')
 
 app.delete('/deleteProduct/:id', verifyToken, async(req, res) => {
     const { id } = req.params;

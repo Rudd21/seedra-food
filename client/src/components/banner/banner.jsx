@@ -45,15 +45,19 @@ const banner = ({userBasket, removeFromBasket}) => {
     });
   }
 
-  const navigateBySearch = (productId)=>{
+  const navigateByProduct = (productId)=>{
     navigate(`/productPage/${productId}`)
+  }
+
+  const navigateByUser = (userId)=>{
+    navigate(`/profile/${userId}`)
   }
 
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
     .then(() => {
       setCheckToken(null);
-      console.log("має по ідеї очиститись",checkToken)
+      console.log("має по ідеї очиститись", checkToken)
       navigate("/");
     })
     .catch(err => console.error("Помилка під час логауту", err));
@@ -98,7 +102,7 @@ const banner = ({userBasket, removeFromBasket}) => {
                 ) : (
                   <>
                     <Link className='nav-list' to="/profile">Profile</Link>
-                    <Link className='nav-list' onClick={()=>{handleLogout}}>Logout</Link>
+                    <Link className='nav-list' onClick={()=>{handleLogout()}}>Logout</Link>
                     <Link className='nav-list' to="/addProduct">AddProduct</Link>
                   </>
                 )}
@@ -172,9 +176,11 @@ const banner = ({userBasket, removeFromBasket}) => {
                   searchResult.map((searchOneResult)=>(
                   <div key={searchOneResult.id} className='m-5 p-3 border'>
                     <h1>{searchOneResult.name}</h1>
+                    <p>{searchOneResult.email}</p>
+                    <button onClick={()=>{navigateByUser(searchOneResult.id)}}>Детальніше про користувача</button>
                     <p>Type: {searchOneResult.type}</p>
                     <p>${searchOneResult.price}</p>
-                    <button onClick={()=>{navigateBySearch(searchOneResult.id)}}>Детальніше</button>
+                    <button onClick={()=>{navigateByProduct(searchOneResult.id)}}>Детальніше про товар</button>
                   </div>
                 )))}
                 <button className='m-5 bg-green-700' onClick={()=> setResultSearch(closeBasket)}>Close</button>

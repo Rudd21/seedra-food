@@ -3,29 +3,26 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export const userProducts = async(req, res) => {
+    const { id } = req.params;
+    console.log("На бекенді треба знайти такого:", id)
+
     try {
         const products = await prisma.product.findMany({
-            // where: {
-            //     userId: req.user.id
-            // }
-            where: { userId: req.user.id },
+            where: { userId: id },
             include: {
                 comment: {
                     select: {
-                        rating: true,
-                        text: true,
-                        userId: true
+                        rating: true
                     }
                 }
             }
         })
-        await console.log("Що я вибрав про товари користувача:", products);
 
         const cleanProducts = products.map(p => {
             const avg = p.comment.length ? p.comment.reduce((s, c) => s + c.rating, 0) / p.comment.length : null;
 
             return {
-                ...products,
+                ...p,
                 avgRating: avg
             };
         })

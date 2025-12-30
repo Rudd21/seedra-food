@@ -11,6 +11,7 @@ export const reqComment = async(req, res) => {
             include: { user: { select: { id: true, name: true } } },
             orderBy: { createdAt: 'desc' }
         });
+        console.log("comments перед відправленням:", comments)
         res.status(200).json(comments)
     } catch (err) {
         console.error("Помилка при отриманні коментарів:", err)
