@@ -3,12 +3,25 @@ import React, { useEffect, useState } from 'react'
 import "./profile.scss"
 import axios from 'axios';
 import { Link, useNavigate, useParams} from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 const Profile = () => {
   const [checkToken, setCheckToken] = useState();
   const [userInfo, setUserInfo] = useState();
   const [userCatalog, setUserCatalog] = useState([]);
   const [productComments, setProductComments] = useState([]);
+
+  const [windowState, setWindowState] = useState('w-0 h-0 mx-0 my-0 fixed bg-red-500 opacity-0')
+  const [typeWindow, setTypeWindow] = useState('username')
+  const [newUsername, setNewUsername] = useState('')
+
+  const [formPassword, setFormPassword] = useState({
+    oldPassword: '',
+    newPassword: ''
+  })
+  const [repeatPassword, setRepeatPassword] = useState("");
+
+
   const navigate = useNavigate()
     
   const {id: userId} = useParams();
@@ -25,7 +38,6 @@ const Profile = () => {
     // Запит товарів викладених користувачем
       axios.get(`https://localhost:3000/userProducts/${userId}`)
       .then(res=>{
-        console.log("Відповідь по користувачу:", res.data)
         setUserCatalog(res.data);
         })
       .catch(err=>{console.error("Помлка при отримані каталогу", err)})
@@ -35,10 +47,6 @@ const Profile = () => {
         .then(res=>setUserInfo(res.data))
         .catch(err=>console.error("Помилка при отриманні даних користувача:", err))
   },[])
-
-  useEffect(()=>{
-    console.log("userCatalog:", userCatalog)
-  }, [userCatalog])
 
   const deleteProduct = (productId) => {
     console.log("deleteProduct:", productId)
@@ -55,6 +63,47 @@ const Profile = () => {
     .catch(err=>{console.error("Помилка при отримані коментарів:", err)})
   }
 
+  function windowUsername() {
+    setWindowState('w-100 h-100 mx-140 my-50 fixed bg-red-500')
+    setTypeWindow('username')
+  }
+  
+  function windowPassword() {
+    setWindowState('w-100 h-100 mx-140 my-50 fixed bg-red-500')
+    setTypeWindow('password')
+  }
+
+
+  const changeUsername = async () => {
+    await axios.put("https://localhost:3000/user/changeUsername",
+        {username: newUsername},
+        {withCredentials: true}
+    )
+  }
+
+  const passwordsMatch =
+  formPassword.newPassword.length > 0 &&
+  formPassword.newPassword === repeatPassword;
+
+  const changePassword = async () => {
+    try{
+        await axios.put("https://localhost:3000/user/changePassword",
+            formPassword,
+            {withCredentials: true}
+        )
+    }catch(err){
+        console.log(err)
+        console.error("Невдалося змінити пароль!")
+    }
+  }
+  
+  
+  const handleChange = (e) => {
+    setFormPassword({
+      ...formPassword,
+      [e.target.name]: e.target.value
+    });
+  };
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
     .then(() => {
@@ -67,6 +116,36 @@ const Profile = () => {
 
   return (
     <div>
+        {/* // Вікно зміни username and password */}
+        <div className={windowState}>
+            {typeWindow === 'username' ? (
+                <>
+                    <p className='m-3'>Введіть новий username:</p>
+                    <input className='m-3 bg-white' type="text" onChange={(e)=>setNewUsername(e.target.value)} />
+                    <button className='p-3 bg-green-500 hover:bg-green-700 transition' onClick={changeUsername}>Змінити</button>
+                </>
+            ):(
+                <>
+                    <p className='m-3'>Введіть поточний пароль:</p>
+                    <input className='m-3 bg-white' name="oldPassword" type="password" value={formPassword.oldPassword} onChange={handleChange} required />
+                    <p className='m-3'>Введіть новий пароль:</p>
+                    <input className='m-3 bg-white' name='newPassword' type="password" value={formPassword.newPassword} onChange={handleChange} required />
+                    <p className='m-3'>Пвторно введіть новий пароль:</p>
+                    <input className='m-3 bg-white' name='repeatPassword' type="password"   value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)}/>
+                    <button disabled={!passwordsMatch || !formPassword.oldPassword}
+                    className="
+                        p-3 rounded
+                        bg-green-500 hover:bg-green-700
+                        disabled:bg-gray-400
+                        disabled:cursor-not-allowed
+                        transition
+                    "
+                    onClick={changePassword}>Змінити</button>
+                </>
+            )}
+        </div>
+
+        {/*Наповнення сайту*/}
         <nav>
             <div className="text-nav">
             <img className='h-7' src="Frame.svg" alt="" />
@@ -120,9 +199,9 @@ const Profile = () => {
                     )}
                         {checkToken?.id === userId ? (
                             <div className='edit_data_user'>
-                                <button>Змінити username</button>
-                                <button>Змінити пароль</button>
-                                <button onClick={handleLogout}>Log out</button>
+                                <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>windowUsername()}>Змінити username</button>
+                                <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>windowPassword()}>Змінити пароль</button>
+                                <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={handleLogout}>Log out</button>
                             </div>
                         ) : (
                             <div></div>

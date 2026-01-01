@@ -101,7 +101,7 @@ const banner = ({userBasket, removeFromBasket}) => {
                   </>
                 ) : (
                   <>
-                    <Link className='nav-list' to="/profile">Profile</Link>
+                    <Link className='nav-list' to={`/profile/${checkToken.id}`}>Profile</Link>
                     <Link className='nav-list' onClick={()=>{handleLogout()}}>Logout</Link>
                     <Link className='nav-list' to="/addProduct">AddProduct</Link>
                   </>

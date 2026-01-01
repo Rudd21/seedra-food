@@ -19,6 +19,7 @@ import { reqBasket } from './controllers/reqBasket.controller.js';
 import { addToBasket, removeFromBasket } from './controllers/changeBasket.controller.js';
 import { searchUsers, searchProduct } from './controllers/search.controller.js';
 import { reqUser } from './controllers/reqUser.controller.js';
+import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
 const app = express();
@@ -95,6 +96,55 @@ app.delete('/deleteProduct/:id', verifyToken, async(req, res) => {
 
 app.post('/register', register);
 app.post('/login', login);
+
+// Змінення імені 
+app.put("/user/changeUsername", verifyToken, async(req, res) => {
+        try {
+            const { username } = req.body;
+            const userId = req.user.id
+
+            const updateUsername = await prisma.user.update({
+                where: { id: userId },
+                data: { name: username }
+            })
+
+            res.status(200).json({ message: "Ім'я користувача змінено!" })
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ error: "Невдалося змінити ім'я користувача" })
+        }
+    })
+    // Змінення паролю
+app.put("/user/changePassword", verifyToken, async(req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const userId = req.user.id
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId }
+        })
+
+        const matchPassword = await bcryptjs.compare(oldPassword, user.password)
+
+        if (!matchPassword) {
+            return res
+                .status(400)
+                .json({ error: "Введено невірний поточний пароль" });
+        }
+
+        const hashedNewPassword = await bcryptjs.hash(newPassword, 10);
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { password: hashedNewPassword }
+        })
+
+        res.status(200).json({ message: "Пароль успішно змінено" })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: "Невдалося змінити пароль користувача" })
+    }
+})
 
 app.post('/logout', (req, res) => {
 
