@@ -127,9 +127,7 @@ app.put("/user/changePassword", verifyToken, async(req, res) => {
         const matchPassword = await bcryptjs.compare(oldPassword, user.password)
 
         if (!matchPassword) {
-            return res
-                .status(400)
-                .json({ error: "Введено невірний поточний пароль" });
+            return res.status(400).json({ error: "Введено невірний поточний пароль" });
         }
 
         const hashedNewPassword = await bcryptjs.hash(newPassword, 10);

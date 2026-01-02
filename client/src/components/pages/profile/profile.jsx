@@ -90,7 +90,10 @@ const Profile = () => {
         await axios.put("https://localhost:3000/user/changePassword",
             formPassword,
             {withCredentials: true}
-        )
+        ).then(res=>{
+            console.log(res)
+            handleLogout()
+        })
     }catch(err){
         console.log(err)
         console.error("Невдалося змінити пароль!")
