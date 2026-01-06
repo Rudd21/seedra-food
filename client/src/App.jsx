@@ -4,9 +4,9 @@ import Banner from "./components/banner/banner"
 import Catalog from "./components/catalog/catalog"
 import Feedback from "./components/feedbacks/feedbacks"
 import Footer from "./components/footer/footer"
+import {ReportModal} from './components/modalWindows/ReportModal';
 
 const App=()=> {
-  const [bannerMode, setBannerMode] = useState("default")
   const [userBasket, setUserBasket] = useState([]);
 
   const reqBasket = () => {
@@ -52,13 +52,16 @@ const App=()=> {
     };
     init();
   }, [])
+  
+
   return (
-    <div>
+    <>
         <Banner userBasket={userBasket} removeFromBasket={removeFromBasket} />
         <Catalog addToBasket={addToBasket} />
         <Feedback/>
         <Footer/>
-    </div>
+        <ReportModal />
+    </>
   );
 }
 export default App;

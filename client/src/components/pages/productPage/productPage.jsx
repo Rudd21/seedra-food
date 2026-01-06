@@ -3,6 +3,7 @@ import { Link, useParams} from 'react-router-dom';
 import "../../../index.css"
 import "./productPage.scss"
 import axios from 'axios';
+import { useReportContext } from '../../modalWindows/ReportContext';
 
 // ЗРОБИ ВИВІД КОМЕНТАРІВ МУДЄЄЄЄЄЄНЬ
 
@@ -12,6 +13,16 @@ const ProductPage = () => {
     const [commentText, setCommentText] = useState('');
     const [commentRating, setCommentRating] = useState();
     const [getComments, setGetComments] = useState();
+
+    const { openReport } = useReportContext();
+
+    const [windowState, setWindowState] = useState('fixed w-0 h-0 bg-red-400 z-0 p-0 mx-0 my-0 opacity-0')
+    const [formReport, setFormReport] = useState({
+        name: '',
+        description: '',
+        target: '',
+        targetId: ''
+    });
 
     useEffect(()=>{
       axios.get("https://localhost:3000/user-data",{
@@ -59,6 +70,7 @@ const ProductPage = () => {
         }
     }
 
+
   return (
     <div className='container'>
         <nav>
@@ -99,6 +111,12 @@ const ProductPage = () => {
                     <p>Тип: {productInfo?.type}</p>
                     <p>ID користувача: {productInfo?.userId}</p>
                 </div>
+                <button 
+                    className='w-35 h-15 bg-red-400 p-4 m-3 hover:bg-red-700 hover:text-white transition' 
+                    onClick={()=>{
+                        openReport('PRODUCT', productInfo.id)
+                    }}
+                    >Поскаржитись</button> 
             </div>
             <h3>Зформувати коментар:</h3>
             <div className="feedbacks">
@@ -122,11 +140,19 @@ const ProductPage = () => {
                 <div>
                     {getComments && getComments.length > 0 ? (
                         getComments.map((comment) => (
-                        <div key={comment.id} className='m-5 p-5 border'>
-                            <p><strong>User ID:</strong> {comment.userId}</p>
-                            <p><strong>Username:</strong> {comment.user.name}</p>
-                            <p><strong>Rating:</strong> {comment.rating}</p>
-                            <p><strong>Feedback:</strong>{comment.text}</p>
+                        <div key={comment.id} className='flex justify-between m-5 p-5 border'>
+                            <div>
+                                <p><strong>User ID:</strong> {comment.userId}</p>
+                                <p><strong>Username:</strong> {comment.user.name}</p>
+                                <p><strong>Rating:</strong> {comment.rating}</p>
+                                <p><strong>Feedback:</strong>{comment.text}</p>
+                            </div>
+                            <button 
+                                className='w-35 h-15 bg-red-400 p-4 m-3 hover:bg-red-700 hover:text-white transition' 
+                                onClick={()=>{
+                                    openReport('COMMENT', comment.id)
+                                }}
+                            >Поскаржитись</button> 
                         </div>
                         ))
                     ) : (

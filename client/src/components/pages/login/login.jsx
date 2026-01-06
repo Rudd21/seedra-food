@@ -4,7 +4,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import apiRequest from '../../lib/apiRequest';
 import axios from 'axios';
 
-const addProduct = (e) => {
+const addProduct = () => {
     // const response = await fetch('/addProduct', {
     //   method: 'POST',
     //   body: data,
@@ -30,7 +30,14 @@ const addProduct = (e) => {
             });
             console.log("Користувач успішно залогінився!")
 
-            navigate("/")
+            const isAdmin = await axios.get('https://localhost:3000/admin/users',{ 
+                withCredentials: true
+            });
+            if(isAdmin){
+                navigate("/adminPanel")
+            }else{
+                navigate("/")
+            }
         }catch(err){
             console.log(err)
         }
@@ -66,7 +73,7 @@ const addProduct = (e) => {
             <label>
                     <p>Email:</p>
                     <input
-                    type="text"
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}

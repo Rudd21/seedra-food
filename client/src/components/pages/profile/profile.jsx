@@ -4,6 +4,7 @@ import "./profile.scss"
 import axios from 'axios';
 import { Link, useNavigate, useParams} from 'react-router-dom';
 import bcrypt from 'bcryptjs';
+import { useReportContext } from '../../modalWindows/ReportContext';
 
 const Profile = () => {
   const [checkToken, setCheckToken] = useState();
@@ -21,6 +22,7 @@ const Profile = () => {
   })
   const [repeatPassword, setRepeatPassword] = useState("");
 
+  const {openReport} = useReportContext()
 
   const navigate = useNavigate()
     
@@ -170,7 +172,10 @@ const Profile = () => {
                     <img src="Outline-green.png" alt="" />
                 </div>
                 {!checkToken ? (   
-                    navigate("/register")         
+                <>
+                    <Link className='nav-list' to="/register">Register</Link>
+                    <Link className='nav-list' to="/login">Login</Link>    
+                </>
                 ) : (
                   <>
                     <Link className='nav-list' to="/">Main</Link>
@@ -198,6 +203,7 @@ const Profile = () => {
                             <p className="username">Username користувача: {userInfo?.name}</p>
                             <p className='id_user'>Id користувача: {userInfo?.id}</p>
                             <p className="email">Email користувача: {userInfo?.email}</p> 
+                            <button className='w-35 h-15 bg-red-400 p-4 m-3 hover:bg-red-700 hover:text-white transition' onClick={()=>openReport("USER", userInfo.id)}>Поскаржитись</button>
                         </div>
                     )}
                         {checkToken?.id === userId ? (
@@ -225,7 +231,7 @@ const Profile = () => {
                             <p className="rainting rain-sort">
                                 <span className='flex'><p>Rating: </p>{userCata.avgRating}</span>
                             </p>
-                            {checkToken.id === userId ? (
+                            {checkToken?.id === userId ? (
                                 <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata[0].id)}>Видалити товар</button>
                             ) : (
                                 <p></p>

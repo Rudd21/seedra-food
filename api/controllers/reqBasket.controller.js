@@ -6,7 +6,6 @@ export const reqBasket = async(req, res) => {
         try {
             let productsId = JSON.parse(req.cookies.basket);
 
-            console.log("Що має запарсилось,", productsId);
             let listProducts = []
 
             for (let productId of productsId) {
