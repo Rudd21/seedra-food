@@ -17,6 +17,7 @@ import { guestSession } from './middleware/guestSession.middleware.js';
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
 import { addComment } from './controllers/addComment.controller.js';
+import { addReply, reqReply } from './controllers/reply.controller.js';
 import { addReport } from './controllers/addReport.controller.js';
 import { reqComment } from './controllers/reqComment.controller.js';
 import { reqBasket } from './controllers/reqBasket.controller.js';
@@ -49,6 +50,10 @@ app.get("/user-data", verifyToken, async(req, res) => {
 })
 
 app.post('/addProduct', verifyToken, addProduct);
+
+app.post('/addReply', verifyToken, addReply);
+app.get('/reqReply', reqReply);
+
 app.post('/addComment', verifyToken, addComment);
 app.post('/addReport', verifyToken, addReport);
 
@@ -197,7 +202,6 @@ app.post("/admin/changePrice", changePrice)
 app.post("/admin/changeVisible", changeVisible)
 
 app.get("/admin/comment", searchCommentById)
-    // ПОТРЕБУЮТЬ ПІДКЛЮЧЕННЯ
 app.post("/admin/deleteComment", deleteComment)
 
 app.get("/admin/getReports", verifyToken, getReports)

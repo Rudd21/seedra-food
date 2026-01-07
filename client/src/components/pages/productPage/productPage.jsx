@@ -13,16 +13,17 @@ const ProductPage = () => {
     const [commentText, setCommentText] = useState('');
     const [commentRating, setCommentRating] = useState();
     const [getComments, setGetComments] = useState();
+    const [getReplies, setGetReplies] = useState();
 
     const { openReport } = useReportContext();
 
     const [windowState, setWindowState] = useState('fixed w-0 h-0 bg-red-400 z-0 p-0 mx-0 my-0 opacity-0')
-    const [formReport, setFormReport] = useState({
-        name: '',
-        description: '',
-        target: '',
-        targetId: ''
-    });
+    const [replyState, setReplyState] = useState(false)
+    const [commentId, setCommentId] = useState('')
+    const [formReply, setFormReply] = useState({
+        commentId: '',
+        replyText: ''
+    })
 
     useEffect(()=>{
       axios.get("https://localhost:3000/user-data",{
@@ -70,7 +71,40 @@ const ProductPage = () => {
         }
     }
 
+    const toReply = (commentId) =>{
+        setReplyState(true)
+        setCommentId(commentId)
+    }
 
+    const addReply = () =>{
+        setReplyState(false)
+        console.log("formReply: ", formReply)
+        axios.post("https://localhost:3000/addReply", formReply, {
+            withCredentials: true
+        }).then(res=>{console.log("Відповідь на коментар успішно додано!")})
+        .catch(err=>{
+            console.log(err)
+            console.error("Невдалося додати відповідь на коментар")
+        })
+    }
+
+    const handleReply = (e) => {
+        setFormReply({
+            ...formReply,
+            commentId,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    
+    const reqReply = (commentId) =>{
+        axios.get(`https://localhost:3000/reqReply?q=${commentId}`)
+        .then(res=>{setGetReplies(res.data)})
+        .catch(err=>{
+            console.log(err)
+            console.error("Невдалося отримати список відповідей!")
+        })
+    }
   return (
     <div className='container'>
         <nav>
@@ -120,39 +154,92 @@ const ProductPage = () => {
             </div>
             <h3>Зформувати коментар:</h3>
             <div className="feedbacks">
-                <div className="inputs">
-                    <label>
-                        <input id='rating' type="range" min={0.5} max={5} step={0.5} defaultValue={4.5} onChange={e => setCommentRating(e.target.value)} />
-                        <label htmlFor="rating">{commentRating}</label>
-                    </label>
-                    <label>
-                        <p>Коментар:</p>
-                        <input
-                        type="text"
-                        onChange={e => setCommentText(e.target.value)}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md'
-                        required
-                        />
-                    </label>
-                    <button onClick={addComment} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Submit</button>
+                <div className="flex">
+                        {replyState ? (
+                            <>
+                                <p className='flex'>Відповідь на коментар: ID {commentId}</p>
+                                <input
+                                    type="text"
+                                    name="replyText"
+                                    value={formReply.replyText}
+                                    onChange={handleReply}
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                                    required
+                                    />
+                                <button onClick={addReply} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Reply</button>
+                            </>
+                        ) : (
+                            <>
+                                <label>
+                                    <input id='rating' type="range" min={0.5} max={5} step={0.5} defaultValue={4.5} onChange={e => setCommentRating(e.target.value)} />
+                                    <label htmlFor="rating">{commentRating}</label>
+                                </label>
+                                <p>Коментар:</p>
+                                <input
+                                    type="text"
+                                    onChange={e => setCommentText(e.target.value)}
+                                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                                    required
+                                    />
+                                <button onClick={addComment} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Submit</button>
+                            </>
+                        )}
                 </div>
                 <h3>Коментарі:</h3>
                 <div>
                     {getComments && getComments.length > 0 ? (
                         getComments.map((comment) => (
-                        <div key={comment.id} className='flex justify-between m-5 p-5 border'>
-                            <div>
-                                <p><strong>User ID:</strong> {comment.userId}</p>
-                                <p><strong>Username:</strong> {comment.user.name}</p>
-                                <p><strong>Rating:</strong> {comment.rating}</p>
-                                <p><strong>Feedback:</strong>{comment.text}</p>
+                        <div key={comment.id} className='flex flex-col'>
+                            <div className='flex justify-between m-5 p-5 border'>
+                                <div>
+                                    <p><strong>Comment ID:</strong> {comment.id}</p>
+                                    <p><strong>User ID:</strong> {comment.userId}</p>
+                                    <p><strong>Username:</strong> {comment.user.name}</p>
+                                    <p><strong>Rating:</strong> {comment.rating}</p>
+                                    <p><strong>Feedback:</strong>{comment.text}</p>
+                                    <button onClick={()=>reqReply(comment.id)}>Показати відповіді: {comment.countReplies}</button>
+                                </div>
+                                <div className='flex flex-col'>
+                                        <button 
+                                        className='w-35 h-10 bg-red-400 p-2 m-1 hover:bg-red-700 hover:text-white transition' 
+                                        onClick={()=>{
+                                            openReport('COMMENT', comment.id)
+                                        }}
+                                    >Поскаржитись</button>
+                                    <button 
+                                        className='w-35 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
+                                        onClick={()=>{toReply(comment.id)}}>Відповісти</button>  
+                                </div>
                             </div>
-                            <button 
-                                className='w-35 h-15 bg-red-400 p-4 m-3 hover:bg-red-700 hover:text-white transition' 
-                                onClick={()=>{
-                                    openReport('COMMENT', comment.id)
-                                }}
-                            >Поскаржитись</button> 
+                            <div>
+                                <div>
+                                    
+                                </div>
+                                    {getReplies && getReplies.length > 0 ? (
+                                    getReplies.map((reply)=>(
+                                        <div className='flex ml-25 p-5 border justify-between'>
+                                            <div key={reply.id}>
+                                                <h1>Відповідь на коментар: {reply.commentId}</h1>
+                                                <h1>Reply: {reply.text}</h1>
+                                                <h1>ID Користувача: {reply.userId}</h1>
+                                            </div>
+                                            <div className='flex flex-col'>
+                                                    <button 
+                                                    className='w-35 h-10 bg-red-400 p-2 m-1 hover:bg-red-700 hover:text-white transition' 
+                                                    onClick={()=>{
+                                                        openReport('REPLY', reply.id)
+                                                    }}
+                                                >Поскаржитись</button>
+                                                <button 
+                                                    className='w-35 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
+                                                    onClick={()=>{toReply(reply.id)}}>Відповісти</button>  
+                                            </div>
+                                        </div>
+                                    ))
+                                ):(
+                                    <></>
+                                )}
+                            </div>
                         </div>
                         ))
                     ) : (

@@ -11,7 +11,7 @@ export const addComment = async(req, res) => {
         await prisma.comment.create({
             data: { productId, text, rating: cleanRating, userId: req.user.id }
         })
-        res.status(200).json({ message: "Продукт додано!" })
+        res.status(200).json({ message: "Коментар додано!" })
     } catch (err) {
         console.error("Помилка додавання коментаря")
         res.status(500).json({ error: err })
