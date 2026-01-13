@@ -116,7 +116,14 @@ const catalog = ({addToBasket}) => {
             </p>
             <h3 className='product_name' key={product.id}>{product.name}</h3>
             <div className="footer-card">
-              <div className="price">$<span className="sort-price">{product.price}</span></div>
+              {product.isSale ? (
+                <div className='flex-col'>
+                  <p className='text-gray-400 line-through'>$<span className="sort-price">{product.oldPrice}</span></p>
+                  <p className='text-green-700'>$<span className="sort-price">{product.price}</span></p>
+                </div>
+              ):(
+                  <p>$<span className="sort-price">{product.price}</span></p>
+              )}
               <motion.button className='h-10 w-10 text-green-700 border border-[#CBCBCB] rounded-md hover:bg-gray-300 transition duration-300' onClick={()=>toProduct(product.id)}>More</motion.button>
               <motion.button className='rounded-md hover:bg-[#0D4715] transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></motion.button>
             </div>

@@ -6,6 +6,7 @@ export const useEditProduct = () => {
 
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [oldPrice, setOldPrice] = useState('');
     const [price, setPrice] = useState('');
     const [visible, setVisible] = useState(true);
 
@@ -24,11 +25,13 @@ export const useEditProduct = () => {
         productId,
         name,
         description,
+        oldPrice,
         price,
         visible,
         openModal,
         setName,
         setDescription,
+        setOldPrice,
         setPrice,
         setVisible,
         closeModal

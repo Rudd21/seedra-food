@@ -8,10 +8,12 @@ export const EditProductModal = ()=>{
         productId,
         name,
         description,
+        oldPrice,
         price,
         visible,
         setName,
         setDescription,
+        setOldPrice,
         setPrice,
         setVisible,
         closeModal
@@ -55,7 +57,7 @@ export const EditProductModal = ()=>{
                 <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenDesc(true)}>До змінити опису</button>
                 {openDesc ? (
                     <div className="border m-2 p-2">
-                        <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>changeName(e.target.value)} />
+                        <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setDescription(e.target.value)} />
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
                             axios.post("https://localhost:3000/admin/changeDesc", {productId, description}, {
                                     withCredentials: true
@@ -76,7 +78,18 @@ export const EditProductModal = ()=>{
                 <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenPrice(true)}>До змінити ціни</button>
                 {openPrice ? (
                     <div className="border m-2 p-2">
-                        <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>changeName(e.target.value)} />
+                        <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setOldPrice(e.target.value)} />
+                        <p className="text-xs text-gray-400">*При змінені поля - товар позначається зі знижкою</p>
+                        <button className="bg-yellow-400 m-2 p-2 text-sm hover:bg-yellow-700 transition"onClick={()=>{
+                            axios.post("https://localhost:3000/admin/changeOldPrice", {productId, oldPrice},{
+                                withCredentials: true
+                            }).then(res=>console.log("Успішно змінено стару ціну товару та оновленно товар як зі знижкою!"))
+                            .catch(err=>{
+                                console.log(err)
+                                console.error("Виникла помилка при змінені старої ціни товару!")
+                            })
+                        }}>Назначити стару ціну</button>
+                        <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setPrice(e.target.value)} />
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
                             axios.post("https://localhost:3000/admin/changePrice", {productId,price}, {
                                     withCredentials: true
@@ -86,7 +99,7 @@ export const EditProductModal = ()=>{
                                 console.log(err)
                                 console.error("Виникла помилка при змінені ціни товару!")
                             })
-                        }}>Змінити ціну товару</button>
+                        }}>Назначити нову ціну</button>
                         <button className="bg-red-400 m-2 p-2 text-sm hover:bg-red-700 transition" onClick={()=>setOpenPrice(false)}>Закрити</button>
                     </div>
                 ) : (

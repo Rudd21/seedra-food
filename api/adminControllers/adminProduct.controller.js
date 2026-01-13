@@ -68,6 +68,23 @@ export const changeDescription = async(req, res) => {
     }
 }
 
+export const changeOldPrice = async(req, res) => {
+    const { productId, oldPrice } = req.body;
+    console.log("productId, oldPrice:", productId, oldPrice)
+
+    try {
+        await prisma.product.update({
+            where: { id: productId },
+            data: { oldPrice, isSale: true }
+        })
+
+        res.status(200).json({ message: "Стару ціну товару успішно назначено" })
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message })
+    }
+}
+
 export const changePrice = async(req, res) => {
     const { productId, price } = req.body;
 

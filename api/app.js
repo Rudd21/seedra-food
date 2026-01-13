@@ -185,7 +185,7 @@ app.post('/logout', (req, res) => {
 // Admin Controllers
 // import {} from './middleware/checkAdmin.middleware.js';
 import { searchUserById, banUser, unbanUser } from './adminControllers/adminUser.controller.js';
-import { searchProductById, changeStatus, changeName, changeDescription, changePrice, changeVisible } from './adminControllers/adminProduct.controller.js';
+import { searchProductById, changeStatus, changeName, changeDescription, changeOldPrice, changePrice, changeVisible } from './adminControllers/adminProduct.controller.js';
 import { searchCommentById, deleteComment } from './adminControllers/adminComment.controller.js';
 import { getReports } from './adminControllers/getReports.controller.js';
 import { loadUser } from './middleware/loadUser.middleware.js';
@@ -199,6 +199,7 @@ app.post("/admin/productStatus", changeStatus)
     // ПОТРЕБУЮТЬ ПІДКЛЮЧЕННЯ
 app.post("/admin/changeName", changeName)
 app.post("/admin/changeDescription", changeDescription)
+app.post("/admin/changeOldPrice", changeOldPrice)
 app.post("/admin/changePrice", changePrice)
 app.post("/admin/changeVisible", changeVisible)
 
