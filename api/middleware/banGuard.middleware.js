@@ -1,10 +1,13 @@
-// export const banGuard = (req, res, next) => {
-//     if (req.user ? .isBanned) {
-//         return res.status(403).json({
-//             message: "Користувач заблокований",
-//             banUntil: req.user.banUntil,
-//             banReason: req.user.banReason
-//         })
-//     }
-//     next();
-// }
+export const banGuard = (req, res, next) => {
+    console.log('BAN GUARD HIT');
+    console.log('req.user:', req.user);
+
+    if (req.user && req.user.isBanned) {
+        return res.status(403).json({
+            message: "Користувач заблокований",
+            banUntil: req.user.banUntil,
+            banReason: req.user.banReason
+        })
+    }
+    next();
+}

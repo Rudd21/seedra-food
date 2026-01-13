@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEditProductContext } from "./editProductContext";
+import { useEditProductContext } from "./editProductByAdminContext";
 import { useState } from "react";
 
 export const EditProductModal = ()=>{
@@ -45,13 +45,14 @@ export const EditProductModal = ()=>{
                                 console.error("Виникла помилка при змінені назви товару!")
                             })
                         }}>Змінити назву товару</button>
+                        <button className="bg-red-400 m-2 p-2 text-sm hover:bg-red-700 transition" onClick={()=>setOpenName(false)}>Закрити</button>
                     </div>
                 ) : (
                     <>
                         <br />        
                     </>
                 )}
-                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setDescription(true)}>До змінити опису</button>
+                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenDesc(true)}>До змінити опису</button>
                 {openDesc ? (
                     <div className="border m-2 p-2">
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>changeName(e.target.value)} />
@@ -65,13 +66,14 @@ export const EditProductModal = ()=>{
                                 console.error("Виникла помилка при змінені опису товару!")
                             })
                         }}>Змінити опис товару</button>
+                        <button className="bg-red-400 m-2 p-2 text-sm hover:bg-red-700 transition" onClick={()=>setOpenDesc(false)}>Закрити</button>
                     </div>
                 ) : (
                     <>
                         <br />                 
                     </>
                 )}
-                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setPrice(true)}>До змінити ціни</button>
+                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenPrice(true)}>До змінити ціни</button>
                 {openPrice ? (
                     <div className="border m-2 p-2">
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>changeName(e.target.value)} />
@@ -85,13 +87,14 @@ export const EditProductModal = ()=>{
                                 console.error("Виникла помилка при змінені ціни товару!")
                             })
                         }}>Змінити ціну товару</button>
+                        <button className="bg-red-400 m-2 p-2 text-sm hover:bg-red-700 transition" onClick={()=>setOpenPrice(false)}>Закрити</button>
                     </div>
                 ) : (
                     <>
                         <br />                       
                     </>
                 )}
-                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setVisible(true)}>До змінити видимості</button>
+                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenVisible(true)}>До змінити видимості</button>
                 {openVisible ? (
                     <div className="border m-2 p-2">
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
@@ -104,6 +107,7 @@ export const EditProductModal = ()=>{
                                 console.error("Виникла помилка при змінені видимості товару!")
                             })
                         }}>Змінити видимість товару</button>
+                        <button className="bg-red-400 m-2 p-2 text-sm hover:bg-red-700 transition" onClick={()=>setOpenVisible(false)}>Закрити</button>
                     </div>
                 ) : (
                     <>

@@ -12,7 +12,7 @@ import { PrismaClient } from '@prisma/client';
 
 // Regular Controllers
 import { verifyToken } from './middleware/auth.middleware.js';
-// import { banGuard } from './middleware/banGuard.middleware.js';
+import { banGuard } from './middleware/banGuard.middleware.js';
 import { guestSession } from './middleware/guestSession.middleware.js';
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
@@ -49,13 +49,13 @@ app.get("/user-data", verifyToken, async(req, res) => {
     res.json(user);
 })
 
-app.post('/addProduct', verifyToken, addProduct);
+app.post('/addProduct', verifyToken, loadUser, banGuard, addProduct);
 
-app.post('/addReply', verifyToken, addReply);
+app.post('/addReply', verifyToken, loadUser, banGuard, addReply);
 app.get('/reqReply', reqReply);
 
-app.post('/addComment', verifyToken, addComment);
-app.post('/addReport', verifyToken, addReport);
+app.post('/addComment', verifyToken, loadUser, banGuard, addComment);
+app.post('/addReport', verifyToken, loadUser, banGuard, addReport);
 
 app.get('/createGuestSession', guestSession);
 app.post('/addToBasket', addToBasket);
@@ -188,6 +188,7 @@ import { searchUserById, banUser, unbanUser } from './adminControllers/adminUser
 import { searchProductById, changeStatus, changeName, changeDescription, changePrice, changeVisible } from './adminControllers/adminProduct.controller.js';
 import { searchCommentById, deleteComment } from './adminControllers/adminComment.controller.js';
 import { getReports } from './adminControllers/getReports.controller.js';
+import { loadUser } from './middleware/loadUser.middleware.js';
 
 app.get("/admin/user", searchUserById)
 app.post("/admin/banUser", banUser)

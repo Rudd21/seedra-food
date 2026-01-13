@@ -7,6 +7,8 @@ export const addComment = async(req, res) => {
     const { productId, text, rating } = req.body
     const cleanRating = Number(rating)
 
+    console.log("productId, text, rating: ", productId, text, cleanRating, req.user.id)
+
     try {
         await prisma.comment.create({
             data: { productId, text, rating: cleanRating, userId: req.user.id }

@@ -9,10 +9,12 @@ import Profile from './components/pages/profile/profile.jsx';
 import ProductPage from './components/pages/productPage/productPage.jsx';
 import AdminPanel from './components/pages/adminPanel/adminPanel.jsx';
 import { ReportProvider } from './components/modalWindows/ReportContext.jsx';
-import { EditProductProvider } from './components/modalWindows/editProductContext.jsx';
+import { EditProductProvider } from './components/modalWindows/editProductByAdminContext.jsx';
+// import { EditProductByUserProvider } from './components/modalWindows/editProductByUserContext.jsx';
 
 import { ReportModal } from './components/modalWindows/ReportModal.jsx';
-import { EditProductModal } from './components/modalWindows/editProductModal.jsx';
+import { EditProductModal } from './components/modalWindows/editProductByAdminModal.jsx';
+// import { EditProductByUserModal } from './components/modalWindows/editProductByUserModal.jsx';
 import './index.css'
 
 // React монтується у елемент з id="root"
@@ -21,8 +23,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter basename='/'>
     <ReportProvider>
       <EditProductProvider>
+      {/* <EditProductByUserProvider> */}
         <ReportModal />
         <EditProductModal />
+        {/* <EditProductByUserModal /> */}
         <Routes>
           <Route path='/' element={<App />}/>
           <Route path='/addProduct' element={<AddProduct />}/>
@@ -32,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/productPage/:id' element={<ProductPage />}/>
           <Route path='/adminPanel' element={<AdminPanel />}/>
         </Routes>
+        {/* </EditProductByUserProvider> */}
       </EditProductProvider>
     </ReportProvider>
     </BrowserRouter>

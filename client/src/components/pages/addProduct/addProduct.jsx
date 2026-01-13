@@ -69,8 +69,30 @@ const addProduct = (e) => {
                 <Link to="/">Back</Link>
             </div>
         </nav>
-        <main className='formToProduct'>
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form'>
+        <main className='formToProduct flex'>
+            <div className="h-15 select-none productSeems">
+            <h1 className='m-2'>Preview:</h1>
+            <div
+                data-heart="no"
+                className="h-95 w-65 m-3 bg-white product" 
+                >
+                <div className="safe-productaImage">
+                <button value="1" className="heart" type="button"></button>
+                <img className='h-55 w-55' src="bungles.png" alt="Product" />
+                </div>
+                <p className="flex">
+                Rating: [rating]
+                <span></span>
+                </p>
+                <h3 className='product_name'>{formData.name == '' ? "[Name]" : formData.name}</h3>
+                <div className="footer-card">
+                <div className="price">$<span className="sort-price">{formData.price == '' ? "[Price]" : formData.price}</span></div>
+              <button className='h-10 w-10 text-green-700 border border-[#CBCBCB] rounded-md'>More</button>
+              <button className='rounded-md' ><img className="basket-product" src="basket.png" alt="Basket" /></button>
+                </div>
+            </div> 
+            </div>
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form flex flex-col justify-center self-center'>
                 <label>
                     Product Name:
                     <input
@@ -121,7 +143,7 @@ const addProduct = (e) => {
                     required
                 />
                 </label>
-                <button type="submit">Add Product</button>
+                <button className='bg-green-300 hover:bg-green-600 transition' type="submit">Add Product</button>
             </form>
         </main>
         <div className="footer-nav">

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useEditProductContext } from '../../modalWindows/editProductContext';
+import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
 
 const AdminPanel = () => {
 

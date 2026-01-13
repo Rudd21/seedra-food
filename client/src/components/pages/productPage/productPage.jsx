@@ -68,6 +68,7 @@ const ProductPage = () => {
             console.log("Коментар додано!")
         }catch(err){
             console.log(err)
+            console.error("Невдалось додати коментар")
         }
     }
 

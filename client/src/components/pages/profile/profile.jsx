@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Link, useNavigate, useParams} from 'react-router-dom';
 import bcrypt from 'bcryptjs';
 import { useReportContext } from '../../modalWindows/ReportContext';
+import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
+// import { useEditProductByUserContext } from '../../modalWindows/editProductByUserContext';
 
 const Profile = () => {
   const [checkToken, setCheckToken] = useState();
@@ -15,6 +17,8 @@ const Profile = () => {
   const [windowState, setWindowState] = useState('w-0 h-0 mx-0 my-0 fixed bg-red-500 opacity-0')
   const [typeWindow, setTypeWindow] = useState('username')
   const [newUsername, setNewUsername] = useState('')
+
+  const {openModal} = useEditProductContext();
 
   const [formPassword, setFormPassword] = useState({
     oldPassword: '',
@@ -232,7 +236,10 @@ const Profile = () => {
                                 <span className='flex'><p>Rating: </p>{userCata.avgRating}</span>
                             </p>
                             {checkToken?.id === userId ? (
-                                <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata[0].id)}>Видалити товар</button>
+                                <>
+                                    <button className='p-1 bg-yellow-400 hover:bg-yellow-700 transition' onClick={()=>openModal(userCata.id)}>Редагувати товар</button>
+                                    <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata[0].id)}>Видалити товар</button>
+                                </>
                             ) : (
                                 <p></p>
                             )}
