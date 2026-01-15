@@ -3,10 +3,13 @@ import {motion} from 'framer-motion'
 import axios from 'axios';
 import "./catalog.scss"
 import { useNavigate } from 'react-router-dom';
+import { useBasketContext } from '../modalWindows/BasketContext';
 
-const catalog = ({addToBasket}) => {
+const catalog = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]) 
+
+  const {addToBasket} = useBasketContext();
   
   useEffect(() =>{
     axios.get("https://localhost:3000/catalog")

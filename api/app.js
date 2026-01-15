@@ -16,8 +16,8 @@ import { banGuard } from './middleware/banGuard.middleware.js';
 import { guestSession } from './middleware/guestSession.middleware.js';
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
-import { addComment } from './controllers/addComment.controller.js';
-import { addReply, reqReply } from './controllers/reply.controller.js';
+import { addComment, addReply } from './controllers/addComment.controller.js';
+// import { addReply, reqReply } from './controllers/reply.controller.js';
 import { addReport } from './controllers/addReport.controller.js';
 import { reqComment } from './controllers/reqComment.controller.js';
 import { reqBasket } from './controllers/reqBasket.controller.js';
@@ -34,6 +34,7 @@ app.use(cors({
     origin: ['https://localhost:5000', 'https://localhost:3000'],
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -51,16 +52,16 @@ app.get("/user-data", verifyToken, async(req, res) => {
 
 app.post('/addProduct', verifyToken, loadUser, banGuard, addProduct);
 
-app.post('/addReply', verifyToken, loadUser, banGuard, addReply);
-app.get('/reqReply', reqReply);
+// app.get('/reqReply', reqReply);
 
 app.post('/addComment', verifyToken, loadUser, banGuard, addComment);
+app.post('/addReply', verifyToken, loadUser, banGuard, addReply);
 app.post('/addReport', verifyToken, loadUser, banGuard, addReport);
 
 app.get('/createGuestSession', guestSession);
 app.post('/addToBasket', addToBasket);
 app.post('/removeFromBasket', removeFromBasket);
-// app.get('/reqBasket', reqBasket);
+app.get('/reqBasket', reqBasket);
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);

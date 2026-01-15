@@ -7,7 +7,7 @@ export const addToBasket = (req, res) => {
     if (!basket.includes(productId)) {
         basket.push(productId);
     }
-    console.log("баскет парс після добавлення ", basket)
+
     res.cookie("basket", JSON.stringify(basket), {
         httpOnly: true,
         sameSite: "Strict",

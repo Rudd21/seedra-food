@@ -73,10 +73,18 @@ export const changeOldPrice = async(req, res) => {
     console.log("productId, oldPrice:", productId, oldPrice)
 
     try {
-        await prisma.product.update({
-            where: { id: productId },
-            data: { oldPrice, isSale: true }
-        })
+
+        if (oldPrice == '') {
+            return await prisma.product.update({
+                where: { id: productId },
+                data: { oldPrice: null, isSale: false }
+            })
+        } else {
+            await prisma.product.update({
+                where: { id: productId },
+                data: { oldPrice, isSale: true }
+            })
+        }
 
         res.status(200).json({ message: "Стару ціну товару успішно назначено" })
     } catch (err) {

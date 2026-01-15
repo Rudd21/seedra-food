@@ -192,16 +192,18 @@ const Profile = () => {
             <div className="flex-col">
                 <h3>Інформація про вас:</h3>
                 <div className='flex justify-around'>
-                    <div className='flex-col'>
-                        <div className='border-3 rounded-xl bg-green-200'><img className='w-50 h-50 m-3 rounded-xl  bg-white' src="/user-default.png" alt="" /></div>
-                        <button className='bg-green-400 p-3 my-3 mx-10 hover:bg-green-600 transition'>Змінити аватарку</button>
-                    </div>
                     {checkToken?.id === userId ? (
-                        <div className="data_user">
-                            <p className="username">Ваш username: {checkToken?.name}</p>
-                            <p className='id_user'>Ваш id: {checkToken?.id}</p>
-                            <p className="email">Ваш email: {checkToken?.email}</p> 
-                        </div>
+                        <>
+                            <div className='flex-col'>
+                                <div className='border-3 rounded-xl bg-green-200'><img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`/${checkToken?.avatar}`} alt="" /></div>
+                                <button className='bg-green-400 p-3 my-3 mx-10 hover:bg-green-600 transition'>Змінити аватарку</button>
+                            </div>
+                            <div className="data_user">
+                                <p className="username">Ваш username: {checkToken?.name}</p>
+                                <p className='id_user'>Ваш id: {checkToken?.id}</p>
+                                <p className="email">Ваш email: {checkToken?.email}</p> 
+                            </div>
+                        </>
                     ) : (
                        <div className="data_user">
                             <p className="username">Username користувача: {userInfo?.name}</p>

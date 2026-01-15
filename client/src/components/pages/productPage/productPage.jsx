@@ -13,17 +13,17 @@ const ProductPage = () => {
     const [commentText, setCommentText] = useState('');
     const [commentRating, setCommentRating] = useState();
     const [getComments, setGetComments] = useState();
-    const [getReplies, setGetReplies] = useState();
 
     const { openReport } = useReportContext();
 
-    const [windowState, setWindowState] = useState('fixed w-0 h-0 bg-red-400 z-0 p-0 mx-0 my-0 opacity-0')
     const [replyState, setReplyState] = useState(false)
-    const [commentId, setCommentId] = useState('')
+    const [parentId, setParentId] = useState('')
     const [formReply, setFormReply] = useState({
-        commentId: '',
+        productId: '',
+        parentId: '',
         replyText: ''
     })
+
 
     useEffect(()=>{
       axios.get("https://localhost:3000/user-data",{
@@ -74,7 +74,7 @@ const ProductPage = () => {
 
     const toReply = (commentId) =>{
         setReplyState(true)
-        setCommentId(commentId)
+        setParentId(commentId)
     }
 
     const addReply = () =>{
@@ -92,20 +92,21 @@ const ProductPage = () => {
     const handleReply = (e) => {
         setFormReply({
             ...formReply,
-            commentId,
+            productId,
+            parentId,
             [e.target.name]: e.target.value
         })
     }
 
     
-    const reqReply = (commentId) =>{
-        axios.get(`https://localhost:3000/reqReply?q=${commentId}`)
-        .then(res=>{setGetReplies(res.data)})
-        .catch(err=>{
-            console.log(err)
-            console.error("Невдалося отримати список відповідей!")
-        })
-    }
+    // const reqReply = (commentId) =>{
+    //     axios.get(`https://localhost:3000/reqReply?q=${commentId}`)
+    //     .then(res=>{setGetReplies(res.data)})
+    //     .catch(err=>{
+    //         console.log(err)
+    //         console.error("Невдалося отримати список відповідей!")
+    //     })
+    // }
   return (
     <div className='container'>
         <nav>
@@ -158,7 +159,7 @@ const ProductPage = () => {
                 <div className="flex">
                         {replyState ? (
                             <>
-                                <p className='flex'>Відповідь на коментар: ID {commentId}</p>
+                                <p className='flex'>Відповідь на коментар: ID {parentId}</p>
                                 <input
                                     type="text"
                                     name="replyText"
@@ -189,7 +190,9 @@ const ProductPage = () => {
                 <h3>Коментарі:</h3>
                 <div>
                     {getComments && getComments.length > 0 ? (
-                        getComments.map((comment) => (
+                        getComments
+                        .filter(c=> !c.parentId)
+                        .map((comment) => (
                         <div key={comment.id} className='flex flex-col'>
                             <div className='flex justify-between m-5 p-5 border'>
                                 <div>
@@ -216,11 +219,10 @@ const ProductPage = () => {
                                 <div>
                                     
                                 </div>
-                                    {getReplies && getReplies.length > 0 ? (
-                                    getReplies.map((reply)=>(
+                                    {comment.replies?.map((reply)=>(
                                         <div className='flex ml-25 p-5 border justify-between'>
                                             <div key={reply.id}>
-                                                <h1>Відповідь на коментар: {reply.commentId}</h1>
+                                                <h1>Відповідь на коментар: {reply.parentId}</h1>
                                                 <h1>Reply: {reply.text}</h1>
                                                 <h1>ID Користувача: {reply.userId}</h1>
                                             </div>
@@ -228,7 +230,7 @@ const ProductPage = () => {
                                                     <button 
                                                     className='w-35 h-10 bg-red-400 p-2 m-1 hover:bg-red-700 hover:text-white transition' 
                                                     onClick={()=>{
-                                                        openReport('REPLY', reply.id)
+                                                        openReport('REPLY', reply.userId)
                                                     }}
                                                 >Поскаржитись</button>
                                                 <button 
@@ -236,10 +238,7 @@ const ProductPage = () => {
                                                     onClick={()=>{toReply(reply.id)}}>Відповісти</button>  
                                             </div>
                                         </div>
-                                    ))
-                                ):(
-                                    <></>
-                                )}
+                                    ))}
                             </div>
                         </div>
                         ))

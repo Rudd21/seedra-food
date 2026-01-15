@@ -3,17 +3,15 @@ import "./banner.scss"
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
 import {motion, transform} from 'framer-motion'
+import { useBasketContext } from '../modalWindows/BasketContext';
 
-const banner = ({userBasket, removeFromBasket}) => {
-  const closeBasket = "w-100 h-200 mx-[75%] my-[-44%] bg-[#eaf1eb] fixed z-1 transition translate-x-full"
-  const openBasket = "w-100 h-200 mx-[75%] my-[-44%] bg-[#eaf1eb] fixed z-1 transition translate-x-0"
+const banner = () => {
+  const {openBasketModal, reqBasket} = useBasketContext();
   
   const [checkToken, setCheckToken] = useState();
   const [stateSearch, setStateSearch] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
-  const [stateBasket, setStateBasket] = useState(closeBasket);
-  const [resultSearch, setResultSearch] = useState(closeBasket);
   const navigate = useNavigate()
 
   useEffect(()=>{
@@ -96,13 +94,20 @@ const banner = ({userBasket, removeFromBasket}) => {
                 {!checkToken ? (
                   <>
                     <Link className='nav-list' to="/register">Register</Link>
-                    <button className='nav-list' onClick={()=>{setStateBasket(openBasket)}}>Basket</button>
+                    <button className='nav-list' onClick={()=>{
+                        reqBasket,
+                        openBasketModal
+                      }}>Basket</button>
                     <Link className='nav-list' to="/login">Login</Link>
                   </>
                 ) : (
                   <>
                     <Link className='nav-list' to={`/profile/${checkToken.id}`}>Profile</Link>
                     <Link className='nav-list' onClick={()=>{handleLogout()}}>Logout</Link>
+                    <button className='nav-list' onClick={()=>{
+                        reqBasket(),
+                        openBasketModal()
+                      }}>Basket</button>
                     <Link className='nav-list' to="/addProduct">AddProduct</Link>
                   </>
                 )}
@@ -146,9 +151,8 @@ const banner = ({userBasket, removeFromBasket}) => {
             </div>
           </div>
         </main>
-        <div className={stateBasket}>
+        {/* <div className={stateBasket}>
                 <h1 className='m-5'>Basket:</h1>
-                {/* <p>{userBasket}</p> */}
                 {userBasket.length === 0 ? (
                   <p className="m-5 text-gray-500">Корзина пуста</p>
                 ) : (
@@ -166,10 +170,9 @@ const banner = ({userBasket, removeFromBasket}) => {
                   </div>
                 )))}
                 <button className='m-5 bg-green-700' onClick={()=> setStateBasket(closeBasket)}>Close</button>
-        </div>
-        <div className={resultSearch}>
+        </div> */}
+        {/* <div className={resultSearch}>
                 <h1 className='m-5'>Result of search:</h1>
-                {/* <p>{userBasket}</p> */}
                 {searchResult.length === 0 ? (
                   <p className="m-5 text-gray-500">Нема результатів пошуку</p>
                 ) : (
@@ -184,7 +187,7 @@ const banner = ({userBasket, removeFromBasket}) => {
                   </div>
                 )))}
                 <button className='m-5 bg-green-700' onClick={()=> setResultSearch(closeBasket)}>Close</button>
-        </div>
+        </div> */}
     </div>
   )
 }
