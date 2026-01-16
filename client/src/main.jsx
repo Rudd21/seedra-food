@@ -11,11 +11,14 @@ import AdminPanel from './components/pages/adminPanel/adminPanel.jsx';
 import { ReportProvider } from './components/modalWindows/ReportContext.jsx';
 import { EditProductProvider } from './components/modalWindows/editProductByAdminContext.jsx';
 import { BasketContextProvider } from './components/modalWindows/BasketContext.jsx';
+import { EditProfileProvider } from './components/modalWindows/editProfileContext.jsx';
 // import { EditProductByUserProvider } from './components/modalWindows/editProductByUserContext.jsx';
 
 import { ReportModal } from './components/modalWindows/ReportModal.jsx';
 import { EditProductModal } from './components/modalWindows/editProductByAdminModal.jsx';
 import { BasketModal } from './components/modalWindows/BasketModal.jsx';
+import {EditProfileModal} from './components/modalWindows/editProfileModal.jsx';
+
 // import { EditProductByUserModal } from './components/modalWindows/editProductByUserModal.jsx';
 import './index.css'
 
@@ -25,19 +28,22 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter basename='/'>
     <ReportProvider>
       <EditProductProvider>
-      <BasketContextProvider>
-        <ReportModal />
-        <EditProductModal />
-        <BasketModal />
-        <Routes>
-          <Route path='/' element={<App />}/>
-          <Route path='/addProduct' element={<AddProduct />}/>
-          <Route path='/register' element={<Register />}/>
-          <Route path='/login' element={<Login />}/>
-          <Route path='/profile/:id' element={<Profile />}/>
-          <Route path='/productPage/:id' element={<ProductPage />}/>
-          <Route path='/adminPanel' element={<AdminPanel />}/>
-        </Routes>
+        <BasketContextProvider>
+          <EditProfileProvider>
+            <ReportModal />
+            <EditProductModal />
+            <BasketModal />
+            <EditProfileModal />
+            <Routes>
+              <Route path='/' element={<App />}/>
+              <Route path='/addProduct' element={<AddProduct />}/>
+              <Route path='/register' element={<Register />}/>
+              <Route path='/login' element={<Login />}/>
+              <Route path='/profile/:id' element={<Profile />}/>
+              <Route path='/productPage/:id' element={<ProductPage />}/>
+              <Route path='/adminPanel' element={<AdminPanel />}/>
+            </Routes>
+            </EditProfileProvider>
         </BasketContextProvider>
       </EditProductProvider>
     </ReportProvider>
