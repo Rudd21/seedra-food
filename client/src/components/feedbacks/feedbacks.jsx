@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, useNavigate} from 'react-router-dom';
 import "./feedback.scss"
 
 const feedbacks = () => {
@@ -22,6 +23,7 @@ const feedbacks = () => {
                     and have the best germination ratings.
                 </p>
             </div>
+            <Link className='border text-center p-2 bg-gray-300 rounded-sm hover:bg-gray-500 transition' to={"https://localhost:5000/generalComments"}>Написати властий коментар</Link>
         </div>
         </div>
     </div>

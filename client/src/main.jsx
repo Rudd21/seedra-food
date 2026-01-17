@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Profile from './components/pages/profile/profile.jsx';
 import ProductPage from './components/pages/productPage/productPage.jsx';
 import AdminPanel from './components/pages/adminPanel/adminPanel.jsx';
+import GeneralComments from './components/pages/generalComments.jsx';
 import { ReportProvider } from './components/modalWindows/ReportContext.jsx';
 import { EditProductProvider } from './components/modalWindows/editProductByAdminContext.jsx';
 import { BasketContextProvider } from './components/modalWindows/BasketContext.jsx';
@@ -17,7 +18,7 @@ import { EditProfileProvider } from './components/modalWindows/editProfileContex
 import { ReportModal } from './components/modalWindows/ReportModal.jsx';
 import { EditProductModal } from './components/modalWindows/editProductByAdminModal.jsx';
 import { BasketModal } from './components/modalWindows/BasketModal.jsx';
-import {EditProfileModal} from './components/modalWindows/editProfileModal.jsx';
+import { EditProfileModal } from './components/modalWindows/editProfileModal.jsx';
 
 // import { EditProductByUserModal } from './components/modalWindows/editProductByUserModal.jsx';
 import './index.css'
@@ -42,6 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path='/profile/:id' element={<Profile />}/>
               <Route path='/productPage/:id' element={<ProductPage />}/>
               <Route path='/adminPanel' element={<AdminPanel />}/>
+              <Route path='/generalComments' element={<GeneralComments />}/>
             </Routes>
             </EditProfileProvider>
         </BasketContextProvider>

@@ -17,13 +17,13 @@ import { guestSession } from './middleware/guestSession.middleware.js';
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
 import { addComment, addReply } from './controllers/addComment.controller.js';
-// import { addReply, reqReply } from './controllers/reply.controller.js';
 import { addReport } from './controllers/addReport.controller.js';
 import { reqComment } from './controllers/reqComment.controller.js';
 import { reqBasket } from './controllers/reqBasket.controller.js';
 import { addToBasket, removeFromBasket } from './controllers/changeBasket.controller.js';
 import { searchUsers, searchProduct } from './controllers/search.controller.js';
 import { reqUser } from './controllers/reqUser.controller.js';
+import { addGeneralComment, reqGeneralComments } from './controllers/generalComments.controller.js';
 import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
@@ -53,6 +53,9 @@ app.get("/user-data", verifyToken, async(req, res) => {
 app.post('/addProduct', verifyToken, loadUser, banGuard, addProduct);
 
 // app.get('/reqReply', reqReply);
+
+app.get('/reqGeneralComments', reqGeneralComments)
+app.post('/addGeneralComment', verifyToken, banGuard, addGeneralComment)
 
 app.post('/addComment', verifyToken, loadUser, banGuard, addComment);
 app.post('/addReply', verifyToken, loadUser, banGuard, addReply);

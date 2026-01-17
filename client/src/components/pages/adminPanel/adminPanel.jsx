@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
+import Navigation from '../../navigation';
+import Footer from '../../footer';
 
 const AdminPanel = () => {
 
@@ -14,7 +16,6 @@ const AdminPanel = () => {
     const [commentList, setCommentList] = useState(false)
     const [filterReport, setFilterReport] = useState('OPEN')
 
-    const [searchRepost, setSearchReports] = useState('')
     const [searchUser, setSearchUser] = useState('')
     const [searchProduct, setSearchProduct] = useState('')
     const [searchComment, setSearchComment] = useState('')
@@ -147,29 +148,7 @@ const AdminPanel = () => {
 
   return (
     <div>
-        <nav>
-            <div className="text-nav">
-                <img className='h-7' src="Frame.svg" alt="" />
-                <ul className="flex">
-                    <li className="nav-list">ALL PRODUCTS</li>
-                    <li className="nav-list">ABOUT SEEDRA</li>
-                    <li className="nav-list">OUR BLOG</li>
-                    <li className="nav-list">SUPPORT</li>
-                </ul>
-                <div className="social-top">
-                    <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>
-                    <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
-                </div>
-                <div className="search-block">
-                    <img src="icon_search.png" alt="" />
-                    <input placeholder="Search" type="text" />
-                </div>
-                <div className="sort-heart">
-                    <img src="Outline-green.png" alt="" />
-                </div>
-                {/* <Link to="/">Back</Link> */}
-            </div>
-        </nav>
+        <Navigation />
         <main>
             <h1 className='text-center text-xl m-5 underline italic'>Адмін Панель</h1>
             {/* <button onClick={()=>meAsAdmin()}>Зробити себе адміном!</button> */}
@@ -303,25 +282,7 @@ const AdminPanel = () => {
             </div>
             {/* Кнопочки для взаємодії з цими об'єктами */}
         </main>
-        <div className="footer-nav">
-            <ul className='footer-list'>
-                <li>ALL PRODUCTS</li>
-                <li>ABOUT SEEDRA</li>
-                <li>OUR BLOG</li>
-                <li>
-                    <img className='h-7' src="Frame.svg" alt="" />
-                </li>
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
-            </ul>
-        </div>
-        <div className="social-footer">
-            <div className="social">
-                <img src="ant-design_instagram-filled-green.png" alt="" />
-                <img src="akar-icons_facebook-fill-green.png" alt="" />
-            </div>
-            <p className="footer-text">All rights reserved</p>
-        </div>
+        <Footer />
     </div>
   )
 }

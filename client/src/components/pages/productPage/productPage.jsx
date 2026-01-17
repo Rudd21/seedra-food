@@ -4,11 +4,12 @@ import "../../../index.css"
 import "./productPage.scss"
 import axios from 'axios';
 import { useReportContext } from '../../modalWindows/ReportContext';
+import Navigation from '../../navigation';
+import Footer from '../../footer';
 
 // ЗРОБИ ВИВІД КОМЕНТАРІВ МУДЄЄЄЄЄЄНЬ
 
 const ProductPage = () => {
-    const [checkToken, setCheckToken] = useState();
     const [productInfo, setProductInfo] = useState(null);
     const [commentText, setCommentText] = useState('');
     const [commentRating, setCommentRating] = useState();
@@ -24,18 +25,8 @@ const ProductPage = () => {
         replyText: ''
     })
 
-
-    useEffect(()=>{
-      axios.get("https://localhost:3000/user-data",{
-        withCredentials: true
-      })
-      .then(res=>{setCheckToken(res.data)})
-      .catch(err=>{console.error("Немає токену або що:", err)})
-    },[])
-
     const {id} = useParams();
     const {id: productId} = useParams();
-    const {id: userId} = useParams();
 
     useEffect(()=>{
         axios.get(`https://localhost:3000/productPage/${id}`,{
@@ -98,47 +89,9 @@ const ProductPage = () => {
         })
     }
 
-    
-    // const reqReply = (commentId) =>{
-    //     axios.get(`https://localhost:3000/reqReply?q=${commentId}`)
-    //     .then(res=>{setGetReplies(res.data)})
-    //     .catch(err=>{
-    //         console.log(err)
-    //         console.error("Невдалося отримати список відповідей!")
-    //     })
-    // }
   return (
     <div className='container'>
-        <nav>
-            <div className="text-nav">
-            <img height={"25px"} src="Frame.svg" alt="" />
-            <ul className="nav-ul">
-                <li className="nav-list">ALL PRODUCTS</li>
-                <li className="nav-list">ABOUT SEEDRA</li>
-                <li className="nav-list">OUR BLOG</li>
-                <li className="nav-list">SUPPORT</li>
-            </ul>
-            <div className="social-top">
-                <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>
-                <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
-                </div>
-                <div className="search-block">
-                    <img src="icon_search.png" alt="" />
-                    <input placeholder="Search" type="text" />
-                </div>
-                <div className="sort-heart">
-                    <img src="Outline-green.png" alt="" />
-                </div>
-                {!checkToken ? (   
-                    <Link className='nav-list' to="/register">Register</Link>    
-                ) : (
-                  <>
-                    <Link className='nav-list' to="/">Main</Link>
-                    <Link className='nav-list' to="/addProduct">AddProduct</Link>
-                  </>
-                )}
-            </div>
-        </nav>
+        <Navigation />
         <main>
             <div className="product-info">
                 <img src="../../../public/tomato.png" width={'400px'} alt="Product_photo" />
@@ -201,7 +154,6 @@ const ProductPage = () => {
                                     <p><strong>Username:</strong> {comment.user.name}</p>
                                     <p><strong>Rating:</strong> {comment.rating}</p>
                                     <p><strong>Feedback:</strong>{comment.text}</p>
-                                    <button onClick={()=>reqReply(comment.id)}>Показати відповіді: {comment.countReplies}</button>
                                 </div>
                                 <div className='flex flex-col'>
                                         <button 
@@ -248,25 +200,7 @@ const ProductPage = () => {
                 </div>
             </div>
         </main>
-        <div className="footer-nav">
-            <ul className='footer-list'>
-                <li>ALL PRODUCTS</li>
-                <li>ABOUT SEEDRA</li>
-                <li>OUR BLOG</li>
-                <li>
-                    <img height={"25px"} src="Frame.svg" alt="" />
-                </li>
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
-            </ul>
-        </div>
-        <div className="social-footer">
-            <div className="social">
-                <img src="ant-design_instagram-filled-green.png" alt="" />
-                <img src="akar-icons_facebook-fill-green.png" alt="" />
-            </div>
-            <p className="footer-text">All rights reserved</p>
-        </div>
+        <Footer />
     </div>
   )
 }

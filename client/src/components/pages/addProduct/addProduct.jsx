@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import "./addProduct.scss"
 import { Link, useNavigate} from 'react-router-dom';
 import apiRequest from '../../lib/apiRequest';
+import Navigation from '../../navigation';
 import axios from 'axios';
 
 const addProduct = (e) => {
@@ -46,29 +47,7 @@ const addProduct = (e) => {
   };
   return (
     <div className='container'>
-        <nav>
-            <div className="text-nav">
-                <img className='h-5' src="Frame.svg" alt="" />
-                <ul className="nav-ul">
-                    <li className="nav-list">ALL PRODUCTS</li>
-                    <li className="nav-list">ABOUT SEEDRA</li>
-                    <li className="nav-list">OUR BLOG</li>
-                    <li className="nav-list">SUPPORT</li>
-                </ul>
-                <div className="social-top">
-                    <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>
-                    <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
-                </div>
-                <div className="search-block">
-                    <img src="icon_search.png" alt="" />
-                    <input placeholder="Search" type="text" />
-                </div>
-                <div className="sort-heart">
-                    <img src="Outline-green.png" alt="" />
-                </div>
-                <Link to="/">Back</Link>
-            </div>
-        </nav>
+        <Navigation />
         <main className='formToProduct flex'>
             <div className="h-15 select-none productSeems">
             <h1 className='m-2'>Preview:</h1>
@@ -146,25 +125,7 @@ const addProduct = (e) => {
                 <button className='bg-green-300 hover:bg-green-600 transition' type="submit">Add Product</button>
             </form>
         </main>
-        <div className="footer-nav">
-        <ul className='footer-list'>
-            <li>ALL PRODUCTS</li>
-            <li>ABOUT SEEDRA</li>
-            <li>OUR BLOG</li>
-            <li>
-                <img height={"25px"} src="Frame.svg" alt="" />
-            </li>
-            <li>Terms & Conditions</li>
-            <li>Privacy Policy</li>
-        </ul>
-    </div>
-    <div className="social-footer">
-        <div className="social">
-            <img src="ant-design_instagram-filled-green.png" alt="" />
-            <img src="akar-icons_facebook-fill-green.png" alt="" />
-        </div>
-        <p className="footer-text">All rights reserved</p>
-    </div>
+        <Footer />
     </div>
   )
 }

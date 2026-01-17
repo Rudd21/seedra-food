@@ -3,7 +3,7 @@ import axios from 'axios';
 import Banner from "./components/banner/banner"
 import Catalog from "./components/catalog/catalog"
 import Feedback from "./components/feedbacks/feedbacks"
-import Footer from "./components/footer/footer"
+import Footer from "./components/footer"
 import {ReportModal} from './components/modalWindows/ReportModal';
 
 const App=()=> {
