@@ -81,7 +81,7 @@ export const EditProductModal = ()=>{
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setOldPrice(e.target.value)} />
                         <p className="text-xs text-gray-400">*При змінені поля - товар позначається зі знижкою</p>
                         <button className="bg-yellow-400 m-2 p-2 text-sm hover:bg-yellow-700 transition"onClick={()=>{
-                            axios.post("https://localhost:3000/admin/changeOldPrice", {productId, oldPrice},{
+                            axios.post("https://localhost:3000/admin/changeOldPrice", {productId, price, oldPrice},{
                                 withCredentials: true
                             }).then(res=>console.log("Успішно змінено стару ціну товару та оновленно товар як зі знижкою!"))
                             .catch(err=>{

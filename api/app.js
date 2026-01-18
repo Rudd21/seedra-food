@@ -5,7 +5,7 @@ import https from "https"
 
 // Regular Controllers
 import { addProduct } from './controllers/addProduct.controller.js';
-import { reqCatalog } from './controllers/reqCatalog.controller.js';
+import { reqCatalog, reqMostSaleProducts } from './controllers/reqCatalog.controller.js';
 import { register } from './controllers/register.controller.js';
 import { login } from './controllers/login.controller.js';
 import { PrismaClient } from '@prisma/client';
@@ -68,6 +68,7 @@ app.get('/reqBasket', reqBasket);
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);
+app.get('/reqMostSaleProduts', reqMostSaleProducts)
 app.get('/userProducts/:id', userProducts);
 app.get('/reqUser', reqUser)
 

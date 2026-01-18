@@ -69,7 +69,7 @@ export const changeDescription = async(req, res) => {
 }
 
 export const changeOldPrice = async(req, res) => {
-    const { productId, oldPrice } = req.body;
+    const { productId, price, oldPrice } = req.body;
     console.log("productId, oldPrice:", productId, oldPrice)
 
     try {
@@ -80,9 +80,10 @@ export const changeOldPrice = async(req, res) => {
                 data: { oldPrice: null, isSale: false }
             })
         } else {
+            const deltaSale = Number(oldPrice) - Number(price);
             await prisma.product.update({
                 where: { id: productId },
-                data: { oldPrice, isSale: true }
+                data: { oldPrice, isSale: true, deltaSale }
             })
         }
 

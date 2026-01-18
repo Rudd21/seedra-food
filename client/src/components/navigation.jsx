@@ -69,7 +69,7 @@ const Navigation = () => {
                     <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
                 </div>
                 <div>
-                  <input className="w-50 h-7 mx-30 after:content-['*'] after:ml-0.5 after:text-red-500" placeholder={"Search"} type="text" onInput={()=>setStateSearch(true)} onChange={(e)=> setSearchText(e.target.value)}/>
+                  <input className="w-50 h-7 mx-15 after:content-['*'] after:ml-0.5 after:text-red-500" placeholder={"Search"} type="text" onInput={()=>setStateSearch(true)} onChange={(e)=> setSearchText(e.target.value)}/>
                   {stateSearch ? (
                     <div className='fixed'>
                       <div className="w-50 flex mx-30 flex-col">
@@ -86,15 +86,17 @@ const Navigation = () => {
                 </div>
                 {!checkToken ? (
                   <>
+                    <Link className='nav-list' to={`/`}>Main</Link>
                     <Link className='nav-list' to="/register">Register</Link>
                     <button className='nav-list' onClick={()=>{
-                        reqBasket,
-                        openBasketModal
+                        reqBasket(),
+                        openBasketModal()
                       }}>Basket</button>
                     <Link className='nav-list' to="/login">Login</Link>
                   </>
                 ) : (
                   <>
+                    <Link className='nav-list' to={`/`}>Main</Link>
                     <Link className='nav-list' to={`/profile/${checkToken.id}`}>Profile</Link>
                     <Link className='nav-list' onClick={()=>{handleLogout()}}>Logout</Link>
                     <button className='nav-list' onClick={()=>{
