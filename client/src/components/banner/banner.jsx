@@ -41,7 +41,7 @@ const banner = () => {
   return (
     <div>
         <Navigation />
-        <main>
+        <main className='m-auto w-[80%]'>
           <div className="p-0 m-0 banner">
             <div ref={ref} className="background-leafs flex">
               <img className='background-leaf leaf-1' src="leaf2.png" alt="" />

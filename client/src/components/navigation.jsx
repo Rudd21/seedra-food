@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
 import {motion, transform} from 'framer-motion'
 import { useBasketContext } from './modalWindows/BasketContext';
+import { useReportContext } from './modalWindows/ReportContext';
+import { useResultContext } from './modalWindows/resultContext';
 
 const Navigation = () => {
     
@@ -14,6 +16,8 @@ const Navigation = () => {
     const [searchResult, setSearchResult] = useState([]);
     
     const navigate = useNavigate()
+    const {openReport} = useReportContext();
+    const {openResultModal, setNameResult, setDescResult} = useResultContext();
 
     useEffect(()=>{
         axios.get("https://localhost:3000/user-data",{
@@ -59,10 +63,18 @@ const Navigation = () => {
             <div className="text-nav">
                 <img className='h-7' src="Frame.svg" alt="" />
                 <ul className="nav-ul">
-                    <li className="nav-list">ALL PRODUCTS</li>
-                    <li className="nav-list">ABOUT SEEDRA</li>
-                    <li className="nav-list">OUR BLOG</li>
-                    <li className="nav-list">SUPPORT</li>
+                    <li className="nav-list selection:bg-yellow-500"><button>ALL PRODUCTS</button></li>
+                    <li className="nav-list"><Link to={'/aboutSeedra'}>ABOUT SEEDRA</Link></li>
+                    <li className="nav-list"><Link to={'/ourBlog'}>OUR BLOG</Link></li>
+                    {checkToken ? (
+                      <li className="nav-list"><button onClick={()=>openReport("OTHER", checkToken.id)}>SUPPORT</button></li>
+                    ):(
+                      <li className="nav-list"><button onClick={()=>{
+                        setNameResult("Помилка")
+                        setDescResult("Треба бути заєстрованим")
+                        openResultModal('error')
+                      }}>SUPPORT</button></li>
+                    )}
                 </ul>
                 <div className="social-top">
                     <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>

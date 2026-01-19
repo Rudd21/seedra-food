@@ -20,6 +20,9 @@ const AdminPanel = () => {
     const [searchProduct, setSearchProduct] = useState('')
     const [searchComment, setSearchComment] = useState('')
 
+    const [nameBlogPost, setNameBlogPost] = useState('')
+    const [descBlogPost, setDescBlogPost] = useState('')
+
     const [formBan, setFormBan] = useState({
         userId: '',
         days: '',
@@ -139,6 +142,15 @@ const AdminPanel = () => {
             console.error("Виникла помилка при спробі видалити коментар")
         })
     }
+
+    const addBlogPost = ()=>{
+        axios.post("https://localhost:3000/addBlogPost", {nameBlogPost, descBlogPost},{
+            withCredentials: true
+        })
+        .then(res=>console.log("Успішно додано новий пост в блог"))
+        .catch(err=>console.log("Невдалося додати новий пост в блог ", err))
+    }
+
     // const meAsAdmin = () =>{
     //     axios.get('https://localhost:3000/meAsAdmin', {
     //         withCredentials: true
@@ -280,7 +292,12 @@ const AdminPanel = () => {
                     )}
                 </div>
             </div>
-            {/* Кнопочки для взаємодії з цими об'єктами */}
+            <div className="comments flex flex-col w-[40%] m-auto gap-4 border m-4 p-3">
+                <h1>Створення посту в блог</h1>
+                <input className='border bg-white w-100' onChange={(e)=>setNameBlogPost(e.target.value)} placeholder='Blog Name' type="text" />
+                <textarea className='border bg-white w-100 h-25' onChange={(e)=>setDescBlogPost(e.target.value)} placeholder='Description'  type="text" />
+                <button className='bg-yellow-400 m-2 p-3 w-30 hover:bg-yellow-600 transition' onClick={addBlogPost}>Шукати</button>
+            </div>
         </main>
         <Footer />
     </div>

@@ -24,6 +24,7 @@ import { addToBasket, removeFromBasket } from './controllers/changeBasket.contro
 import { searchUsers, searchProduct } from './controllers/search.controller.js';
 import { reqUser } from './controllers/reqUser.controller.js';
 import { addGeneralComment, reqGeneralComments } from './controllers/generalComments.controller.js';
+import { reqBlogPosts, reqBlogPost, addBlogPost } from './controllers/blog.controller.js';
 import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
@@ -53,6 +54,9 @@ app.get("/user-data", verifyToken, async(req, res) => {
 app.post('/addProduct', verifyToken, loadUser, banGuard, addProduct);
 
 // app.get('/reqReply', reqReply);
+
+app.get('/reqBlogPosts', reqBlogPosts);
+app.get('/reqBlogPost', reqBlogPost);
 
 app.get('/reqGeneralComments', reqGeneralComments)
 app.post('/addGeneralComment', verifyToken, banGuard, addGeneralComment)
@@ -194,6 +198,7 @@ import { searchProductById, changeStatus, changeName, changeDescription, changeO
 import { searchCommentById, deleteComment } from './adminControllers/adminComment.controller.js';
 import { getReports } from './adminControllers/getReports.controller.js';
 import { loadUser } from './middleware/loadUser.middleware.js';
+import { requireAdmin } from './middleware/checkAdmin.middleware.js';
 
 app.get("/admin/user", searchUserById)
 app.post("/admin/banUser", banUser)
@@ -212,6 +217,8 @@ app.get("/admin/comment", searchCommentById)
 app.post("/admin/deleteComment", deleteComment)
 
 app.get("/admin/getReports", verifyToken, getReports)
+
+app.post('/addBlogPost', verifyToken, loadUser, addBlogPost);
 
 // app.get("/admin/checkServ", (req,res)=>res.send("OK"));
 
