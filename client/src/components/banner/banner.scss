@@ -203,6 +203,9 @@ nav {
     color: white;
     border: none;
     padding: 11px 33px;
+    &:hover {
+        background: #23632a;
+    }
 }
 
 .banner-button2 {
@@ -211,6 +214,9 @@ nav {
     border-radius: 8px;
     color: #359740;
     border: none;
+    &:hover {
+        background: #cecece;
+    }
 }
 
 .banner-footer {

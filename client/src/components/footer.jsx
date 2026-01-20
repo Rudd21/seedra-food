@@ -1,6 +1,10 @@
 import React from 'react'
+import { useNavigate, useNavigation } from 'react-router-dom'
 
 const Footer = () => {
+
+    const navigation = useNavigate();
+
   return (
         <footer>
         <div className="text-[#70737C] mx-auto border-b border-[#4FA083] w-[90%] pb-[25px] sticky">
@@ -11,8 +15,8 @@ const Footer = () => {
                 <li className="list-none px-[15px] border-r border-[#4FA083]">
                     <img className='h-7' src="Frame.svg" alt="" />
                 </li>
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
+                <li><button onClick={()=>navigation('/termsConditions')}>Terms & Conditions</button></li>
+                <li><button onClick={()=>navigation('/privacyPolicy')}>Privacy Policy</button></li>
             </ul>
         </div>
         <div className="flex w-[80%] mx-auto mt-4 justify-between">

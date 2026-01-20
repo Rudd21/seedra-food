@@ -11,6 +11,10 @@ import AdminPanel from './components/pages/adminPanel/adminPanel.jsx';
 import GeneralComments from './components/pages/generalComments.jsx';
 import AboutSeedra from './components/pages/aboutSeedra.jsx';
 import OurBlog from './components/pages/ourBlog.jsx';
+import BlogPost from './components/pages/blogPost.jsx';
+import Search from './components/pages/search.jsx';
+import TermsConditions from './components/pages/termsContions.jsx';
+import PrivacyPolicy from './components/pages/privacyPolicy.jsx';
 
 import NotFound from './components/pages/notFound.jsx';
 import { ReportProvider } from './components/modalWindows/ReportContext.jsx';
@@ -54,6 +58,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path='/generalComments' element={<GeneralComments />}/>
                 <Route path='/aboutSeedra' element={<AboutSeedra />}/>
                 <Route path='/ourBlog' element={<OurBlog />}/>
+                <Route path="/blogPost/:id" element={<BlogPost />}/>
+                <Route path="/search" element={<Search />}/>
+                <Route path='/termsConditions' element={<TermsConditions />}/>
+                <Route path='/privacyPolicy' element={<PrivacyPolicy />}/>
 
                 {/* 404 */}
                 <Route path='*' element={<NotFound />}/>

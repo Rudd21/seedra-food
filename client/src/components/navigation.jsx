@@ -27,27 +27,6 @@ const Navigation = () => {
         .catch(err=>{console.error("Немає токену або що:", err)})
     },[])
 
-    const searchByUser = ()=>{
-        console.log("Знайти чувака за таким ім'ям:", searchText)
-
-        axios.get(`https://localhost:3000/search/user?q=${encodeURIComponent(searchText)}`      
-        ).then(res=>{
-            setSearchResult(res.data)
-            setResultSearch(openBasket)
-        });
-    }
-
-    const searchByProduct = ()=>{
-        console.log("Знайти товар за такою назвою:", searchText)
-
-        axios.get(`https://localhost:3000/search/product?q=${encodeURIComponent(searchText)}`      
-        ).then(res=>{
-            setSearchResult(res.data)
-            console.log(res.data)
-            setResultSearch(openBasket)
-        });
-    }
-
     function handleLogout() {
         axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
         .then(() => {
@@ -63,7 +42,7 @@ const Navigation = () => {
             <div className="text-nav">
                 <img className='h-7' src="Frame.svg" alt="" />
                 <ul className="nav-ul">
-                    <li className="nav-list selection:bg-yellow-500"><button>ALL PRODUCTS</button></li>
+                    <li className="nav-list"><button>ALL PRODUCTS</button></li>
                     <li className="nav-list"><Link to={'/aboutSeedra'}>ABOUT SEEDRA</Link></li>
                     <li className="nav-list"><Link to={'/ourBlog'}>OUR BLOG</Link></li>
                     {checkToken ? (
@@ -85,8 +64,18 @@ const Navigation = () => {
                   {stateSearch ? (
                     <div className='fixed'>
                       <div className="w-50 flex mx-30 flex-col">
-                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={searchByUser}>Search among users</button>
-                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={searchByProduct}>Search among products</button>
+                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={()=>{
+                              navigate(`/search?type=user&text=${searchText}`)
+                              setSearchText('')
+                              setStateSearch(false)
+                            }}
+                          >Search among users</button>
+                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={()=>{
+                            navigate(`/search?type=product&text=${searchText}`)
+                              setSearchText('')
+                              setStateSearch(false)
+                          }}
+                          >Search among products</button>
                       </div>
                     </div>
                   ):(

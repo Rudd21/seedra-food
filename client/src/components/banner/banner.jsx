@@ -66,9 +66,9 @@ const banner = () => {
                         <s>${mostSaleList[indexSale].oldPrice}</s>
                       </p>
                     </div>
-                    <div className="flex flex-row">
-                      <button className="banner-button1" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
-                      <button className="banner-button2" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                    <div className="flex flex-row mt-[10px] gap-2">
+                      <button className="banner-button1 transition" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
+                      <button className="banner-button2 transition" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
                     </div>
                   </div>
                 </div>

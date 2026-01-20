@@ -18,7 +18,7 @@ export const reqBlogPosts = async(req, res) => {
 
 export const reqBlogPost = async(req, res) => {
 
-    const { id } = req.body;
+    const { id } = req.query;
 
     if (!id) {
         return res.status(500).json({ error: "Невказано конкретний пост" })

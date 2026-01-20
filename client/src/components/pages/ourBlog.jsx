@@ -2,10 +2,13 @@ import React, { useState,useEffect } from 'react'
 import Navigation from '../navigation'
 import Footer from '../footer'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const OurBlog = () => {
 
   const [blogList, setBlogList] = useState([])
+
+  const navigate = useNavigate();
 
   useEffect(()=>{
     axios.get("https://localhost:3000/reqBlogPosts")
@@ -29,8 +32,7 @@ const OurBlog = () => {
                 <div className='border rounded-xs p-2 flex flex-col'>
                   <img src="/farm.jpg" alt="" />
                   <h1>{blog.name}</h1>
-                  <h2>{blog.description}</h2>
-                  {/* <button className='text-white bg-gray-400 p-3 w-25 rounded-xs hover:bg-[#359740] transition'>More →</button> */}
+                  <button className='text-white bg-gray-400 p-3 w-25 rounded-xs hover:bg-[#359740] transition' onClick={()=>navigate(`/blogPost/${blog.id}`)}>More →</button>
                 </div>
               </div>
               ))
