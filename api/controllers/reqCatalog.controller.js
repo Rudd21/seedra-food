@@ -3,8 +3,26 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient();
 
 export const reqCatalog = async(req, res) => {
+    const page = Number(req.query.page)
+    const LIMIT = 2;
+
+    const skip = (page - 1) * LIMIT
+
     try {
-        const products = await prisma.product.findMany({ include: { comment: { select: { rating: true } } } });
+        const products = await prisma.product.findMany({
+            skip,
+            take: LIMIT,
+            include: {
+                comment: {
+                    select: {
+                        rating: true
+                    }
+                }
+            },
+            orderBy: { id: 'asc' }
+        });
+
+        const total = await prisma.product.count();
 
         const cleanProducts = products.map(p => {
             const avg = p.comment.length ?
@@ -16,7 +34,14 @@ export const reqCatalog = async(req, res) => {
                 avgRating: avg
             };
         });
-        res.status(200).json(cleanProducts)
+
+        if (cleanProducts.length === 0) return res.status(500).json({ message: "Більше немає товару" })
+
+        res.status(200).json({
+            items: cleanProducts,
+            currentPage: page,
+            totalPages: Math.ceil(total / LIMIT)
+        });
     } catch (err) {
         console.error("Помилка при отриманні каталогу:", err)
         res.status(500).json({ error: "Помилка при отриманні каталогу" })

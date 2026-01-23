@@ -92,7 +92,7 @@ const ProductPage = () => {
   return (
     <div className='container'>
         <Navigation />
-        <main>
+        <main className='w-[70%] m-auto'>
             <div className="product-info">
                 <img src="../../../public/tomato.png" width={'400px'} alt="Product_photo" />
                 <div className="product-text">

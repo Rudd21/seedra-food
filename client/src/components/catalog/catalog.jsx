@@ -1,4 +1,4 @@
-import React,{use, useEffect, useState} from 'react'
+import React,{use, useEffect, useMemo, useState} from 'react'
 import {motion} from 'framer-motion'
 import axios from 'axios';
 import "./catalog.scss"
@@ -8,22 +8,52 @@ import { useBasketContext } from '../modalWindows/BasketContext';
 const catalog = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]) 
+  const [catalogPage, setCatalogPage] = useState(1);
+  const [totalPages, setTotalPages] = useState()
+  const [pageCache, setPageCache] = useState({})
 
   const {addToBasket} = useBasketContext();
   
-  useEffect(() =>{
-    axios.get("https://localhost:3000/catalog")
-     .then(response => {
-      setProducts(response.data)
+  const generateCatalog = ()=>{
+    axios.get(`https://localhost:3000/catalog?page=${catalogPage}`)
+     .then(res => {
+      setProducts(res.data.items)
+      setTotalPages(res.data.totalPages)
     })
     .catch(error=>{
       console.error("Помилка при отримані каталогу: ", error)
     })
+  }
+
+  useEffect(()=>{
+    if(pageCache[catalogPage]) return;
+
+    const load = async ()=>{
+      const res = await axios.get(`https://localhost:3000/catalog?page=${catalogPage}`);
+      setPageCache(prev=>({
+        ...prev,
+        [catalogPage]: res.data.items
+      }))
+    }
+
+    load();
+  }, [catalogPage])
+
+  useEffect(()=>{
+    generateCatalog()
   }, [])
   
+  useEffect(()=>{
+    generateCatalog()
+  }, [catalogPage])
+
   const toProduct = (productId)=>{
     navigate(`/productPage/${productId}`)
   }
+
+  const currentProducts = useMemo(()=>{
+    return pageCache[catalogPage] || [];
+  }, [pageCache, catalogPage])
   
   const [catalogFilter, SetCatalogFilter] = useState(null)
   return (
@@ -97,7 +127,7 @@ const catalog = () => {
 
       {/* Продукти */}
         <div className="h-150 products">
-          {products
+          {currentProducts
           .filter(product => !catalogFilter || product.type == catalogFilter)
           .map((product) => (
           <motion.div
@@ -106,8 +136,9 @@ const catalog = () => {
             transition={{duration: 0.3}}
 
             key={product.id}
+            product={product}
             data-heart="no"
-            className="h-95 product" 
+            className="h-95 border border-gray-300 p-[10px] rounded-sm" 
             data-hashtag={product.type}>
             <div className="safe-productaImage">
               <button value="1" className="heart" type="button"></button>
@@ -134,96 +165,14 @@ const catalog = () => {
         ))}
         </div>
 
-        {/* Інші продукти */}
-        {/* <div data-heart="no" className="product" data-hashtag="HERBS">
-          <div className="safe-productaImage">
-            <button value="1" className="heart" type="button"></button>
-            <img src="herbs.png" alt="Product" />
-          </div>
-          <p className="rainting rain-sort">
-            <img src="user-rainting.png" alt="Rating" />
-            <span>5.5</span>
-          </p>
-          <h3 id="search-text" value="CORN">
-            HERBS SEEDRA Corn - Bodacious Hybrid Seeds for Indoor and Outdoor Planting
-          </h3>
-          <div className="footer-card">
-            <div className="price">$<span className="sort-price">12.56</span></div>
-            <img className="basket-product" src="basket.png" alt="Basket" />
-          </div>
-        </div> */}
-
-        {/* <div data-heart="no" className="product" data-hashtag="BUNDLES">
-          <div className="safe-productaImage">
-            <button value="1" className="heart" type="button"></button>
-            <img src="bungles.png" alt="Product" />
-          </div>
-          <p className="rainting rain-sort">
-            <img src="user-rainting.png" alt="Rating" />
-            <span>5.2</span>
-          </p>
-          <h3 id="search-text" value="HERBS">
-            BUNDLES SEEDRA Spinach Seeds for Indoor and Outdoor Planting
-          </h3>
-          <div className="footer-card">
-            <div className="price">$<span className="sort-price">12.56</span></div>
-            <img className="basket-product" src="basket.png" alt="Basket" />
-          </div>
+        <div className="flex justify-center self-center">
+          <button className='p-2 m-1 border rounded-sm hover:text-[#359740] transition disabled:text-gray-300' disabled={catalogPage == 1} onClick={()=>{
+              setCatalogPage((prev) => Math.max(prev - 1,1))
+          }}>← Previous</button>
+          <button className='p-2 m-1 border rounded-sm hover:text-[#359740] transition disabled:text-gray-300' disabled={catalogPage == totalPages} onClick={()=>{
+              setCatalogPage((prev) => prev + 1 )
+            }}>Next →</button>
         </div>
-
-        <div data-heart="no" className="product" data-hashtag="FRUITS">
-          <div className="safe-productaImage">
-            <button value="1" className="heart" type="button"></button>
-            <img src="strawberry.png" alt="Product" />
-          </div>
-          <p className="rainting rain-sort">
-            <img src="user-rainting.png" alt="Rating" />
-            <span>5.1</span>
-          </p>
-          <h3 id="search-text">
-            FRUITS Seedra Cilantro Seeds for Planting Indoor and Outdoor
-          </h3>
-          <div className="footer-card">
-            <div className="price">$<span className="sort-price">12.56</span></div>
-            <img className="basket-product" src="basket.png" alt="Basket" />
-          </div>
-        </div>
-
-        <div data-heart="no" className="product" data-hashtag="SUPPLIES">
-          <div className="safe-productaImage">
-            <button value="1" className="heart" type="button"></button>
-            <img src="corn.png" alt="Product" />
-          </div>
-          <p className="rainting rain-sort">
-            <img src="user-rainting.png" alt="Rating" />
-            <span>5.0</span>
-          </p>
-          <h3 id="search-text">
-            SUPPLIES SEEDRA Corn - Bodacious Hybrid Seeds for Indoor and Outdoor Planting
-          </h3>
-          <div className="footer-card">
-            <div className="price">$<span className="sort-price">12.56</span></div>
-            <img className="basket-product" src="basket.png" alt="Basket" />
-          </div>
-        </div>
-
-        <div data-heart="no" className="product" data-hashtag="VEGETABLES">
-          <div className="safe-productaImage">
-            <button value="1" className="heart" type="button"></button>
-            <img src="tomato.png" alt="Product" />
-          </div>
-          <p className="rainting rain-sort">
-            <img src="user-rainting.png" alt="Rating" />
-            <span>4.9</span>
-          </p>
-          <h3 id="search-text">
-            VEGETABLES SEEDRA Spinach Seeds for Indoor and Outdoor Planting
-          </h3>
-          <div className="footer-card">
-            <div className="price">$<span className="sort-price">12.56</span></div>
-            <img className="basket-product" src="basket.png" alt="Basket" />
-          </div>
-        </div> */}
       </div>
   )
 }
