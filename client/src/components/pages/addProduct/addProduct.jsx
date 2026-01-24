@@ -4,6 +4,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import apiRequest from '../../lib/apiRequest';
 import Navigation from '../../navigation';
 import axios from 'axios';
+import Footer from '../../footer';
 
 const addProduct = (e) => {
     // const response = await fetch('/addProduct', {
@@ -14,6 +15,7 @@ const addProduct = (e) => {
     const ProductTypes = ["BUNDLES","HERBS","VEGETABLES","FRUITS","SUPPLIES","FLOWERS"]
 
     const [idUser, SetIdUser] = useState(null);
+    const [image, setImage] = useState(null);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -22,33 +24,49 @@ const addProduct = (e) => {
         description: '',
     });
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        if(!file) return;
+
+        setImage(file)
+        console.log("Файлик є")
+    };
+
     const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try{
-            const payload ={
-                name: formData.name,
-                type: formData.type,
-                price: formData.price,
-                description: formData.description,
-            }
-            const response = await axios.post('https://localhost:3000/addProduct', formData, {
+            const data = new FormData();
+
+            Object.entries(formData).forEach(([key, value])=>{
+                data.append(key, value);
+            })
+
+            if(image) data.append('image', image);
+
+            await axios.post('https://localhost:3000/addProduct', data, {
                 withCredentials: true
             });
+
             console.log("Продукт успішно додано!")
+            
         }catch(err){
             console.log(err)
         }
   };
+
   return (
     <div className='container'>
         <Navigation />
-        <main className='formToProduct flex'>
+        <main className='formToProduct flex m-auto'>
             <div className="h-15 select-none productSeems">
             <h1 className='m-2'>Preview:</h1>
             <div
@@ -57,7 +75,19 @@ const addProduct = (e) => {
                 >
                 <div className="safe-productaImage">
                 <button value="1" className="heart" type="button"></button>
-                <img className='h-55 w-55' src="bungles.png" alt="Product" />
+               {image ? (
+                    <img
+                        src={URL.createObjectURL(image)}
+                        alt='preview'
+                        className='h-55 w-55'
+                    />
+                ):(
+                    <img
+                        src='./products/default.png'
+                        alt='preview'
+                        className='h-55 w-55'
+                    />
+                )}
                 </div>
                 <p className="flex">
                 Rating: [rating]
@@ -72,6 +102,15 @@ const addProduct = (e) => {
             </div> 
             </div>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className='form flex flex-col justify-center self-center'>
+                <label>
+                    Image:
+                    <input id="productType" list="TypesProduct"
+                    className='bg-white rounded-xl'
+                    type="file"
+                    accept='image/*'
+                    onChange={handleFileChange}
+                />
+                </label>
                 <label>
                     Product Name:
                     <input

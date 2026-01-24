@@ -15,7 +15,7 @@ datasource db {
 
 model Product {
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
-  avatar String @default("user-default.png")
+  image String @default("default.png")
   name String
   type String
   oldPrice String?
@@ -31,6 +31,7 @@ model Product {
 
 model User {
   id   String   @id @default(auto()) @map("_id") @db.ObjectId
+  avatar String @default("user-default.png")
   name String
   email String @unique
   password String
@@ -106,6 +107,7 @@ enum Target{
 
 model BlogPost {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  image String @default("farm.jpg")
   name String
   description String
 

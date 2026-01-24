@@ -53,46 +53,51 @@ const banner = () => {
               <img className='background-leaf leaf-7' src="leaf2.png" alt="" />
               <img className='background-leaf leaf-8' src="leaf1.png" alt="" />
             </div>
-              <div className="text-banner">
+              <div className="">
               {mostSaleList && mostSaleList.length > 0 ? (
-                <div key={mostSaleList[indexSale].id}>
-                  <h1>{mostSaleList[indexSale].name}</h1>
-                  <p className="description-site">{mostSaleList[indexSale].description}</p>
-                  <div className='flex flex-col'>
-                    <div className="price-banner">
-                      <img src="fire (2).png" alt="" />
-                      <p className="price-text-banner">${mostSaleList[indexSale].price}</p>
-                      <p className="grey-price-text-banner">
-                        <s>${mostSaleList[indexSale].oldPrice}</s>
-                      </p>
-                    </div>
-                    <div className="flex flex-row mt-[10px] gap-2">
-                      <button className="banner-button1 transition" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
-                      <button className="banner-button2 transition" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                <div key={mostSaleList[indexSale].id} className='min-w-screen flex flex-row'>
+                  <div className='text-banner'>
+                    <h1>{mostSaleList[indexSale].name}</h1>
+                    <p className="description-site">{mostSaleList[indexSale].description}</p>
+                    <div className='flex flex-col'>
+                      <div className="price-banner">
+                        <img src="fire (2).png" alt="" />
+                        <p className="price-text-banner">${mostSaleList[indexSale].price}</p>
+                        <p className="grey-price-text-banner">
+                          <s>${mostSaleList[indexSale].oldPrice}</s>
+                        </p>
+                      </div>
+                      <div className="flex flex-row mt-[10px] gap-2">
+                        <button className="banner-button1 transition" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
+                        <button className="banner-button2 transition" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                      </div>
                     </div>
                   </div>
+                  <img className="product-banner z-0" src={`https://localhost:3000/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
                 </div>
               ) : (
                 <>
-                  <h1>SEEDRA Basil Seeds for Indoor and Outdoor Planting</h1>
-                  <p className="description-site">
-                    Be sure of our quality - the freshest batches of this season. Non-GMO, Heirloom - our seeds were tested and have the best germination ratings. Your easy growing experience is our guarantee
-                  </p>
-                  <div className="price-banner">
-                    <img src="fire (2).png" alt="" />
-                    <p className="price-text-banner">$12.56</p>
-                    <p className="grey-price-text-banner">
-                      <s>$15.56</s>
+                  <div>
+                    <h1>SEEDRA Basil Seeds for Indoor and Outdoor Planting</h1>
+                    <p className="description-site">
+                      Be sure of our quality - the freshest batches of this season. Non-GMO, Heirloom - our seeds were tested and have the best germination ratings. Your easy growing experience is our guarantee
                     </p>
+                    <div className="price-banner">
+                      <img src="fire (2).png" alt="" />
+                      <p className="price-text-banner">$12.56</p>
+                      <p className="grey-price-text-banner">
+                        <s>$15.56</s>
+                      </p>
+                    </div>
+                    <div className="button-banner">
+                      <button className="banner-button1">Add to card</button>
+                      <button className="banner-button2">Discover</button>
+                    </div>
                   </div>
-                  <div className="button-banner">
-                    <button className="banner-button1">Add to card</button>
-                    <button className="banner-button2">Discover</button>
-                  </div>
+                  <img className="product-banner z-0" src='bungles.png' alt="" />
                 </>
               )}
               </div>
-              <img className="product-banner z-0" src="bungles.png" alt="" />
           </div>
           <div className="banner-footer">
             <div className="banner-footer-text">

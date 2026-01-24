@@ -17,6 +17,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState();
   const [userCatalog, setUserCatalog] = useState([]);
   const [productComments, setProductComments] = useState([]);
+  const [avatar, setAvatar] = useState()
 
   const {openReport} = useReportContext()
 
@@ -63,6 +64,30 @@ const Profile = () => {
     .catch(err=>{console.error("Помилка при отримані коментарів:", err)})
   }
 
+  const handleFileChange = (e)=>{
+    const file = e.target.files[0]
+
+    if(!file) return;
+
+    setAvatar(file)
+  }
+
+  const changeAvatar = async() =>{
+    try{
+        const data = new FormData()
+        data.append('image', avatar)
+
+        console.log("Що відправляю:", avatar)
+        await axios.put("https://localhost:3000/user/changeAvatar", data, {
+            withCredentials: true
+        })
+
+        console.log("Аватар успішно змінено")
+    }catch(err){
+        console.log("Виникла помилка при зміні аватару:", err)
+    }
+  }
+
   function handleLogout() {
     axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
     .then(() => {
@@ -76,15 +101,25 @@ const Profile = () => {
   return (
     <div>
         <Navigation />
-        <main className='flex-grow'>
+        <main className='flex-grow w-[80%] m-auto'>
             <div className="flex-col">
                 <h3>Інформація про вас:</h3>
                 <div className='flex justify-around'>
                     {checkToken?.id === userId ? (
                         <>
                             <div className='flex-col'>
-                                <div className='border-3 rounded-xl bg-green-200'><img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`/${checkToken?.avatar}`} alt="" /></div>
-                                <button className='bg-green-400 p-3 my-3 mx-10 hover:bg-green-600 transition'>Змінити аватарку</button>
+                                <div className='border-3 rounded-xl bg-green-200 w-57'>
+                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`https://localhost:3000/uploads/users/${checkToken?.avatar}`} alt="" /></div>
+                                <label className='flex flex-col'>
+                                    Change avatar:
+                                    <input id="changeAvatar"
+                                    className='bg-gray-300 p-2 rounded-xl'
+                                    type="file"
+                                    accept='image/*'
+                                    onChange={handleFileChange}
+                                />
+                                </label>
+                                <button className='bg-green-400 p-3 my-3 mx-10 hover:bg-green-600 transition' onClick={changeAvatar}>Змінити аватарку</button>
                             </div>
                             <div className="data_user">
                                 <p className="username">Ваш username: {checkToken?.name}</p>
@@ -134,7 +169,7 @@ const Profile = () => {
                             {checkToken?.id === userId ? (
                                 <>
                                     <button className='p-1 bg-yellow-400 hover:bg-yellow-700 transition' onClick={()=>openModal(userCata.id)}>Редагувати товар</button>
-                                    <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata[0].id)}>Видалити товар</button>
+                                    <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata.id)}>Видалити товар</button>
                                 </>
                             ) : (
                                 <p></p>

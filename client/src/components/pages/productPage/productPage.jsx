@@ -94,7 +94,7 @@ const ProductPage = () => {
         <Navigation />
         <main className='w-[70%] m-auto'>
             <div className="product-info">
-                <img src="../../../public/tomato.png" width={'400px'} alt="Product_photo" />
+                <img src={`https://localhost:3000/uploads/products/${productInfo?.image}`} width={'400px'} alt="Product_photo" />
                 <div className="product-text">
                     <h3>{productInfo?.name}</h3>
                     <p>Тип: {productInfo?.type}</p>

@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import fs from "fs"
 import https from "https"
+import path from 'path';
 
 // Regular Controllers
 import { addProduct } from './controllers/addProduct.controller.js';
@@ -14,6 +15,8 @@ import { PrismaClient } from '@prisma/client';
 import { verifyToken } from './middleware/auth.middleware.js';
 import { banGuard } from './middleware/banGuard.middleware.js';
 import { guestSession } from './middleware/guestSession.middleware.js';
+import { upload, uploadUserAvatar } from './middleware/multer.middleware.js';
+
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
 import { addComment, addReply } from './controllers/addComment.controller.js';
@@ -39,6 +42,15 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+console.log('CWD:', process.cwd());
+console.log(
+    'Uploads path:',
+    path.resolve(process.cwd(), 'uploads')
+);
+app.use('/uploads', express.static(
+    path.resolve(process.cwd(), '../uploads')
+))
+
 const httpOptions = {
     key: fs.readFileSync('../client/localhost-key.pem'),
     cert: fs.readFileSync('../client/localhost.pem'),
@@ -51,7 +63,7 @@ app.get("/user-data", verifyToken, async(req, res) => {
     res.json(user);
 })
 
-app.post('/addProduct', verifyToken, loadUser, banGuard, addProduct);
+app.post('/addProduct', verifyToken, loadUser, banGuard, upload.single('image'), addProduct);
 
 // app.get('/reqReply', reqReply);
 
@@ -162,6 +174,23 @@ app.put("/user/changePassword", verifyToken, async(req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).json({ error: "Невдалося змінити пароль користувача" })
+    }
+})
+
+app.put("/user/changeAvatar", verifyToken, uploadUserAvatar.single('image'), async(req, res) => {
+    try {
+        const imageName = req.file ? req.file.filename : null;
+        const userId = req.user.id
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: { avatar: imageName }
+        })
+
+        res.status(200).json({ message: "Аватар змінено!" })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ error: "Невдалося змінити аватар!" })
     }
 })
 

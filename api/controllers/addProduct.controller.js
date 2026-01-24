@@ -6,10 +6,13 @@ const prisma = new PrismaClient();
 export const addProduct = async(req, res) => {
     const ProductTypes = ["BUNDLES", "HERBS", "VEGETABLES", "FRUITS", "SUPPLIES", "FLOWERS"]
 
-    console.log("Отриманий запит:", req.body); // 🔍 Дебаг
+    console.log("Отриманий запит:", req.body);
 
     const { name, type, price, description } = req.body;
+
     const cleanType = type.trim().toUpperCase();
+
+    const imageName = req.file ? req.file.filename : null;
 
     if (!name) {
         return res.status(400).json({ error: "Поле 'name' обов'язкове!" });
@@ -29,7 +32,7 @@ export const addProduct = async(req, res) => {
 
     try {
         const newProduct = await prisma.product.create({
-            data: { name, type: cleanType, price, description, user: { connect: { id: req.user.id } } }
+            data: { image: imageName, name, type: cleanType, price, description, user: { connect: { id: req.user.id } } }
         });
         res.status(200).json({ message: "Продукт успішно додано!", data: newProduct });
     } catch (err) {

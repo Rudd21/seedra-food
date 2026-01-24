@@ -125,7 +125,7 @@ const catalog = () => {
         </li>
       </ul>
 
-      {/* Продукти */}
+      {/* Товари */}
         <div className="h-150 products">
           {currentProducts
           .filter(product => !catalogFilter || product.type == catalogFilter)
@@ -142,7 +142,7 @@ const catalog = () => {
             data-hashtag={product.type}>
             <div className="safe-productaImage">
               <button value="1" className="heart" type="button"></button>
-              <img src="bungles.png" alt="Product" />
+              <img src={`https://localhost:3000/uploads/products/${product.image}`} alt={product.name} />
             </div>
             <p className="flex">
               Rating:
