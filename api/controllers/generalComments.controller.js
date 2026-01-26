@@ -6,8 +6,8 @@ export const reqGeneralComments = async(req, res) => {
 
     try {
         const generalComments = await prisma.generalComment.findMany({
-            take: 8,
-            include: { user: { select: { id: true, name: true } } },
+            take: 3,
+            include: { user: { select: { id: true, name: true, avatar: true } } },
             orderBy: { createdAt: 'desc' }
         });
 
