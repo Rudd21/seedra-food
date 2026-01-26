@@ -26,16 +26,17 @@
 
 .products {
     display: grid;
-    grid-template-columns: 20% 20% 20% 20% 20%;
+    width: 100%;
+    grid-template-columns: 24% 24% 24% 24%;
+    grid-template-rows: 50% 50%;
     row-gap: 15px;
     column-gap: 15px;
-    margin: 0 auto;
 }
 
 .product {
     border: 1px solid lightgrey;
     border-radius: 8px;
-    padding: 10px;
+    padding: 15px;
 }
 
 .product_name {

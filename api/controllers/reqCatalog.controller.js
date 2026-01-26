@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export const reqCatalog = async(req, res) => {
     const page = Number(req.query.page)
-    const LIMIT = 2;
+    const LIMIT = 8;
 
     const skip = (page - 1) * LIMIT
 

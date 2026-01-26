@@ -9,9 +9,7 @@ export const addProduct = async(req, res) => {
     console.log("Отриманий запит:", req.body);
 
     const { name, type, price, description } = req.body;
-
     const cleanType = type.trim().toUpperCase();
-
     const imageName = req.file ? req.file.filename : null;
 
     if (!name) {

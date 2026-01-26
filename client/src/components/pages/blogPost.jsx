@@ -14,7 +14,6 @@ const BlogPost = () => {
         axios.get(`https://localhost:3000/reqBlogPost?id=${blogId}`)
         .then(res=>{
             setPostInfo(res.data)
-            console.log(res.data)
         })
         .catch(err=>{console.error("Невдалося получити детальнішу інформацію про пост: ", err)})
     }, [])

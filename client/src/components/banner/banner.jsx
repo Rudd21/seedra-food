@@ -2,7 +2,7 @@ import React, { useEffect, useState, useParams, useRef } from 'react'
 import "./banner.scss"
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
-import {motion, transform} from 'framer-motion'
+import {delay, motion, transform, AnimatePresence} from 'framer-motion'
 import { useBasketContext } from '../modalWindows/BasketContext';
 import Navigation from '../navigation';
 
@@ -10,10 +10,26 @@ const banner = () => {
   const navigate = useNavigate();
   const [mostSaleList, setMostSaleList] = useState([])
   const [indexSale, setIndexSale] = useState(0);
+  const [direction, setDirection] = useState(0)
 
   const ref = useRef();
 
   const {addToBasket} = useBasketContext();
+
+  const slideVariants = {
+    enter: (direction) =>({
+      x:direction > 0 ? 300 : -300,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) =>({
+      x: direction > 0 ? -300 : 300,
+      opacity: 0
+    })
+  }
 
   useEffect(()=>{
     axios.get("https://localhost:3000/reqMostSaleProduts")
@@ -23,16 +39,6 @@ const banner = () => {
     })
   }, [])
   
-
-  useEffect(() => {
-    if (mostSaleList.length === 0) return;
-
-    const interval = setInterval(() => {
-      setIndexSale(prev => (prev + 1) % mostSaleList.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [mostSaleList.length]);
 
   const toProduct = (productId)=>{
     navigate(`/productPage/${productId}`)
@@ -53,28 +59,49 @@ const banner = () => {
               <img className='background-leaf leaf-7' src="leaf2.png" alt="" />
               <img className='background-leaf leaf-8' src="leaf1.png" alt="" />
             </div>
-              <div className="">
+            <div className="w-[100%]">
               {mostSaleList && mostSaleList.length > 0 ? (
-                <div key={mostSaleList[indexSale].id} className='min-w-screen flex flex-row'>
-                  <div className='text-banner'>
-                    <h1>{mostSaleList[indexSale].name}</h1>
-                    <p className="description-site">{mostSaleList[indexSale].description}</p>
-                    <div className='flex flex-col'>
-                      <div className="price-banner">
-                        <img src="fire (2).png" alt="" />
-                        <p className="price-text-banner">${mostSaleList[indexSale].price}</p>
-                        <p className="grey-price-text-banner">
-                          <s>${mostSaleList[indexSale].oldPrice}</s>
-                        </p>
-                      </div>
-                      <div className="flex flex-row mt-[10px] gap-2">
-                        <button className="banner-button1 transition" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
-                        <button className="banner-button2 transition" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                <AnimatePresence mode='wait' custom={direction}>
+                  <motion.div
+                    key={mostSaleList[indexSale].id} 
+                    custom={direction}
+                    variants={slideVariants}
+                    initial='enter'
+                    animate='center'
+                    exit='exit'
+                    transition={{duration: 0.4, ease: "easeInOut"}}
+                    className='flex justify-between mt-7'>
+                    <button className='bg-green-400 p-1 h-10 z-2 mt-40' 
+                      onClick={()=>{
+                        setDirection(-1)
+                        setIndexSale(prev => (prev - 1) % mostSaleList.length);
+                      }}>← Arrow</button>
+                    <div className='z-1 flex flex-col justify-evenly w-[40%]'>
+                      <motion.h1>{mostSaleList[indexSale].name}</motion.h1>
+                      <p className="">{mostSaleList[indexSale].description}</p>
+                      <div className='flex flex-col'>
+                        <div className="flex gap-2">
+                          <img src="fire (2).png" alt="" />
+                          <p className="text-[25px] text-green-800">${mostSaleList[indexSale].price}</p>
+                          <p className="text-[20px] text-gray-400 self-center">
+                            <s>${mostSaleList[indexSale].oldPrice}</s>
+                          </p>
+                        </div>
+                        <div className="flex flex-row mt-[10px] gap-2">
+                          <button className="banner-button1 transition" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
+                          <button className="banner-button2 transition" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <img className="product-banner z-0" src={`https://localhost:3000/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
-                </div>
+                    <img className="w-80 h-80 z-0" src={`https://localhost:3000/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
+                    <button className='bg-green-400 p-1 h-10 z-2 mt-40' 
+                      onClick={()=>{
+                        setDirection(1)
+                        setIndexSale(prev => (prev + 1) % mostSaleList.length);
+                      }}>Arrow →</button>
+                  </motion.div>
+                  <div></div>
+                </AnimatePresence>
               ) : (
                 <>
                   <div>
@@ -97,7 +124,7 @@ const banner = () => {
                   <img className="product-banner z-0" src='bungles.png' alt="" />
                 </>
               )}
-              </div>
+            </div>
           </div>
           <div className="banner-footer">
             <div className="banner-footer-text">

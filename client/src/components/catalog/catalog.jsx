@@ -126,7 +126,7 @@ const catalog = () => {
       </ul>
 
       {/* Товари */}
-        <div className="h-150 products">
+        <div className="products">
           {currentProducts
           .filter(product => !catalogFilter || product.type == catalogFilter)
           .map((product) => (
@@ -137,8 +137,7 @@ const catalog = () => {
 
             key={product.id}
             product={product}
-            data-heart="no"
-            className="h-95 border border-gray-300 p-[10px] rounded-sm" 
+            className="border border-gray-300 p-[10px] rounded-sm" 
             data-hashtag={product.type}>
             <div className="safe-productaImage">
               <button value="1" className="heart" type="button"></button>
@@ -165,7 +164,7 @@ const catalog = () => {
         ))}
         </div>
 
-        <div className="flex justify-center self-center">
+        <div className="flex justify-center self-center mt-10">
           <button className='p-2 m-1 border rounded-sm hover:text-[#359740] transition disabled:text-gray-300' disabled={catalogPage == 1} onClick={()=>{
               setCatalogPage((prev) => Math.max(prev - 1,1))
           }}>← Previous</button>
