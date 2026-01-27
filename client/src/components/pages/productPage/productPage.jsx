@@ -12,7 +12,7 @@ import Footer from '../../footer';
 const ProductPage = () => {
     const [productInfo, setProductInfo] = useState(null);
     const [commentText, setCommentText] = useState('');
-    const [commentRating, setCommentRating] = useState();
+    const [commentRating, setCommentRating] = useState(4.5);
     const [getComments, setGetComments] = useState();
 
     const { openReport } = useReportContext();
@@ -41,7 +41,9 @@ const ProductPage = () => {
       axios.get(`https://localhost:3000/reqComment?productId=${productId}`,{
         withCredentials: true
       })
-      .then(res=>{setGetComments(res.data)})
+      .then(res=>{setGetComments(res.data)
+        console.log(res.data)
+      })
       .catch(err=>{console.error("Немає мабуть коментарів:", err)})
     },[])
     
@@ -90,29 +92,37 @@ const ProductPage = () => {
     }
 
   return (
-    <div className='container'>
+    <div className='min-h-screen flex flex-col'>
         <Navigation />
-        <main className='w-[70%] m-auto'>
-            <div className="product-info">
-                <img src={`https://localhost:3000/uploads/products/${productInfo?.image}`} width={'400px'} alt="Product_photo" />
-                <div className="product-text">
-                    <h3>{productInfo?.name}</h3>
-                    <p>Тип: {productInfo?.type}</p>
-                    <p>ID користувача: {productInfo?.userId}</p>
+        <main className='flex-grow w-[70%] m-auto'>
+            <div className="flex">
+                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`https://localhost:3000/uploads/products/${productInfo?.image}`} alt="Product_photo" />
+                <div className="flex flex-col m-5 flex-grow">
+                    <div className='flex border justify-between p-3 border-gray-400 text-[20px] rounded-lg'>
+                        <h3>{productInfo?.name}</h3>
+                        <p>Type: {productInfo?.type}</p>
+                    </div>
+                    <div className='flex border justify-between p-2 mt-2 border-gray-400 rounded-lg'>
+                        <p className='text-[25px]'>Price: <span className='text-green-600'>${productInfo?.price}</span></p>
+                        <button className='bg-green-400 p-2 w-[30%] text-white hover:bg-green-700 transition'>Buy</button>
+                    </div>
+                    <div className='flex flex-grow flex-col w-[100%] border justify-between p-3 mt-2 border-gray-400 text-[20px] rounded-lg'>
+                        <p className='text-gray-500'>Description: <span>{productInfo?.description}</span></p>
+                        <p>ID user: {productInfo?.userId}</p>
+                    </div>
                 </div>
                 <button 
-                    className='w-35 h-15 bg-red-400 p-4 m-3 hover:bg-red-700 hover:text-white transition' 
+                    className='w-10 h-10 bg-red-400 m-3 text-[20px] text-white hover:bg-red-700 hover:text-white transition' 
                     onClick={()=>{
                         openReport('PRODUCT', productInfo.id)
                     }}
-                    >Поскаржитись</button> 
+                    >!</button> 
             </div>
-            <h3>Зформувати коментар:</h3>
-            <div className="feedbacks">
-                <div className="flex">
+            <h3 className='text-[25px]'>Writing a comment:</h3>
+            <div className="feedbacks mt-5">
                         {replyState ? (
                             <>
-                                <p className='flex'>Відповідь на коментар: ID {parentId}</p>
+                                <p className='flex'>Reply to: ID {parentId}</p>
                                 <input
                                     type="text"
                                     name="replyText"
@@ -124,48 +134,52 @@ const ProductPage = () => {
                                 <button onClick={addReply} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Reply</button>
                             </>
                         ) : (
-                            <>
+                            <div className='flex gap-5'>
                                 <label>
+                                    <p>Rating:</p>
                                     <input id='rating' type="range" min={0.5} max={5} step={0.5} defaultValue={4.5} onChange={e => setCommentRating(e.target.value)} />
                                     <label htmlFor="rating">{commentRating}</label>
                                 </label>
-                                <p>Коментар:</p>
-                                <input
-                                    type="text"
+                                <textarea 
                                     onChange={e => setCommentText(e.target.value)}
-                                    className='w-full px-3 py-2 border border-gray-300 rounded-md'
+                                    className='w-full flex-grow h-20 px-3 py-2 border border-gray-300 rounded-md'
                                     required
-                                    />
+                                    >
+
+                                    </textarea>
                                 <button onClick={addComment} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Submit</button>
-                            </>
+                            </div>
                         )}
                 </div>
-                <h3>Коментарі:</h3>
+                <h3 className='text-[25px] mt-5'>Comments:</h3>
                 <div>
+                {/* <p><strong>Comment ID:</strong> {comment.id}</p> */}
                     {getComments && getComments.length > 0 ? (
                         getComments
                         .filter(c=> !c.parentId)
                         .map((comment) => (
                         <div key={comment.id} className='flex flex-col'>
-                            <div className='flex justify-between m-5 p-5 border'>
-                                <div>
-                                    <p><strong>Comment ID:</strong> {comment.id}</p>
-                                    <p><strong>User ID:</strong> {comment.userId}</p>
-                                    <p><strong>Username:</strong> {comment.user.name}</p>
-                                    <p><strong>Rating:</strong> {comment.rating}</p>
-                                    <p><strong>Feedback:</strong>{comment.text}</p>
+                            <div className='flex m-5 p-5 border'>
+                                <img className='w-30 h-30 rounded-xl' src={`https://localhost:3000/uploads/users/${comment.user.avatar}`} alt="" />
+                                <div className='flex-grow ml-10'>
+                                    <p className={comment.rating > 2.5 ? ('text-green-400') : ('text-yellow-400')}><strong>Rating: {comment.rating}</strong></p>
+                                    <div className='flex justify-between w-[40%]'>
+                                        <p><strong>{comment.user.name}</strong></p>
+                                        <p className='text-gray-400 text-[13px] self-center'><strong>{comment.createdAt}</strong></p>
+                                    </div>
+                                    <p className='mt-3'><strong>{comment.text}</strong></p>
                                 </div>
-                                <div className='flex flex-col'>
-                                        <button 
-                                        className='w-35 h-10 bg-red-400 p-2 m-1 hover:bg-red-700 hover:text-white transition' 
-                                        onClick={()=>{
-                                            openReport('COMMENT', comment.id)
-                                        }}
-                                    >Поскаржитись</button>
-                                    <button 
-                                        className='w-35 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
-                                        onClick={()=>{toReply(comment.id)}}>Відповісти</button>  
+                                <div className='flex flex-col self-center'>
+                                <button 
+                                        className='w-25 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
+                                        onClick={()=>{toReply(comment.id)}}>Reply</button>  
                                 </div>
+                                <button 
+                                    className='w-10 h-10 bg-red-400 self-center m-3 text-[20px] text-white hover:bg-red-700 hover:text-white transition' 
+                                    onClick={()=>{
+                                        openReport('COMMENT', comment.id)
+                                    }}
+                                >!</button>
                             </div>
                             <div>
                                 <div>
@@ -173,32 +187,32 @@ const ProductPage = () => {
                                 </div>
                                     {comment.replies?.map((reply)=>(
                                         <div className='flex ml-25 p-5 border justify-between'>
-                                            <div key={reply.id}>
-                                                <h1>Відповідь на коментар: {reply.parentId}</h1>
-                                                <h1>Reply: {reply.text}</h1>
-                                                <h1>ID Користувача: {reply.userId}</h1>
+                                            <div className='flex-grow flex flex-col justify-center' key={reply.id}>
+                                                {/* <h1>Відповідь на коментар: {reply.name}</h1>
+                                                <h1>Відповідь на коментар: {reply.parentId}</h1> */}
+                                                <h1>User ID: {reply.userId}</h1>
+                                                <h1><strong>{reply.text}</strong></h1>
                                             </div>
-                                            <div className='flex flex-col'>
-                                                    <button 
-                                                    className='w-35 h-10 bg-red-400 p-2 m-1 hover:bg-red-700 hover:text-white transition' 
-                                                    onClick={()=>{
-                                                        openReport('REPLY', reply.userId)
-                                                    }}
-                                                >Поскаржитись</button>
+                                            <div className='flex flex-col self-center'>
                                                 <button 
-                                                    className='w-35 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
-                                                    onClick={()=>{toReply(reply.id)}}>Відповісти</button>  
-                                            </div>
+                                                        className='w-25 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
+                                                        onClick={()=>{toReply(comment.id)}}>Reply</button>  
+                                                </div>
+                                                <button 
+                                                    className='w-10 h-10 bg-red-400 self-center m-3 text-[20px] text-white hover:bg-red-700 hover:text-white transition' 
+                                                    onClick={()=>{
+                                                        openReport('COMMENT', comment.id)
+                                                    }}
+                                            >!</button>
                                         </div>
                                     ))}
                             </div>
                         </div>
                         ))
                     ) : (
-                        <p>Коментарів поки немає</p>
+                        <p className='text-gray-400 text-center p-5'>...Коментарів поки немає...</p>
                     )}
                 </div>
-            </div>
         </main>
         <Footer />
     </div>

@@ -21,7 +21,7 @@ export const BasketModal = () => {
     if(!isOpen) return null;
 
     return (
-        <div className='border w-100 h-1000 mx-[74%] bg-[#eaf1eb] fixed z-2 transition translate-x-0'>
+        <div className='border w-100 h-1000 mx-[74%] bg-[#eaf1eb] fixed z-3 transition translate-x-0'>
             <h1 className='m-5'>Basket:</h1>
             {/* <p>{userBasket}</p> */}
             

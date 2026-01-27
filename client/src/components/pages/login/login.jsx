@@ -12,6 +12,8 @@ const addProduct = () => {
         password: ''
     });
 
+    const [responce, setResponce] = useState()
+
     const navigate = useNavigate();
     const handleChange = (e) => {
     setFormData({
@@ -26,26 +28,21 @@ const addProduct = () => {
             const response = await axios.post('https://localhost:3000/login', formData, {
                 withCredentials: true
             });
-            console.log("Користувач успішно залогінився!")
 
-            const isAdmin = await axios.get('https://localhost:3000/admin/users',{ 
-                withCredentials: true
-            });
-            if(isAdmin){
-                navigate("/adminPanel")
-            }else{
-                navigate("/")
-            }
+            setResponce("Login successfull")
+            
+            navigate('/')
         }catch(err){
             console.log(err)
+            setResponce("Failed to log in")
         }
   };
   return (
     <div className="min-h-screen flex flex-col">
         <Navigation />
-        <main className='formRegister flex-grow'>
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form'>
-            <div className="flex flex-col items-center">
+        <main className='formRegister flex-grow w-[40%] m-auto'>
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form border border-gray-300 border-t-0 border-b-0 m-5'>
+            <div className="flex flex-col items-center font-bold">
             <label>
                     <p>Email:</p>
                     <input
@@ -68,17 +65,14 @@ const addProduct = () => {
                 />
                 </label>
             </div>
-                {/* <br />
-                <label>
-                    Product Image:
-                    <input
-                    type="file"
-                    name="image"
-                    // required
-                    />
-                </label>
-                <br /> */}
-                <button type="submit">Submit</button>
+            <button className='bg-green-400 hover:bg-green-600 transition' type="submit">Submit</button>
+                {responce && responce == 'Failed to log in' ? (    
+                    <div>
+                        <p className='bg-red-400 p-2 text-center text-white'>{responce}</p>
+                    </div>
+                ):(
+                    <></>
+                )}
             </form>
         </main>
         <Footer />

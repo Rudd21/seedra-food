@@ -71,13 +71,15 @@ const banner = () => {
                     exit='exit'
                     transition={{duration: 0.4, ease: "easeInOut"}}
                     className='flex justify-between mt-7'>
-                    <button className='bg-green-400 p-1 h-10 z-2 mt-40' 
+                    <button className='flex z-2 rotate-[180deg] text-[30px] items-center mt-[70px]' 
                       onClick={()=>{
                         setDirection(-1)
                         setIndexSale(prev => (prev - 1) % mostSaleList.length);
-                      }}>← Arrow</button>
-                    <div className='z-1 flex flex-col justify-evenly w-[40%]'>
-                      <motion.h1>{mostSaleList[indexSale].name}</motion.h1>
+                      }}>
+                      <p className='bg-green-400 p-1 text-green-700 rounded-xs'>➔</p>
+                    </button>
+                    <div className='z-1 flex flex-col justify-evenly w-[40%] font-bold'>
+                      <h1>{mostSaleList[indexSale].name}</h1>
                       <p className="">{mostSaleList[indexSale].description}</p>
                       <div className='flex flex-col'>
                         <div className="flex gap-2">
@@ -94,11 +96,13 @@ const banner = () => {
                       </div>
                     </div>
                     <img className="w-80 h-80 z-0" src={`https://localhost:3000/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
-                    <button className='bg-green-400 p-1 h-10 z-2 mt-40' 
+                    <button className='flex z-2 text-[30px] items-center mt-[70px]' 
                       onClick={()=>{
                         setDirection(1)
                         setIndexSale(prev => (prev + 1) % mostSaleList.length);
-                      }}>Arrow →</button>
+                      }}>
+                        <p className='bg-green-400 p-1 text-green-700 rounded-xs'>➔</p>
+                      </button>
                   </motion.div>
                   <div></div>
                 </AnimatePresence>

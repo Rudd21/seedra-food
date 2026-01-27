@@ -8,7 +8,7 @@ export const reqComment = async(req, res) => {
     try {
         const comments = await prisma.comment.findMany({
             where: { productId: productId },
-            include: { user: { select: { id: true, name: true } }, replies: { select: { id: true, parentId: true, text: true, userId: true } } },
+            include: { user: { select: { id: true, name: true, avatar: true } }, replies: { select: { id: true, parentId: true, text: true, userId: true } } },
             orderBy: { createdAt: 'desc' }
         });
 
