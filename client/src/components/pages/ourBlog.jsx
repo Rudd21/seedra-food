@@ -3,6 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { apiRequest } from '../../../apiRequest'
 
 const OurBlog = () => {
 
@@ -11,7 +12,7 @@ const OurBlog = () => {
   const navigate = useNavigate();
 
   useEffect(()=>{
-    axios.get("https://localhost:3000/reqBlogPosts")
+    axios.get(`${apiRequest}/reqBlogPosts`)
     .then(res=>{
       setBlogList(res.data)
     })

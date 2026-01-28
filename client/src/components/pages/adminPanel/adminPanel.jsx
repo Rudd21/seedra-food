@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
+import { apiRequest } from '../../../../apiRequest';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 
@@ -31,7 +32,7 @@ const AdminPanel = () => {
     const navigate = useNavigate()
 
     const fetchReports = ()=>{
-        axios.get("https://localhost:3000/admin/getReports", {withCredentials: true})
+        axios.get(`${apiRequest}/admin/getReports`, {withCredentials: true})
         .then(res=>{setReportsList(res.data)})
         .catch(err=>{
             console.log(err)
@@ -41,7 +42,7 @@ const AdminPanel = () => {
 
     useEffect(()=>{
         // Запит чи користувач авторизований
-        axios.get("https://localhost:3000/user-data",{withCredentials: true})
+        axios.get(`${apiRequest}/user-data`,{withCredentials: true})
         .then(res=>{
             setCheckToken(res.data)
             if(res.data.role !== 'ADMIN'){
@@ -57,7 +58,7 @@ const AdminPanel = () => {
     }, []);
 
     const findUser = ()=>{
-        axios.get(`https://localhost:3000/admin/user?q=${searchUser}`)
+        axios.get(`${apiRequest}/admin/user?q=${searchUser}`)
         .then(res=>setUserList(res.data))
         .catch(err=>{
             console.log(err)
@@ -66,7 +67,7 @@ const AdminPanel = () => {
     }
 
     const findProduct = () =>{
-        axios.get(`https://localhost:3000/admin/product?q=${searchProduct}`)
+        axios.get(`${apiRequest}/admin/product?q=${searchProduct}`)
         .then(res=>setProductList(res.data))
         .catch(err=>{
             console.log(err)
@@ -75,7 +76,7 @@ const AdminPanel = () => {
     }
 
     const findComment = () =>{
-        axios.get(`https://localhost:3000/admin/comment?q=${searchComment}`)
+        axios.get(`${apiRequest}/admin/comment?q=${searchComment}`)
         .then(res=>setCommentList(res.data))
         .catch(err=>{
             console.log(err)
@@ -84,7 +85,7 @@ const AdminPanel = () => {
     }
 
     const handleStatus = (reportId, newStatus) =>{
-        axios.post(`https://localhost:3000/admin/productStatus`, {
+        axios.post(`${apiRequest}/admin/productStatus`, {
             reportId, 
             status: newStatus
         },{
@@ -106,7 +107,7 @@ const AdminPanel = () => {
     }
 
     const submitBan = ()=>{
-        axios.post("https://localhost:3000/admin/banUser", formBan,
+        axios.post(`${apiRequest}/admin/banUser`, formBan,
             {
                 withCredentials: true
             }
@@ -118,7 +119,7 @@ const AdminPanel = () => {
     }
 
     const unbanUser = (userId)=>{
-        axios.post("https://localhost:3000/admin/unbanUser", {
+        axios.post(`${apiRequest}/admin/unbanUser`, {
                 userId
             },{
                 withCredentials: true
@@ -131,7 +132,7 @@ const AdminPanel = () => {
     }
 
     const deleteComment = (commentId)=>{
-        axios.post("https://localhost:3000/admin/deleteComment", {
+        axios.post(`${apiRequest}/admin/deleteComment`, {
                 commentId
             },{
                 withCredentials: true
@@ -144,7 +145,7 @@ const AdminPanel = () => {
     }
 
     const addBlogPost = ()=>{
-        axios.post("https://localhost:3000/addBlogPost", {nameBlogPost, descBlogPost},{
+        axios.post(`${apiRequest}/addBlogPost`, {nameBlogPost, descBlogPost},{
             withCredentials: true
         })
         .then(res=>console.log("Успішно додано новий пост в блог"))
@@ -152,7 +153,7 @@ const AdminPanel = () => {
     }
 
     // const meAsAdmin = () =>{
-    //     axios.get('https://localhost:3000/meAsAdmin', {
+    //     axios.get(`${apiRequest}/meAsAdmin`, {
     //         withCredentials: true
     //     }).then(res=>console.log(res))
     //     .catch(err=>{console.error("Памілка", err)})

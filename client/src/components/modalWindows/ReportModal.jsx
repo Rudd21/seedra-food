@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useReportContext } from "./ReportContext"
+import {apiRequest} from '../../../apiRequest';
 
 export const ReportModal = ()=>{
     const {isOpen, formReport, setFormReport, closeReport} = useReportContext();
@@ -46,7 +47,7 @@ export const ReportModal = ()=>{
             <button
             className="px-4 py-2 bg-red-500 text-white"
             onClick={() => {
-                axios.post("https://localhost:3000/addReport", 
+                axios.post(`${apiRequest}/addReport`, 
                     formReport, 
                     {
                         withCredentials: true

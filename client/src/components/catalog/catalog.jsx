@@ -4,6 +4,7 @@ import axios from 'axios';
 import "./catalog.scss"
 import { useNavigate } from 'react-router-dom';
 import { useBasketContext } from '../modalWindows/BasketContext';
+import {apiRequest} from '../../../apiRequest';
 
 const catalog = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const catalog = () => {
   const {addToBasket} = useBasketContext();
   
   const generateCatalog = ()=>{
-    axios.get(`https://localhost:3000/catalog?page=${catalogPage}`)
+    axios.get(`${apiRequest}/catalog?page=${catalogPage}`)
      .then(res => {
       setProducts(res.data.items)
       setTotalPages(res.data.totalPages)
@@ -29,7 +30,7 @@ const catalog = () => {
     if(pageCache[catalogPage]) return;
 
     const load = async ()=>{
-      const res = await axios.get(`https://localhost:3000/catalog?page=${catalogPage}`);
+      const res = await axios.get(`${apiRequest}/catalog?page=${catalogPage}`);
       setPageCache(prev=>({
         ...prev,
         [catalogPage]: res.data.items
@@ -141,7 +142,7 @@ const catalog = () => {
             data-hashtag={product.type}>
             <div className="safe-productaImage">
               <button value="1" className="heart" type="button"></button>
-              <img src={`https://localhost:3000/uploads/products/${product.image}`} alt={product.name} />
+              <img src={`${apiRequest}/uploads/products/${product.image}`} alt={product.name} />
             </div>
             <p className="flex">
               Rating:

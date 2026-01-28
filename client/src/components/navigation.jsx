@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useParams } from 'react'
+import React, { useEffect, useState, useParams, useRef } from 'react'
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
 import {motion, transform} from 'framer-motion'
+import { apiRequest } from '../../apiRequest';
 import { useBasketContext } from './modalWindows/BasketContext';
 import { useReportContext } from './modalWindows/ReportContext';
 import { useResultContext } from './modalWindows/resultContext';
@@ -13,14 +14,25 @@ const Navigation = () => {
     const [checkToken, setCheckToken] = useState();
     const [stateSearch, setStateSearch] = useState(false);
     const [searchText, setSearchText] = useState('');
-    const [searchResult, setSearchResult] = useState([]);
+    const searchRef = useRef(null);
     
     const navigate = useNavigate()
     const {openReport} = useReportContext();
     const {openResultModal, setNameResult, setDescResult} = useResultContext();
 
     useEffect(()=>{
-        axios.get("https://localhost:3000/user-data",{
+      function handleClickOutside(e){
+        if(searchRef.current && !searchRef.current.contains(e.target)){
+          setStateSearch(false)
+        }
+      }
+    
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [])
+
+    useEffect(()=>{
+        axios.get(`${apiRequest}/user-data`,{
             withCredentials: true
         })
         .then(res=>{setCheckToken(res.data)})
@@ -28,7 +40,7 @@ const Navigation = () => {
     },[])
 
     function handleLogout() {
-        axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
+        axios.post(`${apiRequest}/logout`, {}, {withCredentials: true})
         .then(() => {
             setCheckToken(null);
             console.log("має по ідеї очиститись", checkToken)
@@ -38,7 +50,7 @@ const Navigation = () => {
     }
 
   return (
-        <nav>
+        <nav className='z-100' ref={searchRef}>
             <div className="text-nav">
                 <img className='h-7' src="Frame.svg" alt="" />
                 <ul className="nav-ul">
@@ -59,27 +71,23 @@ const Navigation = () => {
                     <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>
                     <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
                 </div>
-                <div>
-                  <input className="w-50 h-7 mx-15 after:content-['*'] after:ml-0.5 after:text-red-500" placeholder={"Search"} type="text" onInput={()=>setStateSearch(true)} onChange={(e)=> setSearchText(e.target.value)}/>
-                  {stateSearch ? (
-                    <div className='fixed'>
-                      <div className="w-50 flex mx-30 flex-col">
-                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={()=>{
+                <div className='mx-10'>
+                  <input className="w-50 h-7 after:content-['*'] after:ml-0.5 after:text-red-500" placeholder={"Search"} type="text" onInput={()=>setStateSearch(true)} onChange={(e)=> setSearchText(e.target.value)}/>
+                  {stateSearch && (
+                    <div className='absolute w-50 flex flex-col'>
+                        <button className='p-3 border bg-white text-sm hover:bg-gray-300' onClick={()=>{
                               navigate(`/search?type=user&text=${searchText}`)
                               setSearchText('')
                               setStateSearch(false)
                             }}
                           >Search among users</button>
-                        <button className='p-3 border bg-white text-sm z-10 hover:bg-gray-300' onClick={()=>{
+                        <button className='p-3 border bg-white text-sm hover:bg-gray-300' onClick={()=>{
                             navigate(`/search?type=product&text=${searchText}`)
                               setSearchText('')
                               setStateSearch(false)
                           }}
                           >Search among products</button>
-                      </div>
                     </div>
-                  ):(
-                    <p className=''></p>
                   )}
                 </div>
                 <div className="sort-heart">

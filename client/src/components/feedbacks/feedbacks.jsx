@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom';
 import "./feedback.scss"
 import axios from 'axios';
+import {apiRequest} from '../../../apiRequest';
 
 const feedbacks = () => {
     const [generalCommentsList, setGeneralCommentsList] = useState('')
 
     useEffect(()=>{
-        axios.get("https://localhost:3000/reqGeneralComments")
-        .then(res=>{setGeneralCommentsList(res.data)
-            console.log("generalCommentsList: ", res.data)
-        })
+        axios.get(`${apiRequest}/reqGeneralComments`)
+        .then(res=>{setGeneralCommentsList(res.data)})
         .catch(err=>{
             console.error("Невдалося вибрати коментарі щодо сайту: ", err)
         })
@@ -25,7 +24,7 @@ const feedbacks = () => {
             <div className='bg-[linear-gradient(37deg,rgba(23,23,23,1)_0%,rgba(0,125,50,1)_23%,rgba(0,125,50,1)_79%,rgba(13,13,13,1)_100%)] text-white p-3 rounded-sm'>
                 <div className="feedback-item">
                     <div className="user-logo-feedback">
-                        <img className='w-[55px] h-[55px] rounded-full' src={`https://localhost:3000/uploads/users/${comment.user.avatar}`} alt={comment.user.name} />
+                        <img className='w-[55px] h-[55px] rounded-full' src={`${apiRequest}/uploads/users/${comment.user.avatar}`} alt={comment.user.name} />
                         <div className="text-user">
                             <p className="name-user">{comment.user.name}</p>
                             <p className="date-feedback">{comment.createdAt}</p>

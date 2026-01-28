@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import "./register.scss"
+import { apiRequest } from '../../../../apiRequest';
 import { Link, useNavigate} from 'react-router-dom';
-import apiRequest from '../../lib/apiRequest';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import Navigation from '../../navigation';

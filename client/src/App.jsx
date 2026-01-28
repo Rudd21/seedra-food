@@ -5,6 +5,7 @@ import Catalog from "./components/catalog/catalog"
 import Feedback from "./components/feedbacks/feedbacks"
 import Footer from "./components/footer"
 import {ReportModal} from './components/modalWindows/ReportModal';
+import { apiRequest } from '../apiRequest';
 
 const App=()=> {
   // const [userBasket, setUserBasket] = useState([]);
@@ -46,8 +47,8 @@ const App=()=> {
   useEffect(()=>{
     const init = async () =>{
       try{
-        await axios.get('https://localhost:3000/createGuestSession', {withCredentials: true})
-        await axios.get('https://localhost:3000/user-data', {withCredentials: true})
+        await axios.get(`${apiRequest}/createGuestSession`, {withCredentials: true})
+        await axios.get(`${apiRequest}/user-data`, {withCredentials: true})
         reqBasket();
       }catch{}
     };

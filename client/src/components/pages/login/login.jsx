@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import "./login.scss"
 import { Link, useNavigate} from 'react-router-dom';
-import apiRequest from '../../lib/apiRequest';
 import axios from 'axios';
+import { apiRequest } from '../../../../apiRequest';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 
@@ -25,7 +25,7 @@ const addProduct = () => {
         e.preventDefault();
 
         try{
-            const response = await axios.post('https://localhost:3000/login', formData, {
+            const response = await axios.post(`${apiRequest}/login`, formData, {
                 withCredentials: true
             });
 

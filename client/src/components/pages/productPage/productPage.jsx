@@ -3,6 +3,7 @@ import { Link, useParams} from 'react-router-dom';
 import "../../../index.css"
 import "./productPage.scss"
 import axios from 'axios';
+import { apiRequest } from '../../../../apiRequest';
 import { useReportContext } from '../../modalWindows/ReportContext';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
@@ -29,7 +30,7 @@ const ProductPage = () => {
     const {id: productId} = useParams();
 
     useEffect(()=>{
-        axios.get(`https://localhost:3000/productPage/${id}`,{
+        axios.get(`${apiRequest}/productPage/${id}`,{
             withCredentials: true,
         })
         .then(res=>{setProductInfo(res.data)})
@@ -38,7 +39,7 @@ const ProductPage = () => {
     }, [id])
 
     useEffect(()=>{
-      axios.get(`https://localhost:3000/reqComment?productId=${productId}`,{
+      axios.get(`${apiRequest}/reqComment?productId=${productId}`,{
         withCredentials: true
       })
       .then(res=>{setGetComments(res.data)
@@ -51,7 +52,7 @@ const ProductPage = () => {
         e.preventDefault();
 
         try{
-            const response = await axios.post('https://localhost:3000/addComment', {
+            const response = await axios.post(`${apiRequest}/addComment`, {
                 productId,
                 text: commentText,
                 rating: commentRating
@@ -73,7 +74,7 @@ const ProductPage = () => {
     const addReply = () =>{
         setReplyState(false)
         console.log("formReply: ", formReply)
-        axios.post("https://localhost:3000/addReply", formReply, {
+        axios.post(`${apiRequest}/addReply`, formReply, {
             withCredentials: true
         }).then(res=>{console.log("Відповідь на коментар успішно додано!")})
         .catch(err=>{
@@ -96,7 +97,7 @@ const ProductPage = () => {
         <Navigation />
         <main className='flex-grow w-[70%] m-auto'>
             <div className="flex">
-                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`https://localhost:3000/uploads/products/${productInfo?.image}`} alt="Product_photo" />
+                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`${apiRequest}/uploads/products/${productInfo?.image}`} alt="Product_photo" />
                 <div className="flex flex-col m-5 flex-grow">
                     <div className='flex border justify-between p-3 border-gray-400 text-[20px] rounded-lg'>
                         <h3>{productInfo?.name}</h3>
@@ -160,7 +161,7 @@ const ProductPage = () => {
                         .map((comment) => (
                         <div key={comment.id} className='flex flex-col'>
                             <div className='flex m-5 p-5 border'>
-                                <img className='w-30 h-30 rounded-xl' src={`https://localhost:3000/uploads/users/${comment.user.avatar}`} alt="" />
+                                <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/users/${comment.user.avatar}`} alt="" />
                                 <div className='flex-grow ml-10'>
                                     <p className={comment.rating > 2.5 ? ('text-green-400') : ('text-yellow-400')}><strong>Rating: {comment.rating}</strong></p>
                                     <div className='flex justify-between w-[40%]'>
@@ -182,9 +183,6 @@ const ProductPage = () => {
                                 >!</button>
                             </div>
                             <div>
-                                <div>
-                                    
-                                </div>
                                     {comment.replies?.map((reply)=>(
                                         <div className='flex ml-25 p-5 border justify-between'>
                                             <div className='flex-grow flex flex-col justify-center' key={reply.id}>
@@ -213,7 +211,7 @@ const ProductPage = () => {
                         <p className='text-gray-400 text-center p-5'>...Коментарів поки немає...</p>
                     )}
                 </div>
-        </main>
+            </main>
         <Footer />
     </div>
   )

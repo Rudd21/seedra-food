@@ -3,6 +3,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import Navigation from "../navigation"
 import Footer from "../footer"
 import axios from 'axios'
+import { apiRequest } from '../../../apiRequest'
 
 const GeneralComments = () => {
 
@@ -12,7 +13,7 @@ const GeneralComments = () => {
     const [generalRating, setGeneralRating] = useState(4.5)
 
     useEffect(()=>{
-        axios.get("https://localhost:3000/reqGeneralComments")
+        axios.get(`${apiRequest}/reqGeneralComments`)
         .then(res=>{setGeneralCommentsList(res.data)})
         .catch(err=>{
             console.error("Невдалося вибрати коментарі щодо сайту: ", err)
@@ -20,7 +21,7 @@ const GeneralComments = () => {
     }, [])
 
     const addGeneralComment = () =>{
-        axios.post("https://localhost:3000/addGeneralComment", {generalComment, generalRating},{
+        axios.post(`${apiRequest}/addGeneralComment`, {generalComment, generalRating},{
             withCredentials: true
         }).catch(err=>{
             console.log("Невдалося залишити коментар: ", err)

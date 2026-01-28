@@ -154,27 +154,6 @@ nav {
     animation-delay: 7s;
 }
 
-.text-banner {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    padding: 25px;
-    justify-content: space-between;
-    float: left;
-    height: 385px;
-    text-align: left;
-    align-content: center;
-    z-index: 1;
-}
-
-.product-banner {
-    width: 350px;
-    height: 350px;
-    margin-left: 150px;
-    z-index: 1;
-    align-self: center;
-}
-
 .price-banner {
     display: flex;
     justify-content: space-between;

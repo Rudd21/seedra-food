@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEditProfileContext } from './editProfileContext';
+import {apiRequest} from '../../../apiRequest';
 
 export const EditProfileModal = () => {
     const {
@@ -19,13 +20,13 @@ export const EditProfileModal = () => {
     } = useEditProfileContext()
 
     const changeUsername = async() => {
-        await axios.put("https://localhost:3000/user/changeUsername", { username }, {
+        await axios.put(`${apiRequest}/user/changeUsername`, { username }, {
             withCredentials: true
         })
     }
 
     const changePassword = async() => {
-        await axios.put("https://localhost:3000/user/changePassword", { oldPassword, newPassword }, {
+        await axios.put(`${apiRequest}/user/changePassword`, { oldPassword, newPassword }, {
             withCredentials: true
         })
     }

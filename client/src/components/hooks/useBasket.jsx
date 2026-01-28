@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react"
+import {apiRequest} from '../../../apiRequest';
 
 export const useBasket = ()=>{
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +12,7 @@ export const useBasket = ()=>{
 
     const reqBasket =  async () => {
         
-        const res = await axios.get("https://localhost:3000/reqBasket",{
+        const res = await axios.get(`${apiRequest}/reqBasket`,{
             withCredentials: true
         })
 
@@ -19,7 +20,7 @@ export const useBasket = ()=>{
     }
 
     const addToBasket = async (productId) => {
-        await axios.post("https://localhost:3000/addToBasket", {productId} ,{
+        await axios.post(`${apiRequest}/addToBasket`, {productId} ,{
             withCredentials: true
         })
         await reqBasket();
@@ -27,7 +28,7 @@ export const useBasket = ()=>{
 
     const removeFromBasket = async (productId) => {
         console.log("Попросили видалити:", productId)
-        await axios.post("https://localhost:3000/removeFromBasket", {productId} ,{
+        await axios.post(`${apiRequest}/removeFromBasket`, {productId} ,{
             withCredentials: true
         })
         await reqBasket();

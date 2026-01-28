@@ -3,6 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { apiRequest } from '../../../apiRequest'
 
 const BlogPost = () => {
 
@@ -11,7 +12,7 @@ const BlogPost = () => {
     const {id: blogId} = useParams();
 
     useEffect(()=>{
-        axios.get(`https://localhost:3000/reqBlogPost?id=${blogId}`)
+        axios.get(`${apiRequest}/reqBlogPost?id=${blogId}`)
         .then(res=>{
             setPostInfo(res.data)
         })

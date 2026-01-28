@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import "./addProduct.scss"
 import { Link, useNavigate} from 'react-router-dom';
-import apiRequest from '../../lib/apiRequest';
+import { apiRequest } from '../../../../apiRequest';
 import Navigation from '../../navigation';
 import axios from 'axios';
 import Footer from '../../footer';
 
 const addProduct = (e) => {
-    // const response = await fetch('/addProduct', {
-    //   method: 'POST',
-    //   body: data,
-    // });
 
     const ProductTypes = ["BUNDLES","HERBS","VEGETABLES","FRUITS","SUPPLIES","FLOWERS"]
 
@@ -52,7 +48,7 @@ const addProduct = (e) => {
 
             if(image) data.append('image', image);
 
-            await axios.post('https://localhost:3000/addProduct', data, {
+            await axios.post(`${apiRequest}/addProduct`, data, {
                 withCredentials: true
             });
 

@@ -3,6 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
+import { apiRequest } from '../../../apiRequest'
 
 const Search = () => {
 
@@ -17,14 +18,18 @@ const Search = () => {
 
         if( type == 'product' ) {
 
-            axios.get(`https://localhost:3000/search/product?q=${text}`)
-            .then(res=>{setSearchList(res.data)})
+            axios.get(`${apiRequest}/search/product?q=${text}`)
+            .then(res=>{setSearchList(res.data)
+                console.log(res.data)
+            })
             .catch(err=>{console.error("Невдалося отримати список подіних : ", err)})
 
         } else if ( type == 'user' ) {
 
-            axios.get(`https://localhost:3000/search/user?q=${text}`)
-            .then(res=>{setSearchList(res.data)})
+            axios.get(`${apiRequest}/search/user?q=${text}`)
+            .then(res=>{setSearchList(res.data)
+                console.log(res.data)
+            })
             .catch(err=>{console.error("Невдалося отримати список подіних користувачів: ", err)})
         
         } else {
@@ -39,13 +44,37 @@ const Search = () => {
             <main className='flex-grow border m-auto border-gray-300 w-[60%] border-b-0 p-5'>
             {searchList && searchList.length > 0 ? (
                 searchList.map((obj)=>(
-                    <div key={obj.id} className='border p-2'>
-                        <h1>ID: {obj.id}</h1>
-                        <h1>Name: {obj.name}</h1>
+                    <div key={obj.id} className='border p-2 mt-3 rounded-lg border-gray-400'>
                         {type === 'product' ? (
-                            <Link className='text-blue-400' to={`/productPage/${obj.id}`}>Product page</Link>
+                        <div className='flex p2'>
+                            <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/products/${obj.image}`} alt="" />
+                            <div className='flex-grow flex ml-10 flex-row self-center justify-between'>
+                                <div className='flex flex-col justify-evenly h-[100%]'>
+                                    <p><strong>Product ID: {obj.id}</strong></p>
+                                    <p><strong>{obj.name}</strong></p>
+                                    <p className='text-gray-400 text-[13px]'><strong>Type: {obj.type}</strong></p>
+                                    <p><strong>Price: ${obj.price}</strong></p>
+                                </div>
+                                <button>
+                                    <Link className='p-3 bg-blue-400 text-white hover:bg-blue-600 transition' to={`/productPage/${obj.id}`}>Product page</Link>
+                                </button>
+                            </div>
+                        </div>
                         ):(
-                            <Link className='text-blue-400' to={`/profile/${obj.id}`}>Profile</Link>
+                        <div className='flex p2'>
+                            <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/users/${obj.avatar}`} alt="" />
+                            <div className='flex-grow flex ml-10 flex-row self-center justify-between'>
+                                <div className='flex flex-col justify-evenly h-[100%]'>
+                                    <p><strong>User ID: {obj.id}</strong></p>
+                                    <p><strong>{obj.name}</strong></p>
+                                    <p className='text-gray-400 text-[13px]'><strong>{obj.email}</strong></p>
+                                    <p><strong>Role: {obj.role}</strong></p>
+                                </div>
+                                <button>
+                                    <Link className='p-3 bg-blue-400 text-white hover:bg-blue-600 transition' to={`/profile/${obj.id}`}>Profile</Link>
+                                </button>
+                            </div>
+                        </div>
                         )}
                     </div>
                 ))

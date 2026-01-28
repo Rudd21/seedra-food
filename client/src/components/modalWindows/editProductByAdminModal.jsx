@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEditProductContext } from "./editProductByAdminContext";
 import { useState } from "react";
+import {apiRequest} from '../../../apiRequest';
 
 export const EditProductModal = ()=>{
     const {
@@ -38,7 +39,7 @@ export const EditProductModal = ()=>{
                     <div className="border m-2 p-2">
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setName(e.target.value)} />
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
-                            axios.post("https://localhost:3000/admin/changeName", {productId, name}, {
+                            axios.post(`${apiRequest}/admin/changeName`, {productId, name}, {
                                     withCredentials: true
                                 }
                             ).then(res=>console.log("Успішно змінено назву товару!"))
@@ -59,7 +60,7 @@ export const EditProductModal = ()=>{
                     <div className="border m-2 p-2">
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setDescription(e.target.value)} />
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
-                            axios.post("https://localhost:3000/admin/changeDesc", {productId, description}, {
+                            axios.post(`${apiRequest}/admin/changeDesc`, {productId, description}, {
                                     withCredentials: true
                                 }
                             ).then(res=>console.log("Успішно змінено опис товару!"))
@@ -81,7 +82,7 @@ export const EditProductModal = ()=>{
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setOldPrice(e.target.value)} />
                         <p className="text-xs text-gray-400">*При змінені поля - товар позначається зі знижкою</p>
                         <button className="bg-yellow-400 m-2 p-2 text-sm hover:bg-yellow-700 transition"onClick={()=>{
-                            axios.post("https://localhost:3000/admin/changeOldPrice", {productId, price, oldPrice},{
+                            axios.post(`${apiRequest}/admin/changeOldPrice`, {productId, price, oldPrice},{
                                 withCredentials: true
                             }).then(res=>console.log("Успішно змінено стару ціну товару та оновленно товар як зі знижкою!"))
                             .catch(err=>{
@@ -91,7 +92,7 @@ export const EditProductModal = ()=>{
                         }}>Назначити стару ціну</button>
                         <input className="border p-2 m-1 rounded-xs" type="text" onChange={(e)=>setPrice(e.target.value)} />
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
-                            axios.post("https://localhost:3000/admin/changePrice", {productId,price}, {
+                            axios.post(`${apiRequest}/admin/changePrice`, {productId,price}, {
                                     withCredentials: true
                                 }
                             ).then(res=>console.log("Успішно змінено ціну товару!"))
@@ -111,7 +112,7 @@ export const EditProductModal = ()=>{
                 {openVisible ? (
                     <div className="border m-2 p-2">
                         <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
-                            axios.post("https://localhost:3000/admin/changechangeVisible", {productId}, {
+                            axios.post(`${apiRequest}/admin/changechangeVisible`, {productId}, {
                                     withCredentials: true
                                 }
                             ).then(res=>console.log("Успішно змінено видимості товару!"))

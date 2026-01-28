@@ -4,6 +4,7 @@ import "./profile.scss"
 import axios from 'axios';
 import { Link, useNavigate, useParams} from 'react-router-dom';
 import bcrypt from 'bcryptjs';
+import { apiRequest } from '../../../../apiRequest';
 import { useReportContext } from '../../modalWindows/ReportContext';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
 import { useEditProfileContext } from '../../modalWindows/editProfileContext';
@@ -30,28 +31,28 @@ const Profile = () => {
 
   useEffect(()=>{
     // Запит чи користувач авторизований
-      axios.get("https://localhost:3000/user-data",{
+      axios.get(`${apiRequest}/user-data`,{
         withCredentials: true
       })
       .then(res=>{setCheckToken(res.data)})
       .catch(err=>{console.error("Немає токену або що:", err)})
 
     // Запит товарів викладених користувачем
-      axios.get(`https://localhost:3000/userProducts/${userId}`)
+      axios.get(`${apiRequest}/userProducts/${userId}`)
       .then(res=>{
         setUserCatalog(res.data);
         })
       .catch(err=>{console.error("Помлка при отримані каталогу", err)})
 
     // Запит даних користувача, на чий профіль зайшли
-        axios.get(`https://localhost:3000/reqUser?userId=${userId}`)
+        axios.get(`${apiRequest}/reqUser?userId=${userId}`)
         .then(res=>setUserInfo(res.data))
         .catch(err=>console.error("Помилка при отриманні даних користувача:", err))
   },[])
 
   const deleteProduct = (productId) => {
     console.log("deleteProduct:", productId)
-    axios.delete(`https://localhost:3000/deleteProduct/${productId}`, {
+    axios.delete(`${apiRequest}/deleteProduct/${productId}`, {
         withCredentials: true
     })
   }
@@ -59,7 +60,7 @@ const Profile = () => {
   const reqCommentsProduct = (productId) => {
     console.log("userCatalog ", userCatalog)
     console.log("Треба найти:", productId)
-    axios.get(`https://localhost:3000/reqComment?productId=${productId}`)
+    axios.get(`${apiRequest}/reqComment?productId=${productId}`)
     .then(res=>{setProductComments(res.data)})
     .catch(err=>{console.error("Помилка при отримані коментарів:", err)})
   }
@@ -78,7 +79,7 @@ const Profile = () => {
         data.append('image', avatar)
 
         console.log("Що відправляю:", avatar)
-        await axios.put("https://localhost:3000/user/changeAvatar", data, {
+        await axios.put(`${apiRequest}/user/changeAvatar`, data, {
             withCredentials: true
         })
 
@@ -89,7 +90,7 @@ const Profile = () => {
   }
 
   function handleLogout() {
-    axios.post("https://localhost:3000/logout", {}, {withCredentials: true})
+    axios.post(`${apiRequest}/logout`, {}, {withCredentials: true})
     .then(() => {
       setCheckToken(null);
       console.log("має по ідеї очиститись",checkToken)
@@ -109,7 +110,7 @@ const Profile = () => {
                         <>
                             <div className='flex-col'>
                                 <div className='border-3 rounded-xl bg-green-200 w-57'>
-                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`https://localhost:3000/uploads/users/${checkToken?.avatar}`} alt="" /></div>
+                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`${apiRequest}/uploads/users/${checkToken?.avatar}`} alt="" /></div>
                                 <label className='flex flex-col'>
                                     Change avatar:
                                     <input id="changeAvatar"
