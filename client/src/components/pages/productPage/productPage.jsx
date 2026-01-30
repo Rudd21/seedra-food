@@ -105,7 +105,7 @@ const ProductPage = () => {
                     </div>
                     <div className='flex border justify-between p-2 mt-2 border-gray-400 rounded-lg'>
                         <p className='text-[25px]'>Price: <span className='text-green-600'>${productInfo?.price}</span></p>
-                        <button className='bg-green-400 p-2 w-[30%] text-white hover:bg-green-700 transition'>Buy</button>
+                        <Link className='bg-green-400 p-2 w-[30%] text-white text-center hover:bg-green-700 transition' to={`../takeOrder/${productInfo?.id}`}>Buy</Link>
                     </div>
                     <div className='flex flex-grow flex-col w-[100%] border justify-between p-3 mt-2 border-gray-400 text-[20px] rounded-lg'>
                         <p className='text-gray-500'>Description: <span>{productInfo?.description}</span></p>

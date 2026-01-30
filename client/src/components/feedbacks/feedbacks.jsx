@@ -21,13 +21,16 @@ const feedbacks = () => {
         <h2 className='text-center text-[25px] hover:text-[#359740] transition'>What our clients say</h2>
             {generalCommentsList && generalCommentsList.length > 0 ? (
             generalCommentsList.map((comment)=>(
-            <div className='bg-[linear-gradient(37deg,rgba(23,23,23,1)_0%,rgba(0,125,50,1)_23%,rgba(0,125,50,1)_79%,rgba(13,13,13,1)_100%)] text-white p-3 rounded-sm'>
+            <div className='bg-[#EAF1EB] p-3 rounded-sm'>
                 <div className="feedback-item">
                     <div className="user-logo-feedback">
                         <img className='w-[55px] h-[55px] rounded-full' src={`${apiRequest}/uploads/users/${comment.user.avatar}`} alt={comment.user.name} />
                         <div className="text-user">
                             <p className="name-user">{comment.user.name}</p>
-                            <p className="date-feedback">{comment.createdAt}</p>
+                            <div className='flex'>
+                                <img src="./clock-three.png" alt="" />
+                                <p className="date-feedback">{comment.createdAt}</p>
+                            </div>
                         </div>
                     </div>
                     <div className="text-feedback">

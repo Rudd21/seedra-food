@@ -28,6 +28,7 @@ import { searchUsers, searchProduct } from './controllers/search.controller.js';
 import { reqUser } from './controllers/reqUser.controller.js';
 import { addGeneralComment, reqGeneralComments } from './controllers/generalComments.controller.js';
 import { reqBlogPosts, reqBlogPost, addBlogPost } from './controllers/blog.controller.js';
+import { createOrder, reqOrder, reqOrders, updateStatusOrder, deleteOrder } from './controllers/order.controller.js';
 import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
@@ -81,6 +82,11 @@ app.get('/createGuestSession', guestSession);
 app.post('/addToBasket', addToBasket);
 app.post('/removeFromBasket', removeFromBasket);
 app.get('/reqBasket', reqBasket);
+
+app.post('/createOrder', createOrder)
+app.post('/updateStatusOrder', updateStatusOrder)
+app.get('/reqOrder', reqOrder)
+app.delete('/deleteOrder', deleteOrder)
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);
@@ -235,7 +241,7 @@ app.post("/admin/unbanUser", unbanUser)
 
 app.get("/admin/product", searchProductById)
 app.post("/admin/productStatus", changeStatus)
-    // ПОТРЕБУЮТЬ ПІДКЛЮЧЕННЯ
+
 app.post("/admin/changeName", changeName)
 app.post("/admin/changeDescription", changeDescription)
 app.post("/admin/changeOldPrice", changeOldPrice)
@@ -246,6 +252,8 @@ app.get("/admin/comment", searchCommentById)
 app.post("/admin/deleteComment", deleteComment)
 
 app.get("/admin/getReports", verifyToken, getReports)
+
+app.get('/reqOrders', reqOrders)
 
 app.post('/addBlogPost', verifyToken, loadUser, addBlogPost);
 

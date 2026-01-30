@@ -50,7 +50,7 @@ const Navigation = () => {
     }
 
   return (
-        <nav className='z-100' ref={searchRef}>
+        <nav className='z-3' ref={searchRef}>
             <div className="text-nav">
                 <img className='h-7' src="Frame.svg" alt="" />
                 <ul className="nav-ul">

@@ -165,12 +165,12 @@ const Profile = () => {
                                 <img src="/bungles.png" alt="Product" />
                             </div>
                             <p className="rainting rain-sort">
-                                <span className='flex'><p>Rating: </p>{userCata.avgRating}</span>
+                                <span className='flex'><img className='p-1' src="/ratingStar.png" alt="" />: {userCata.avgRating}</span>
                             </p>
                             {checkToken?.id === userId ? (
                                 <>
-                                    <button className='p-1 bg-yellow-400 hover:bg-yellow-700 transition' onClick={()=>openModal(userCata.id)}>Редагувати товар</button>
-                                    <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata.id)}>Видалити товар</button>
+                                    <button className='p-1 bg-yellow-400 hover:bg-yellow-700 transition' onClick={()=>openModal(userCata.id)}>Edit product</button>
+                                    <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata.id)}>Delete product</button>
                                 </>
                             ) : (
                                 <p></p>

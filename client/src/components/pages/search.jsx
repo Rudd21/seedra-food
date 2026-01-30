@@ -53,7 +53,16 @@ const Search = () => {
                                     <p><strong>Product ID: {obj.id}</strong></p>
                                     <p><strong>{obj.name}</strong></p>
                                     <p className='text-gray-400 text-[13px]'><strong>Type: {obj.type}</strong></p>
-                                    <p><strong>Price: ${obj.price}</strong></p>
+                                    {obj.isSale ? (
+                                        <div className='flex flex-row items-center'>
+                                            <p><strong>Price: <span className='text-green-600'>${obj.price}</span></strong></p>
+                                            <p className='line-through text-gray-600 ml-2 text-[13px]'><strong>${obj.oldPrice}</strong></p>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <p><strong>Price: <span>${obj.price}</span></strong></p>
+                                        </div>
+                                    )}
                                 </div>
                                 <button>
                                     <Link className='p-3 bg-blue-400 text-white hover:bg-blue-600 transition' to={`/productPage/${obj.id}`}>Product page</Link>

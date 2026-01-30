@@ -12,10 +12,12 @@ const AdminPanel = () => {
     const { openModal } = useEditProductContext();
 
     const [reportsList, setReportsList] = useState([])
+    const [ordersList, setOrdersList] = useState([])
     const [userList, setUserList] = useState(false)
     const [productList, setProductList] = useState(false)
     const [commentList, setCommentList] = useState(false)
     const [filterReport, setFilterReport] = useState('OPEN')
+    const [filterOrder, setFilterOrder] = useState('PENDING')
 
     const [searchUser, setSearchUser] = useState('')
     const [searchProduct, setSearchProduct] = useState('')
@@ -40,6 +42,15 @@ const AdminPanel = () => {
         })
     }
 
+    const fetchOrders = ()=>{
+        axios.get(`${apiRequest}/reqOrders`, {withCredentials: true})
+        .then(res=>{setOrdersList(res.data)})
+        .catch(err=>{
+            console.log(err)
+            console.error("Невдалося отримати список скарг!")
+        })
+    }
+
     useEffect(()=>{
         // Запит чи користувач авторизований
         axios.get(`${apiRequest}/user-data`,{withCredentials: true})
@@ -55,6 +66,7 @@ const AdminPanel = () => {
         })
 
         fetchReports()
+        fetchOrders()
     }, []);
 
     const findUser = ()=>{
@@ -84,7 +96,7 @@ const AdminPanel = () => {
         })
     }
 
-    const handleStatus = (reportId, newStatus) =>{
+    const handleReportStatus = (reportId, newStatus) =>{
         axios.post(`${apiRequest}/admin/productStatus`, {
             reportId, 
             status: newStatus
@@ -92,6 +104,20 @@ const AdminPanel = () => {
             withCredentials: true
         })
         .then(res=>fetchReports())
+        .catch(err=>{
+            console.log(err)
+            console.error("Виникла помилка при змінені статуса")
+        })
+    }
+
+    const handleOrderStatus = (orderId, newStatus) =>{
+        axios.post(`${apiRequest}/updateStatusOrder`, {
+            orderId, 
+            status: newStatus
+        },{
+            withCredentials: true
+        })
+        .then(res=>fetchOrders())
         .catch(err=>{
             console.log(err)
             console.error("Виникла помилка при змінені статуса")
@@ -162,7 +188,7 @@ const AdminPanel = () => {
   return (
     <div>
         <Navigation />
-        <main>
+        <main className='w-[90%] m-auto'>
             <h1 className='text-center text-xl m-5 underline italic'>Адмін Панель</h1>
             {/* <button onClick={()=>meAsAdmin()}>Зробити себе адміном!</button> */}
 
@@ -205,11 +231,49 @@ const AdminPanel = () => {
                                     <p>Скарга на: {report.target}</p>
                                     <p>ID об'єкту скарги: {report.targetId}</p>
                                     <label for='statues'>Статус скарги:</label>
-                                    <select className='bg-gray-300 m-2 p-1 text-l' onChange={(e)=>handleStatus(report.id, e.target.value)} name="status" id="statues" defaultValue={report.status}>
+                                    <select className='bg-gray-300 m-2 p-1 text-l' onChange={(e)=>handleReportStatus(report.id, e.target.value)} name="status" id="statues" defaultValue={report.status}>
                                         <option value="OPEN">OPEN</option>
                                         <option value="IN_PROGRESS">IN PROGRESS</option>
                                         <option value="RESOLVED">RESOLVED</option>
                                         <option value="REJECTED">REJECTED</option>
+                                    </select>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Скарг не знайдено</p>
+                        )}
+                    </div>
+                </div>
+                <div className="reports border m-4 p-3">
+                    <h1>Фільтрація замовлень:</h1>
+                    <div className='flex'>
+                        <button className='bg-green-200 m-1 p-1 rounded-xs hover:bg-green-400 transition' onClick={()=>setFilterOrder('PENDING')}>PENDING</button>
+                        <button className='bg-green-400 m-1 p-1 rounded-xs hover:bg-yellow-400 transition' onClick={()=>setFilterOrder('PAID')}>PAID</button>
+                        <button className='bg-yellow-300 m-1 p-1 rounded-xs hover:bg-green-700 transition' onClick={()=>setFilterOrder('PROCESSING')}>PROCESSING</button>
+                        <button className='bg-purple-400 m-1 p-1 rounded-xs hover:bg-red-400 transition' onClick={()=>setFilterOrder('SHIPPED')}>SHIPPED</button>
+                        <button className='bg-green-500 m-1 p-1 rounded-xs hover:bg-red-400 transition' onClick={()=>setFilterOrder('COMPLETED')}>COMPLETED</button>
+                        <button className='bg-red-200 m-1 p-1 rounded-xs hover:bg-red-400 transition' onClick={()=>setFilterOrder('CANCELLED')}>CANCELLED</button>
+                    </div>
+
+                    <h1>Всього замовлень: {ordersList.length}</h1>
+
+                    <div className='max-h-[30vh] min-h-[30vh] overflow-y-scroll'>
+                        {ordersList && ordersList.length > 0 ? (
+                            ordersList
+                            .filter(order => order.status == filterOrder)
+                            .map(order=> (
+                                <div className='border m-4 p-3' key={order.id}>
+                                    <p>ID замовлення: {order.id}</p>
+                                    <p>Назва: {order.status}</p>
+                                    <p>Токен: {order.publicToken}</p>
+                                    <label for='statues'>Статус скарги:</label>
+                                    <select className='bg-gray-300 m-2 p-1 text-l' onChange={(e)=>handleOrderStatus(order.publicToken, e.target.value)} name="status" id="statues" defaultValue={order.status}>
+                                        <option value="PENDING">PENDING</option>
+                                        <option value="PAID">PAID</option>
+                                        <option value="PROCESSING">PROCESSING</option>
+                                        <option value="SHIPPED">SHIPPED</option>
+                                        <option value="COMPLETED">COMPLETED</option>
+                                        <option value="CANCELLED">CANCELLED</option>
                                     </select>
                                 </div>
                             ))
@@ -292,12 +356,12 @@ const AdminPanel = () => {
                         <p>Коментаря не знайдено</p>
                     )}
                 </div>
-            </div>
-            <div className="comments flex flex-col w-[40%] m-auto gap-4 border m-4 p-3">
-                <h1>Створення посту в блог</h1>
-                <input className='border bg-white w-100' onChange={(e)=>setNameBlogPost(e.target.value)} placeholder='Blog Name' type="text" />
-                <textarea className='border bg-white w-100 h-25' onChange={(e)=>setDescBlogPost(e.target.value)} placeholder='Description'  type="text" />
-                <button className='bg-yellow-400 m-2 p-3 w-30 hover:bg-yellow-600 transition' onClick={addBlogPost}>Шукати</button>
+                <div className="comments flex flex-col w-[40%] m-auto gap-4 border m-4 p-3">
+                    <h1>Створення посту в блог</h1>
+                    <input className='border bg-white w-100' onChange={(e)=>setNameBlogPost(e.target.value)} placeholder='Blog Name' type="text" />
+                    <textarea className='border bg-white w-100 h-25' onChange={(e)=>setDescBlogPost(e.target.value)} placeholder='Description'  type="text" />
+                    <button className='bg-yellow-400 m-2 p-3 w-30 hover:bg-yellow-600 transition' onClick={addBlogPost}>Шукати</button>
+                </div>
             </div>
         </main>
         <Footer />

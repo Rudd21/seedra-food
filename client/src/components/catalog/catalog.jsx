@@ -140,13 +140,17 @@ const catalog = () => {
             product={product}
             className="border border-gray-300 p-[10px] rounded-sm" 
             data-hashtag={product.type}>
-            <div className="safe-productaImage">
-              <button value="1" className="heart" type="button"></button>
+            <div className="safe-productaImage items-end">
+              <motion.button className='rounded-lg hover:bg-gray-300 w-10 h-10 transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></motion.button>
               <img src={`${apiRequest}/uploads/products/${product.image}`} alt={product.name} />
             </div>
             <p className="flex">
-              Rating:
-              <span>{product.avgRating}</span>
+              <img className='p-1' src="/ratingStar.png" alt="" /> 
+              {product.avgRating ? (
+                <span className='p-1'><span className='text-yellow-500'>:</span> {product.avgRating}</span>
+              ) : (
+                <span className='p-1'><span className='text-yellow-500'>:</span> 0 <span className='text-gray-400'>(no reviews)</span></span>
+              )}
             </p>
             <h3 className='product_name' key={product.id}>{product.name}</h3>
             <div className="footer-card">
@@ -158,8 +162,7 @@ const catalog = () => {
               ):(
                   <p>$<span className="sort-price">{product.price}</span></p>
               )}
-              <motion.button className='h-10 w-10 text-green-700 border border-[#CBCBCB] rounded-md hover:bg-gray-300 transition duration-300' onClick={()=>toProduct(product.id)}>More</motion.button>
-              <motion.button className='rounded-md hover:bg-[#0D4715] transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></motion.button>
+              <motion.button className='h-10 p-2 text-green-700 border border-[#CBCBCB] rounded-md hover:bg-gray-300 transition duration-300' onClick={()=>toProduct(product.id)}>Discover</motion.button>
             </div>
           </motion.div>
         ))}

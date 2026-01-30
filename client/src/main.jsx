@@ -32,6 +32,7 @@ import { ResultModal } from './components/modalWindows/resultModal.jsx';
 
 // import { EditProductByUserModal } from './components/modalWindows/editProductByUserModal.jsx';
 import './index.css'
+import TakeOrder from './components/pages/takeOrder.jsx';
 
 // React монтується у елемент з id="root"
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -62,6 +63,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <Route path="/search" element={<Search />}/>
                 <Route path='/termsConditions' element={<TermsConditions />}/>
                 <Route path='/privacyPolicy' element={<PrivacyPolicy />}/>
+                <Route path='/takeOrder/:id' element={<TakeOrder />}/>
 
                 {/* 404 */}
                 <Route path='*' element={<NotFound />}/>
