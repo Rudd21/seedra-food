@@ -22,6 +22,7 @@ import { EditProductProvider } from './components/modalWindows/editProductByAdmi
 import { BasketContextProvider } from './components/modalWindows/BasketContext.jsx';
 import { EditProfileProvider } from './components/modalWindows/editProfileContext.jsx';
 import { ResultProvider } from './components/modalWindows/resultContext.jsx';
+import { OrderContextProvider } from './components/modalWindows/OrderContext.jsx';
 // import { EditProductByUserProvider } from './components/modalWindows/editProductByUserContext.jsx';
 
 import { ReportModal } from './components/modalWindows/ReportModal.jsx';
@@ -29,6 +30,7 @@ import { EditProductModal } from './components/modalWindows/editProductByAdminMo
 import { BasketModal } from './components/modalWindows/BasketModal.jsx';
 import { EditProfileModal } from './components/modalWindows/editProfileModal.jsx';
 import { ResultModal } from './components/modalWindows/resultModal.jsx';
+import { OrderModal } from './components/modalWindows/OrderModal.jsx';
 
 // import { EditProductByUserModal } from './components/modalWindows/editProductByUserModal.jsx';
 import './index.css'
@@ -41,35 +43,38 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ReportProvider>
       <EditProductProvider>
         <BasketContextProvider>
-          <EditProfileProvider>
-            <ResultProvider>
-              <ReportModal />
-              <EditProductModal />
-              <BasketModal />
-              <EditProfileModal />
-              <ResultModal />
-              <Routes>
-                <Route path='/' element={<App />}/>
-                <Route path='/addProduct' element={<AddProduct />}/>
-                <Route path='/register' element={<Register />}/>
-                <Route path='/login' element={<Login />}/>
-                <Route path='/profile/:id' element={<Profile />}/>
-                <Route path='/productPage/:id' element={<ProductPage />}/>
-                <Route path='/adminPanel' element={<AdminPanel />}/>
-                <Route path='/generalComments' element={<GeneralComments />}/>
-                <Route path='/aboutSeedra' element={<AboutSeedra />}/>
-                <Route path='/ourBlog' element={<OurBlog />}/>
-                <Route path="/blogPost/:id" element={<BlogPost />}/>
-                <Route path="/search" element={<Search />}/>
-                <Route path='/termsConditions' element={<TermsConditions />}/>
-                <Route path='/privacyPolicy' element={<PrivacyPolicy />}/>
-                <Route path='/takeOrder/:id' element={<TakeOrder />}/>
+          <OrderContextProvider>
+            <EditProfileProvider>
+              <ResultProvider>
+                <ReportModal />
+                <EditProductModal />
+                <BasketModal />
+                <EditProfileModal />
+                <ResultModal />
+                <OrderModal />
+                <Routes>
+                  <Route path='/' element={<App />}/>
+                  <Route path='/addProduct' element={<AddProduct />}/>
+                  <Route path='/register' element={<Register />}/>
+                  <Route path='/login' element={<Login />}/>
+                  <Route path='/profile/:id' element={<Profile />}/>
+                  <Route path='/productPage/:id' element={<ProductPage />}/>
+                  <Route path='/adminPanel' element={<AdminPanel />}/>
+                  <Route path='/generalComments' element={<GeneralComments />}/>
+                  <Route path='/aboutSeedra' element={<AboutSeedra />}/>
+                  <Route path='/ourBlog' element={<OurBlog />}/>
+                  <Route path="/blogPost/:id" element={<BlogPost />}/>
+                  <Route path="/search" element={<Search />}/>
+                  <Route path='/termsConditions' element={<TermsConditions />}/>
+                  <Route path='/privacyPolicy' element={<PrivacyPolicy />}/>
+                  <Route path='/takeOrder/:id' element={<TakeOrder />}/>
 
-                {/* 404 */}
-                <Route path='*' element={<NotFound />}/>
-              </Routes>
+                  {/* 404 */}
+                  <Route path='*' element={<NotFound />}/>
+                </Routes>
               </ResultProvider>
             </EditProfileProvider>
+          </OrderContextProvider>
         </BasketContextProvider>
       </EditProductProvider>
     </ReportProvider>

@@ -10,12 +10,12 @@ export const useEditProduct = () => {
     const [price, setPrice] = useState('');
     const [visible, setVisible] = useState(true);
 
-    const openModal = (id) => {
+    const openEditProductModal = (id) => {
         setProductId(id);
         setIsOpen(true);
     };
 
-    const closeModal = () => {
+    const closeEditProductModal = () => {
         setIsOpen(false);
         setProductId(null);
     };
@@ -28,12 +28,12 @@ export const useEditProduct = () => {
         oldPrice,
         price,
         visible,
-        openModal,
+        openEditProductModal,
         setName,
         setDescription,
         setOldPrice,
         setPrice,
         setVisible,
-        closeModal
+        closeEditProductModal
     };
 };

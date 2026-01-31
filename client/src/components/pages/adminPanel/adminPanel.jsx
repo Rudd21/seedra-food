@@ -263,9 +263,10 @@ const AdminPanel = () => {
                             .filter(order => order.status == filterOrder)
                             .map(order=> (
                                 <div className='border m-4 p-3' key={order.id}>
-                                    <p>ID замовлення: {order.id}</p>
-                                    <p>Назва: {order.status}</p>
-                                    <p>Токен: {order.publicToken}</p>
+                                    <p>Order ID: {order.id}</p>
+                                    <p>Phone number: {order.phoneNumber}</p>
+                                    <p>Price: ${order.totalPrice}</p>
+                                    <p>Token: {order.publicToken}</p>
                                     <label for='statues'>Статус скарги:</label>
                                     <select className='bg-gray-300 m-2 p-1 text-l' onChange={(e)=>handleOrderStatus(order.publicToken, e.target.value)} name="status" id="statues" defaultValue={order.status}>
                                         <option value="PENDING">PENDING</option>

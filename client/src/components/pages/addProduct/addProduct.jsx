@@ -96,7 +96,7 @@ const addProduct = (e) => {
               <button className='rounded-md' ><img className="basket-product" src="basket.png" alt="Basket" /></button>
                 </div>
             </div> 
-            </div>
+        </div>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className='form flex flex-col justify-center self-center'>
                 <label>
                     Image:

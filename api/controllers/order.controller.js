@@ -17,11 +17,19 @@ export const createOrder = async(req, res) => {
 
         const publicToken = crypto.randomUUID();
 
+        const orders = req.cookies.order_tokens ? JSON.parse(req.cookies.order_tokens) : []
+
+        if (orders.length >= 10) {
+            return res.status(400).json({ message: "Забагато активних замовлень" });
+        }
+
+        orders.push(publicToken);
+
         await prisma.order.create({
             data: { phoneNumber, totalPrice: cleanTotalPrice, publicToken }
         })
 
-        res.cookie("orderToken", publicToken, {
+        res.cookie("order_tokens", JSON.stringify(orders), {
             httpOnly: true,
             sameSite: "Strict",
             secure: true,
@@ -59,13 +67,13 @@ export const updateStatusOrder = async(req, res) => {
 }
 
 export const reqOrder = async(req, res) => {
-    const { orderId } = req.query;
 
-    const cleanOrderId = String(orderId)
+    const orders = req.cookies.order_tokens ? JSON.parse(req.cookies.order_tokens) : []
 
     try {
-        const order = await prisma.order.findUnique({
-            where: { publicToken: cleanOrderId }
+        const order = await prisma.order.findMany({
+            where: { publicToken: { in: orders } },
+            orderBy: { createdAt: 'desc' }
         })
 
         res.status(200).json(order)
@@ -88,18 +96,23 @@ export const reqOrders = async(req, res) => {
 
 
 export const deleteOrder = async(req, res) => {
-    const { orderId } = req.body;
+    const { publicToken } = req.body;
 
-    const cleanOrderId = String(orderId)
+    let orders = req.cookies.order_tokens;
 
-    try {
-        await prisma.order.delete({
-            where: { publicToken: cleanOrderId }
-        })
+    const removeIndex = orders.findIndex(item => item == publicToken);
 
-        res.status(200).json({ message: "Успішно видалено замовлення" })
-    } catch (err) {
-        console.error("Виникла помилка при спробі видалити замовлення:", err);
-        res.status(500).json({ message: "Помилка сервера!", error: err.message })
+    if (removeIndex != -1) {
+        orders.splice(removeIndex, 1);
     }
+
+    console.log("ордер парс після ", orders)
+    res.cookie("order_tokens", JSON.stringify(orders), {
+        httpOnly: true,
+        sameSite: "Strict",
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({ orders: orders });
 }

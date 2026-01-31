@@ -22,6 +22,7 @@ const Profile = () => {
 
   const {openReport} = useReportContext()
 
+  const {openEditProductModal} =useEditProductContext()
   const {openEditProfileModal, setWindowType} = useEditProfileContext();
 
   const navigate = useNavigate()
@@ -141,13 +142,15 @@ const Profile = () => {
                                 <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>{
                                     setWindowType('username')
                                     openEditProfileModal();
-                                }}>Змінити username</button>
+                                }}>Change username</button>
                                 <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>{
                                     setWindowType('password')
                                     openEditProfileModal();
-                                }}>Змінити пароль</button>
+                                }}>Change password</button>
+                                <Link className='p-4 rounded-md text-center hover:bg-gray-200 transition' to="/addProduct">AddProduct</Link>
                                 <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={handleLogout}>Log out</button>
                             </div>
+                            
                         ) : (
                             <div></div>
                         )}
@@ -161,23 +164,38 @@ const Profile = () => {
                     <div>
                         <div className="product" data-hashtag={userCata.type} onClick={()=>{reqCommentsProduct(userCata.id)}}>
                             <div className="safe-productaImage">
-                                <button value="1" className="heart" type="button"></button>
-                                <img src="/bungles.png" alt="Product" />
-                            </div>
-                            <p className="rainting rain-sort">
-                                <span className='flex'><img className='p-1' src="/ratingStar.png" alt="" />: {userCata.avgRating}</span>
-                            </p>
                             {checkToken?.id === userId ? (
-                                <>
-                                    <button className='p-1 bg-yellow-400 hover:bg-yellow-700 transition' onClick={()=>openModal(userCata.id)}>Edit product</button>
-                                    <button className='p-1 bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata.id)}>Delete product</button>
-                                </>
+                                    <div className='flex justify-between'>
+                                        <button className='bg-yellow-400 hover:bg-yellow-700 transition' onClick={()=>openEditProductModal(userCata.id)}>
+                                            <img className='w-7 h-7 p-1' src="/edit.png" alt="" />
+                                        </button>
+                                        <button className='bg-red-400 hover:bg-red-700 transition' onClick={()=>deleteProduct(userCata.id)}>
+                                            <img className='w-7 h-7 p-1' src="/delete.png" alt="" />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <p></p>
+                                )}
+                                <img src={`${apiRequest}/uploads/products/${userCata.image}`} alt="Product" />
+                            </div>
+                            <p className="flex">
+                            <img className='p-1' src="/ratingStar.png" alt="" /> 
+                            {userCata.avgRating ? (
+                                <span className='p-1'><span className='text-yellow-500'>:</span> {userCata.avgRating}</span>
                             ) : (
-                                <p></p>
+                                <span className='p-1'><span className='text-yellow-500'>:</span> 0 <span className='text-gray-400'>(no reviews)</span></span>
                             )}
+                            </p>
                             <h3 className='cardName' key={userCata.id}>{userCata.name}</h3>
                             <div className="footer-card">
-                                <div className="price-card">$<span className="sort-price">{userCata.price}</span></div>
+                                {userCata.isSale ? (
+                                    <div className='flex-col'>
+                                    <p className='text-gray-400 line-through'>$<span className="sort-price">{userCata.oldPrice}</span></p>
+                                    <p className='text-green-700'>$<span className="sort-price">{userCata.price}</span></p>
+                                    </div>
+                                ):(
+                                    <p>$<span className="sort-price">{userCata.price}</span></p>
+                                )}
                                 <img className="basket-product" src="/basket.png" alt="Basket" />
                             </div>
                         </div>

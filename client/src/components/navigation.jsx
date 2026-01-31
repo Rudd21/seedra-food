@@ -6,10 +6,12 @@ import { apiRequest } from '../../apiRequest';
 import { useBasketContext } from './modalWindows/BasketContext';
 import { useReportContext } from './modalWindows/ReportContext';
 import { useResultContext } from './modalWindows/resultContext';
+import { useOrderContext } from './modalWindows/OrderContext';
 
 const Navigation = () => {
     
     const {openBasketModal, reqBasket} = useBasketContext();
+    const {openOrderModal,reqOrder} = useOrderContext();
     
     const [checkToken, setCheckToken] = useState();
     const [stateSearch, setStateSearch] = useState(false);
@@ -101,18 +103,24 @@ const Navigation = () => {
                         reqBasket(),
                         openBasketModal()
                       }}>Basket</button>
+                    <button className='nav-list' onClick={()=>{
+                        reqOrder(),
+                        openOrderModal()
+                      }}>Order</button>
                     <Link className='nav-list' to="/login">Login</Link>
                   </>
                 ) : (
                   <>
                     <Link className='nav-list' to={`/`}>Main</Link>
                     <Link className='nav-list' to={`/profile/${checkToken.id}`}>Profile</Link>
-                    <Link className='nav-list' onClick={()=>{handleLogout()}}>Logout</Link>
                     <button className='nav-list' onClick={()=>{
                         reqBasket(),
                         openBasketModal()
                       }}>Basket</button>
-                    <Link className='nav-list' to="/addProduct">AddProduct</Link>
+                    <button className='nav-list' onClick={()=>{
+                        reqOrder(),
+                        openOrderModal()
+                      }}>Order</button>
                   </>
                 )}
             </div>

@@ -14,12 +14,6 @@ export const BasketModal = () => {
         closeBasketModal
     } = useBasketContext();
 
-
-    useEffect(()=>{
-        console.log("basketList:", basketList);
-        console.log("isArray:", Array.isArray(basketList));
-    }, [basketList])
-
     if(!isOpen) return null;
 
     return (
