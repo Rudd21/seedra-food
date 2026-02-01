@@ -38,88 +38,31 @@ export const changeStatus = async(req, res) => {
     }
 }
 
-export const changeName = async(req, res) => {
-    const { productId, name } = req.body;
+export const updateProduct = async(req, res) => {
+    const ProductTypes = ["BUNDLES", "HERBS", "VEGETABLES", "FRUITS", "SUPPLIES", "FLOWERS"]
 
-    try {
-        await prisma.product.update({
-            where: { id: productId },
-            data: { name }
-        })
+    console.log("Отриманий запит:", req.body);
 
-        res.status(200).json({ message: "Назву товару успішно змінено" })
-    } catch {
-        res.status(500).json({ message: "Невдалося змінити назву товару" })
+    const { id, image, name, type, price, oldPrice, description } = req.body;
+    const cleanType = type.trim().toUpperCase();
+    const imageName = req.file ? req.file.filename : null;
+
+    const isSale = oldPrice == '' ? true : false
+    const checkOldPrice = oldPrice == '' ? null : oldPrice
+    const checkImage = imageName ? imageName : image
+
+    if (!ProductTypes.includes(cleanType)) {
+        return res.status(400).json({ error: "Не підходить під жодний тип! Челллл" });
     }
-}
-
-export const changeDescription = async(req, res) => {
-    const { productId, description } = req.body;
 
     try {
-        await prisma.product.update({
-            where: { id: productId },
-            data: { description }
-        })
-
-        res.status(200).json({ message: "Опис товару успішно змінено" })
-    } catch {
-        res.status(500).json({ message: "Невдалося змінити опис товару" })
-    }
-}
-
-export const changeOldPrice = async(req, res) => {
-    const { productId, price, oldPrice } = req.body;
-    console.log("productId, oldPrice:", productId, oldPrice)
-
-    try {
-
-        if (oldPrice == '') {
-            return await prisma.product.update({
-                where: { id: productId },
-                data: { oldPrice: null, isSale: false }
-            })
-        } else {
-            const deltaSale = Number(oldPrice) - Number(price);
-            await prisma.product.update({
-                where: { id: productId },
-                data: { oldPrice, isSale: true, deltaSale }
-            })
-        }
-
-        res.status(200).json({ message: "Стару ціну товару успішно назначено" })
+        const newProduct = await prisma.product.update({
+            where: { id },
+            data: { image: checkImage, name, type: cleanType, price, oldPrice: checkOldPrice, isSale, description }
+        });
+        res.status(200).json({ message: "Продукт успішно додано!", data: newProduct });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: err.message })
-    }
-}
-
-export const changePrice = async(req, res) => {
-    const { productId, price } = req.body;
-
-    try {
-        await prisma.product.update({
-            where: { id: productId },
-            data: { price }
-        })
-
-        res.status(200).json({ message: "Ціну товару успішно змінено" })
-    } catch {
-        res.status(500).json({ message: "Невдалося змінити ціну товару" })
-    }
-}
-
-export const changeVisible = async(req, res) => {
-    const { productId } = req.body;
-
-    try {
-        await prisma.product.update({
-            where: { id: productId },
-            data: { isVisible: false }
-        })
-
-        res.status(200).json({ message: "Видимість товару успішно змінено" })
-    } catch {
-        res.status(500).json({ message: "Невдалося змінити видимість товару" })
+        console.error('Помилка при додаванні продукту:', err);
+        res.status(500).json({ error: 'Помилка при додаванні продукту:' });
     }
 }

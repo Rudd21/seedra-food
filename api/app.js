@@ -43,11 +43,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-console.log('CWD:', process.cwd());
-console.log(
-    'Uploads path:',
-    path.resolve(process.cwd(), 'uploads')
-);
 app.use('/uploads', express.static(
     path.resolve(process.cwd(), '../uploads')
 ))
@@ -86,7 +81,7 @@ app.get('/reqBasket', reqBasket);
 app.post('/createOrder', createOrder)
 app.post('/updateStatusOrder', updateStatusOrder)
 app.get('/reqOrder', reqOrder)
-app.delete('/deleteOrder', deleteOrder)
+app.delete('/deleteFromOrder', deleteOrder)
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);
@@ -229,7 +224,7 @@ app.post('/logout', (req, res) => {
 // Admin Controllers
 // import {} from './middleware/checkAdmin.middleware.js';
 import { searchUserById, banUser, unbanUser } from './adminControllers/adminUser.controller.js';
-import { searchProductById, changeStatus, changeName, changeDescription, changeOldPrice, changePrice, changeVisible } from './adminControllers/adminProduct.controller.js';
+import { searchProductById, changeStatus, updateProduct } from './adminControllers/adminProduct.controller.js';
 import { searchCommentById, deleteComment } from './adminControllers/adminComment.controller.js';
 import { getReports } from './adminControllers/getReports.controller.js';
 import { loadUser } from './middleware/loadUser.middleware.js';
@@ -242,11 +237,7 @@ app.post("/admin/unbanUser", unbanUser)
 app.get("/admin/product", searchProductById)
 app.post("/admin/productStatus", changeStatus)
 
-app.post("/admin/changeName", changeName)
-app.post("/admin/changeDescription", changeDescription)
-app.post("/admin/changeOldPrice", changeOldPrice)
-app.post("/admin/changePrice", changePrice)
-app.post("/admin/changeVisible", changeVisible)
+app.put("/updateProduct", verifyToken, loadUser, banGuard, upload.single('newImage'), updateProduct)
 
 app.get("/admin/comment", searchCommentById)
 app.post("/admin/deleteComment", deleteComment)

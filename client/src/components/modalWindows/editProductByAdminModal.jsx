@@ -7,28 +7,15 @@ export const EditProductModal = ()=>{
     const {
         isOpen,
         productId,
-        name,
-        description,
-        oldPrice,
-        price,
-        visible,
-        setName,
-        setDescription,
         setOldPrice,
-        setPrice,
-        setVisible,
         closeEditProductModal
     } = useEditProductContext();
 
-    const [openName, setOpenName] = useState(false)
-    const [openDesc, setOpenDesc] = useState(false)
-    const [openPrice, setOpenPrice] = useState(false)
-    const [openVisible, setOpenVisible] = useState(false)
-
     const [isOldPrice, setIsOldPrice] = useState(false)
+    const [isVisible, setIsVisible] = useState()
 
     const [productInfo, setProductInfo] = useState([])
-    const [image, setImage] = useState()
+    const [newImage, setNewImage] = useState()
 
     useEffect(()=>{
         axios.get(`${apiRequest}/productPage/${productId}`,{
@@ -36,11 +23,8 @@ export const EditProductModal = ()=>{
         })
         .then(res=>{
             setProductInfo(res.data)
-            if(res.data.oldPrice){
-                isOldPrice(true)
-            }else{
-                isOldPrice(false)
-            }
+            setIsVisible(res.data.isVisible)
+            if(res.data.oldPrice) return setIsOldPrice(true)
         })
         .catch(err=>{console.error("Памілка: ",err)})
 
@@ -49,6 +33,7 @@ export const EditProductModal = ()=>{
     const handleChange = (e) => {
         setProductInfo({
         ...productInfo,
+        isVisible: isVisible,
         [e.target.name]: e.target.value
         });
     };
@@ -58,9 +43,33 @@ export const EditProductModal = ()=>{
 
         if(!file) return;
 
-        setImage(file)
+        setNewImage(file)
         console.log("Файлик є")
     };
+
+    const submitChanges = async (e) =>{
+        console.log("Що відправляєм на фронт:", productInfo)
+        e.preventDefault();
+
+        try{
+            const data = new FormData();
+
+            Object.entries(productInfo).forEach(([key, value])=>{
+                data.append(key, value);
+            })
+
+            if(newImage) data.append('newImage', newImage);
+
+            await axios.put(`${apiRequest}/updateProduct`, data, {
+                withCredentials: true
+            });
+
+            console.log("Продукт успішно змінено!")
+            
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     if(!isOpen) return null;
 
@@ -70,21 +79,22 @@ export const EditProductModal = ()=>{
         <h2 className="text-lg font-bold mb-3">Edit product</h2>
         {productInfo && (
             <div className="flex">
-                <div className='flex flex-col p-2'>
+                <div className='flex flex-col p-5'>
                     <h1 className='m-2'>Preview:</h1>
-                        <div className="safe-productaImage">
                         <div className="safe-productaImage items-end">
-                            <button className='rounded-lg hover:bg-gray-300 w-10 h-10 transition duration-300' onClick={()=>addToBasket()}><img className="basket-product" src="../basket.png" alt="Basket" /></button>
-                            <img className="h-55 w-55" src={`${apiRequest}/uploads/products/${productInfo.image}`} alt={productInfo.name} />
-                        </div>
+                            <button className='rounded-lg hover:bg-gray-300 w-10 h-10 transition duration-300'><img className="basket-product" src="../basket.png" alt="Basket" /></button>
+                            {newImage ? (
+                                <img className="h-55 w-55" src={URL.createObjectURL(newImage)} alt={productInfo.name} />
+                            ):(
+                                <img className="h-55 w-55" src={`${apiRequest}/uploads/products/${productInfo.image}`} alt={productInfo.name} /> 
+                            )}
                         </div>
                         <p className="flex">
-                        <p>Ratign: {productInfo.avgRating ? productInfo.avgRating : 0}</p>
-                        <span></span>
+                        Ratign: {productInfo.avgRating ? productInfo.avgRating : 0}
                         </p>
                         <h3 className='product_name'>{productInfo.name}</h3>
-                        <div className="footer-card">
-                            <div className="flex price items-center justify-between">
+                        <div className="mt-3">
+                            <div className="flex price flex-row items-center justify-between">
                                 {productInfo.isSale ? (
                                     <div className='flex-col'>
                                         <p className='text-gray-400 line-through'>$<span className="sort-price">{productInfo.oldPrice}</span></p>
@@ -93,71 +103,81 @@ export const EditProductModal = ()=>{
                                 ):(
                                     <p>$<span className="sort-price">{productInfo.price}</span></p>
                                 )}
-                                <button className='h-10 p-1 text-green-700 border border-[#CBCBCB] rounded-md'>Discover</button>
-                                {/* <button className='rounded-md' ><img className="./basket-product" src="basket.png" alt="Basket" /></button> */}
+                                <button className='h-10 p-1 text-[15px] text-green-700 border border-[#CBCBCB] rounded-md'>Discover</button>
                             </div>
                         </div>
                 </div>
                 <div className='flex flex-col'>
+                    <label className="flex flex-col">
+                        Image:
+                        <input id="productType" list="TypesProduct"
+                        className='bg-gray-300 p-2 rounded-xl'
+                        type="file"
+                        accept='image/*'
+                        onChange={handleFileChange}
+                    />
+                    </label>
+                    <br />
+                    <label className="flex flex-col">
+                        Product Name:
+                        <input
+                        className='bg-gray-300 border p-2 rounded-[5px]'
+                        type="text"
+                        name="name"
+                        value={productInfo.name}
+                        onChange={handleChange}
+                        required
+                    />
+                    </label>
+                    <br />
+                    <label className="flex flex-col">
+                        Product Type:
+                        <input id="productType" list="TypesProduct"
+                        className='bg-gray-300 border p-2 rounded-[5px]'
+                        name="type"
+                        value={productInfo.type}
+                        onChange={handleChange}
+                        required
+                    />
+                    </label>
+                    <br />
+                    <div className="flex">
                         <label className="flex flex-col">
-                            Image:
-                            <input id="productType" list="TypesProduct"
-                            className='bg-gray-300 p-2 rounded-xl'
-                            type="file"
-                            accept='image/*'
-                            onChange={handleFileChange}
-                        />
-                        </label>
-                        <br />
-                        <label className="flex flex-col">
-                            Product Name:
+                            Price:
                             <input
                             className='bg-gray-300 border p-2 rounded-[5px]'
-                            type="text"
-                            name="name"
-                            value={productInfo.name}
+                            type="number"
+                            name="price"
+                            value={productInfo.price}
                             onChange={handleChange}
                             required
-                        />
+                            />
                         </label>
-                        <br />
                         <label className="flex flex-col">
-                            Product Type:
-                            <input id="productType" list="TypesProduct"
-                            className='bg-gray-300 border p-2 rounded-[5px]'
-                            name="type"
-                            value={productInfo.type}
-                            onChange={handleChange}
-                            required
-                        />
-                        </label>
-                        <br />
-                        <div className="flex">
-                            <label className="flex flex-col">
-                                Price:
-                                <input
-                                className='bg-gray-300 border p-2 rounded-[5px]'
-                                type="number"
-                                name="price"
-                                value={productInfo.price}
-                                onChange={handleChange}
-                                required
-                            />
-                            </label>
-                            <label className="flex flex-col">
-                                <div className="flex">
-                                    <input type="checkbox" onChange={()=>setIsOldPrice((prev)=> !prev)} />
-                                    <p className="ml-1" >Old Price:</p>
-                                </div>
-                                <input
-                                className='bg-gray-300 border p-2 rounded-[5px] disabled:bg-white'
-                                type="number"
-                                name="oldPrice"
-                                value={productInfo.oldPrice}
-                                disabled={!isOldPrice}
-                                onChange={handleChange}
-                                required
-                            />
+                            <div className="flex">
+                                <input type="checkbox" onChange={()=>{
+                                    setIsOldPrice((prev)=> !prev)
+                                    console.log("IsOldPrice: ", isOldPrice)
+                                }} />
+                                <p className="ml-1" >Old Price:</p>
+                            </div>
+                                {isOldPrice ? (
+                                    <input
+                                    className='bg-gray-300 border p-2 rounded-[5px] disabled:bg-white'
+                                    type="number"
+                                    name="oldPrice"
+                                    value={productInfo.oldPrice}
+                                    disabled={!isOldPrice}
+                                    onChange={handleChange}/>
+                                ):(
+                                    <input
+                                    className='bg-gray-300 border p-2 rounded-[5px] disabled:bg-white'
+                                    type="number"
+                                    name="oldPrice"
+                                    value={''}
+                                    disabled={!isOldPrice}
+                                    onChange={handleChange}/>
+                                )}
                             </label>
                         </div>
                         <br />
@@ -172,7 +192,14 @@ export const EditProductModal = ()=>{
                         />
                         </label>
                         <br />
-                        <button className='bg-green-300 p-2 hover:bg-green-600 transition' type="submit">Change Product</button>
+                        <label className="flex flex-row">
+                            Visibility:
+                            <input type="checkbox" onChange={(e)=>{
+                                setIsVisible((prev)=>!prev)
+                                handleChange(e)
+                            }} id="" checked={productInfo.isVisible} />
+                        </label>
+                        <button className='bg-green-300 p-2 hover:bg-green-600 transition' type="submit" onClick={submitChanges}>Change Product</button>
                 </div>
                 {/*
                 <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenVisible(true)}>До змінити видимості</button>
@@ -195,7 +222,7 @@ export const EditProductModal = ()=>{
                         <br />
                     </>
                 )} */}
-                </div>
+            </div>
         )}
             <div className="flex justify-end gap-2">
                 <button
@@ -206,6 +233,8 @@ export const EditProductModal = ()=>{
                     setOpenPrice(false);
                     setOpenVisible(false);
                     setOldPrice(false);
+                    setIsOldPrice(false);
+                    setImage();
                     closeEditProductModal();
                 }}
                 >
