@@ -15,6 +15,7 @@ const BlogPost = () => {
         axios.get(`${apiRequest}/reqBlogPost?id=${blogId}`)
         .then(res=>{
             setPostInfo(res.data)
+            console.log(res.data)
         })
         .catch(err=>{console.error("Невдалося получити детальнішу інформацію про пост: ", err)})
     }, [])
@@ -25,7 +26,7 @@ const BlogPost = () => {
             <main className='flex-grow w-[65%] border m-auto border-gray-300 border-b-0 p-5'>
             {postInfo ? (
                 <div>
-                    <img src="/farm.jpg" alt="" />
+                    <img src={`${apiRequest}/uploads/posts/${postInfo.image}`} alt="" />
                     <h1>{postInfo.name}</h1>
                     <p>{postInfo.description}</p>
                 </div>

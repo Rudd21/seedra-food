@@ -15,7 +15,7 @@ import { PrismaClient } from '@prisma/client';
 import { verifyToken } from './middleware/auth.middleware.js';
 import { banGuard } from './middleware/banGuard.middleware.js';
 import { guestSession } from './middleware/guestSession.middleware.js';
-import { upload, uploadUserAvatar } from './middleware/multer.middleware.js';
+import { upload, uploadUserAvatar, uploadBlogImages } from './middleware/multer.middleware.js';
 
 import cookieParser from 'cookie-parser';
 import { userProducts } from './controllers/userProducts.controller.js';
@@ -246,7 +246,7 @@ app.get("/admin/getReports", verifyToken, getReports)
 
 app.get('/reqOrders', reqOrders)
 
-app.post('/addBlogPost', verifyToken, loadUser, addBlogPost);
+app.post('/addBlogPost', verifyToken, loadUser, uploadBlogImages.single('image'), addBlogPost);
 
 // app.get("/admin/checkServ", (req,res)=>res.send("OK"));
 

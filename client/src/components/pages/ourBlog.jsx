@@ -31,7 +31,7 @@ const OurBlog = () => {
               blogList.map((blog)=>(
               <div key={blog.id} className='grid grid-cols-3 gap-3'>
                 <div className='border rounded-xs p-2 flex flex-col'>
-                  <img src="/farm.jpg" alt="" />
+                  <img src={`${apiRequest}/uploads/posts/${blog.image}`} alt="" />
                   <h1>{blog.name}</h1>
                   <button className='text-white bg-gray-400 p-3 w-25 rounded-xs hover:bg-[#359740] transition' onClick={()=>navigate(`/blogPost/${blog.id}`)}>More →</button>
                 </div>

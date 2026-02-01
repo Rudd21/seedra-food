@@ -27,3 +27,15 @@ const userStorage = multer.diskStorage({
 })
 
 export const uploadUserAvatar = multer({ storage: userStorage })
+
+const blogStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.resolve(process.cwd(), '../uploads/posts'))
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname)
+        cb(null, `blog_${Date.now()}${ext}`)
+    }
+})
+
+export const uploadBlogImages = multer({ storage: blogStorage })

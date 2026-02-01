@@ -40,6 +40,11 @@ export const addBlogPost = async(req, res) => {
 
     const { nameBlogPost, descBlogPost } = req.body;
     const userId = req.user.id;
+    const imageName = req.file ? req.file.filename : null;
+
+    if (!imageName) {
+        return res.status(500).json({ error: "Невказано картинку до поста" })
+    }
 
     if (!nameBlogPost || !descBlogPost) {
         return res.status(500).json({ error: "Недостатньо заповнених полів" })
@@ -47,7 +52,7 @@ export const addBlogPost = async(req, res) => {
 
     try {
         await prisma.blogPost.create({
-            data: { name: nameBlogPost, description: descBlogPost, userId }
+            data: { image: imageName, name: nameBlogPost, description: descBlogPost, userId }
         })
 
         res.status(200).json({ message: "Успішно додано пост у блог!" })

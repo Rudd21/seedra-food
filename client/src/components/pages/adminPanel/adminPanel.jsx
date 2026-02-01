@@ -26,6 +26,8 @@ const AdminPanel = () => {
     const [nameBlogPost, setNameBlogPost] = useState('')
     const [descBlogPost, setDescBlogPost] = useState('')
 
+    const [imagePost, setImagePost] = useState()
+
     const [formBan, setFormBan] = useState({
         userId: '',
         days: '',
@@ -171,11 +173,31 @@ const AdminPanel = () => {
     }
 
     const addBlogPost = ()=>{
-        axios.post(`${apiRequest}/addBlogPost`, {nameBlogPost, descBlogPost},{
-            withCredentials: true
-        })
-        .then(res=>console.log("Успішно додано новий пост в блог"))
-        .catch(err=>console.log("Невдалося додати новий пост в блог ", err))
+
+        try{
+            const data = new FormData();
+
+            if(imagePost) data.append('image', imagePost)
+            data.append("nameBlogPost", nameBlogPost)
+            data.append("descBlogPost", descBlogPost)
+
+            axios.post(`${apiRequest}/addBlogPost`, data,{
+                withCredentials: true
+            })
+
+            console.log("Успішно додано новий пост в блог")
+        }catch(err){
+            console.log("Невдалося додати новий пост в блог ", err)
+        }
+    }
+
+    const handleFileChoose = (e)=>{
+        const file = e.target.files[0]
+
+        if(!file) return;
+
+        setImagePost(file)
+        console.log("Фото для поста є")
     }
 
     // const meAsAdmin = () =>{
@@ -357,11 +379,23 @@ const AdminPanel = () => {
                         <p>Коментаря не знайдено</p>
                     )}
                 </div>
-                <div className="comments flex flex-col w-[40%] m-auto gap-4 border m-4 p-3">
+                <div className="comments flex flex-col gap-4 border m-4 p-3">
                     <h1>Створення посту в блог</h1>
-                    <input className='border bg-white w-100' onChange={(e)=>setNameBlogPost(e.target.value)} placeholder='Blog Name' type="text" />
-                    <textarea className='border bg-white w-100 h-25' onChange={(e)=>setDescBlogPost(e.target.value)} placeholder='Description'  type="text" />
-                    <button className='bg-yellow-400 m-2 p-3 w-30 hover:bg-yellow-600 transition' onClick={addBlogPost}>Шукати</button>
+                    {imagePost && (
+                        <img className='p-2 h-80' src={URL.createObjectURL(imagePost)} alt="" />
+                    )}
+                    <div className='flex flex-col'>
+                        Choose photo:
+                        <input className='p-2 bg-gray-300' onChange={handleFileChoose} type="file" />
+                        <br />
+                        Write text:
+                        <input className='border bg-white w-100' onChange={(e)=>setNameBlogPost(e.target.value)} placeholder='Blog Name' type="text" />
+                        <br />
+                        Write description:
+                        <textarea className='border bg-white w-100 h-25' onChange={(e)=>setDescBlogPost(e.target.value)} placeholder='Description'  type="text" />
+                        <br />
+                        <button className='bg-yellow-400 m-2 p-3 w-30 hover:bg-yellow-600 transition' onClick={addBlogPost}>Створити</button>
+                    </div>
                 </div>
             </div>
         </main>
