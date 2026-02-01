@@ -201,40 +201,14 @@ export const EditProductModal = ()=>{
                         </label>
                         <button className='bg-green-300 p-2 hover:bg-green-600 transition' type="submit" onClick={submitChanges}>Change Product</button>
                 </div>
-                {/*
-                <button className="bg-gray-300 p-1 hover:bg-gray-500 transition rounded-xs" onClick={()=>setOpenVisible(true)}>До змінити видимості</button>
-                {openVisible ? (
-                    <div className="border m-2 p-2">
-                        <button className="bg-yellow-400 m-2 p-2 text-sm" onClick={() => {
-                            axios.post(`${apiRequest}/admin/changechangeVisible`, {productId}, {
-                                    withCredentials: true
-                                }
-                            ).then(res=>console.log("Успішно змінено видимості товару!"))
-                            .catch(err=>{
-                                console.log(err)
-                                console.error("Виникла помилка при змінені видимості товару!")
-                            })
-                        }}>Змінити видимість товару</button>
-                        <button className="bg-red-400 m-2 p-2 text-sm hover:bg-red-700 transition" onClick={()=>setOpenVisible(false)}>Закрити</button>
-                    </div>
-                ) : (
-                    <>
-                        <br />
-                    </>
-                )} */}
             </div>
         )}
             <div className="flex justify-end gap-2">
                 <button
                 className="px-4 mt-2 py-2 bg-gray-300"
                 onClick={()=>{
-                    setOpenName(false);
-                    setOpenDesc(false);
-                    setOpenPrice(false);
-                    setOpenVisible(false);
-                    setOldPrice(false);
                     setIsOldPrice(false);
-                    setImage();
+                    setNewImage();
                     closeEditProductModal();
                 }}
                 >

@@ -6,7 +6,8 @@ export const reqBlogPosts = async(req, res) => {
 
     try {
         const blogPosts = await prisma.blogPost.findMany({
-            take: 8
+            take: 8,
+            orderBy: { createdAt: 'desc' }
         })
 
         res.status(200).json(blogPosts)

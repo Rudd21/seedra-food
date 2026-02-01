@@ -1,33 +1,26 @@
-import React, { useState,useEffect } from 'react'
-import Navigation from '../navigation'
-import Footer from '../footer'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { apiRequest } from '../../../apiRequest'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import {apiRequest} from '../../../apiRequest';
 
 const OurBlog = () => {
+    const [blogList, seBlogList] = useState('')
 
-  const [blogList, setBlogList] = useState([])
+    const navigate = useNavigate()
 
-  const navigate = useNavigate();
-
-  useEffect(()=>{
-    axios.get(`${apiRequest}/reqBlogPosts`)
-    .then(res=>{
-      setBlogList(res.data)
-    })
-    .catch(err=>{
-      console.error("Помилка при отримані блогу: ", err);
-    })
-  }, [])
-
+    useEffect(()=>{
+        axios.get(`${apiRequest}/reqBlogPosts`)
+        .then(res=>{seBlogList(res.data)})
+        .catch(err=>{
+            console.error("Невдалося вибрати коментарі щодо сайту: ", err)
+        })
+    }, [])
 
   return (
-    <div className='min-h-screen flex flex-col'>
-        <Navigation/>
-        <main className='flex-grow w-[77%] m-auto p-5'>
-          <h1>Latest posts in blog:</h1>
-          <div className='grid grid-cols-4 gap-3'>
+    <div className='mt-5'>
+        <div className="w-[77%] m-auto">
+        <h2 className='text-center text-[25px] hover:text-[#359740] transition'>OurBlog</h2>
+            <div className='grid grid-cols-4 gap-3'>
                 {blogList && blogList.length > 0 ? (
                     blogList.map((blog)=>(
                     <div key={blog.id} className='rounded-lg bg-[#EAF1EB] '>
@@ -43,9 +36,8 @@ const OurBlog = () => {
                 ):(
                     <p className='text-gray-400 text-center'>...Невдалося загрузити блог...</p>
                 )}
-          </div>
-        </main>
-        <Footer/>
+            </div>
+        </div>
     </div>
   )
 }

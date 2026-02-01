@@ -13,10 +13,7 @@ const BlogPost = () => {
 
     useEffect(()=>{
         axios.get(`${apiRequest}/reqBlogPost?id=${blogId}`)
-        .then(res=>{
-            setPostInfo(res.data)
-            console.log(res.data)
-        })
+        .then(res=>{setPostInfo(res.data)})
         .catch(err=>{console.error("Невдалося получити детальнішу інформацію про пост: ", err)})
     }, [])
 
@@ -25,10 +22,12 @@ const BlogPost = () => {
             <Navigation />
             <main className='flex-grow w-[65%] border m-auto border-gray-300 border-b-0 p-5'>
             {postInfo ? (
-                <div>
-                    <img src={`${apiRequest}/uploads/posts/${postInfo.image}`} alt="" />
-                    <h1>{postInfo.name}</h1>
-                    <p>{postInfo.description}</p>
+                <div className='flex'>
+                    <img className='rounded-lg' src={`${apiRequest}/uploads/posts/${postInfo.image}`} alt="" />
+                    <div className='ml-3'>
+                        <h1 className='text-[#359740] text-[25px]'><strong>{postInfo.name}</strong></h1>
+                        <p>{postInfo.description}</p>
+                    </div>
                 </div>
             ):(
                 <p className='text-center text-gray-400'>...Невдалося получити детальнішу інформацію про пост...</p>
