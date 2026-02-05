@@ -60,7 +60,22 @@ const catalog = () => {
   return (
     <div className="catalog-block">
       {/* Сортувальний список */}
-      <ul className="sort0">
+      <ul className="
+            flex 
+            justify-between 
+            
+            lg:p-5 
+            lg:bg-purple-500 
+            lg:flex-row 
+            lg:max-h-[100%] 
+            lg:min-h-[10vh] 
+            
+            sm:bg-red-500 
+            sm:overflow-x-scroll
+            sm:m-5
+            mt-10
+            mb-10
+          ">
         <li className="sort-item">
           <button className="sort-text" onClick={(e)=>{ 
             e.preventDefault(); 
@@ -127,7 +142,18 @@ const catalog = () => {
       </ul>
 
       {/* Товари */}
-        <div className="products">
+        <div className="
+              grid 
+              w-full 
+
+              lg:grid-cols-4 
+              lg:grid-rows-2 
+              lg:gap-x-[15px] 
+              gap-y-[15px]
+              
+              sm:grid-cols-1
+              sm:grid-rows-8
+            ">
           {currentProducts
           .filter(product => !catalogFilter || product.type == catalogFilter)
           .map((product) => (

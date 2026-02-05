@@ -49,7 +49,7 @@ const banner = () => {
     <div>
         <Navigation />
         <main className='m-auto w-[80%]'>
-          <div className="p-0 m-0 banner">
+          <div className="p-0 m-0 banner flex-row">
             <div ref={ref} className="background-leafs flex">
               <img className='background-leaf leaf-1' src="leaf2.png" alt="" />
               <img className='background-leaf leaf-2' src="leaf1.png" alt="" />
@@ -60,7 +60,6 @@ const banner = () => {
               <img className='background-leaf leaf-7' src="leaf2.png" alt="" />
               <img className='background-leaf leaf-8' src="leaf1.png" alt="" />
             </div>
-            <div className="w-[100%]">
               {mostSaleList && mostSaleList.length > 0 ? (
                 <AnimatePresence mode='wait' custom={direction}>
                   <motion.div
@@ -71,7 +70,7 @@ const banner = () => {
                     animate='center'
                     exit='exit'
                     transition={{duration: 0.4, ease: "easeInOut"}}
-                    className='flex justify-between mt-7'>
+                    className='flex w-[100%] flex-row items-center justify-between ms:flex-col'>
                     <button className='flex z-2 rotate-[180deg] text-[30px] items-center mt-[70px]' 
                       onClick={()=>{
                         setDirection(-1)
@@ -79,7 +78,7 @@ const banner = () => {
                       }}>
                       <p className='bg-green-400 p-1 text-green-700 rounded-xs'>➔</p>
                     </button>
-                    <div className='z-1 flex flex-col justify-evenly w-[40%] font-bold'>
+                    <div className='z-1 flex flex-col justify-center w-[40%] font-bold'>
                       <h1>{mostSaleList[indexSale].name}</h1>
                       <p className="">{mostSaleList[indexSale].description}</p>
                       <div className='flex flex-col'>
@@ -105,7 +104,6 @@ const banner = () => {
                         <p className='bg-green-400 p-1 text-green-700 rounded-xs'>➔</p>
                       </button>
                   </motion.div>
-                  <div></div>
                 </AnimatePresence>
               ) : (
                 <>
@@ -130,11 +128,19 @@ const banner = () => {
                 </>
               )}
             </div>
-          </div>
           <div className="banner-footer">
-            <div className="banner-footer-text">
-              <h2>We sell seeds</h2>
-              <p>that always sprout and gardening supplies which never break</p>
+            <div className="text-center m-auto">
+              <h2 className='
+                text-[15px]
+                
+                sm:text-[20px]
+              '>We sell seeds</h2>
+              <p className='
+                text-[15px]
+                p-2
+                
+                sm:text-[15px]
+              '>that always sprout and gardening supplies which never break</p>
             </div>
           </div>
         </main>

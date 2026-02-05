@@ -8,15 +8,57 @@ const Footer = () => {
   return (
         <footer>
         <div className="text-[#70737C] mx-auto border-b border-[#4FA083] w-[90%] pb-[25px] sticky">
-            <ul className='flex w-[80%] mx-auto mt-4 justify-between'>
-                <li className="list-none px-[15px] border-r border-[#4FA083]">ALL PRODUCTS</li>
-                <li className="list-none px-[15px] border-r border-[#4FA083]">ABOUT SEEDRA</li>
-                <li className="list-none px-[15px] border-r border-[#4FA083]">OUR BLOG</li>
-                <li className="list-none px-[15px] border-r border-[#4FA083]">
-                    <img className='h-7' src="Frame.svg" alt="" />
+            <ul className='
+                grid
+                w-[80%] 
+                mx-auto 
+                mt-4
+                items-center 
+
+                lg:grid-cols-6
+                lg:grid-row-1
+
+                sm:grid-cols-1
+                sm:grid-row-6
+            '>
+                <li className="list-none text-center m-4 px-[15px] 
+                    lg:border-r 
+                    lg:border-[#4FA083]
+                    
+                    sm:border-r 
+                    sm:border-white-100 
+                    ">ALL PRODUCTS</li>
+                <li className="list-none text-center m-4 px-[15px]
+                    lg:border-r 
+                    lg:border-[#4FA083]
+                    
+                    sm:border-r 
+                    sm:border-white-100 
+                ">ABOUT SEEDRA</li>
+                <li className="list-none text-center m-4 px-[15px] 
+                    lg:border-r 
+                    lg:border-[#4FA083]
+                    
+                    sm:border-r 
+                    sm:border-white-100 
+                ">OUR BLOG</li>
+                <li className="flex list-none items-center m-4 px-[15px] 
+                    lg:border-r 
+                    lg:border-[#4FA083]
+                    
+                    sm:border-r 
+                    sm:border-white-100 
+                ">
+                    <img className='h-7 m-auto' src="Frame.svg" alt="" />
                 </li>
-                <li><button onClick={()=>navigation('/termsConditions')}>Terms & Conditions</button></li>
-                <li><button onClick={()=>navigation('/privacyPolicy')}>Privacy Policy</button></li>
+                <li className='m-4 text-center
+                    lg:border-r 
+                    lg:border-[#4FA083]
+                    
+                    sm:border-r 
+                    sm:border-white-100 
+                '><button onClick={()=>navigation('/termsConditions')}>Terms & Conditions</button></li>
+                <li className='m-4 text-center'><button onClick={()=>navigation('/privacyPolicy')}>Privacy Policy</button></li>
             </ul>
         </div>
         <div className="flex w-[80%] mx-auto mt-4 justify-between">

@@ -16,6 +16,7 @@ const Navigation = () => {
     const [checkToken, setCheckToken] = useState();
     const [stateSearch, setStateSearch] = useState(false);
     const [searchText, setSearchText] = useState('');
+    const [menuOpen, setMenuOpen] = useState(false)
     const searchRef = useRef(null);
     
     const navigate = useNavigate()
@@ -53,77 +54,101 @@ const Navigation = () => {
 
   return (
         <nav className='z-3' ref={searchRef}>
-            <div className="text-nav">
-                <img className='h-7' src="Frame.svg" alt="" />
-                <ul className="nav-ul">
-                    <li className="nav-list"><button>ALL PRODUCTS</button></li>
-                    <li className="nav-list"><Link to={'/aboutSeedra'}>ABOUT SEEDRA</Link></li>
-                    <li className="nav-list"><Link to={'/ourBlog'}>OUR BLOG</Link></li>
-                    {checkToken ? (
-                      <li className="nav-list"><button onClick={()=>openReport("OTHER", checkToken.id)}>SUPPORT</button></li>
-                    ):(
-                      <li className="nav-list"><button onClick={()=>{
-                        setNameResult("Помилка")
-                        setDescResult("Треба бути заєстрованим")
-                        openResultModal('error')
-                      }}>SUPPORT</button></li>
-                    )}
-                </ul>
-                <div className="social-top">
-                    <a href="#"><img src="ant-design_instagram-filled.png" alt="" /></a>
-                    <a href="#"><img src="akar-icons_facebook-fill.png" alt="" /></a>
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+
+            {/* LOGO */}
+            <img className="h-7" src="Frame.svg" alt="logo" />
+
+            {/* DESKTOP MENU */}
+            <ul className="hidden items-center gap-6 lg:flex">
+              <li><button>ALL PRODUCTS</button></li>
+              <li><Link to="/aboutSeedra">ABOUT SEEDRA</Link></li>
+              <li><Link to="/ourBlog">OUR BLOG</Link></li>
+
+              {checkToken ? (
+                <li>
+                  <button onClick={() => openReport("OTHER", checkToken.id)}>SUPPORT</button>
+                </li>
+              ) : (
+                <li>
+                  <button onClick={() => {
+                    setNameResult("Помилка")
+                    setDescResult("Треба бути зареєстрованим")
+                    openResultModal('error')
+                  }}>SUPPORT</button>
+                </li>
+              )}
+            </ul>
+
+            {/* SEARCH (desktop) */}
+            <div className="relative hidden lg:block">
+              <input
+                className="h-8 w-52 border px-2 text-sm"
+                placeholder="Search"
+                onInput={() => setStateSearch(true)}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+
+              {stateSearch && (
+                <div className="absolute top-full z-20 flex w-full flex-col border bg-white">
+                  <button
+                    className="p-3 text-sm hover:bg-gray-200"
+                    onClick={() => {
+                      navigate(`/search?type=user&text=${searchText}`)
+                      setStateSearch(false)
+                    }}
+                  >
+                    Search among users
+                  </button>
+                  <button
+                    className="p-3 text-sm hover:bg-gray-200"
+                    onClick={() => {
+                      navigate(`/search?type=product&text=${searchText}`)
+                      setStateSearch(false)
+                    }}
+                  >
+                    Search among products
+                  </button>
                 </div>
-                <div className='mx-10'>
-                  <input className="w-50 h-7 after:content-['*'] after:ml-0.5 after:text-red-500" placeholder={"Search"} type="text" onInput={()=>setStateSearch(true)} onChange={(e)=> setSearchText(e.target.value)}/>
-                  {stateSearch && (
-                    <div className='absolute w-50 flex flex-col'>
-                        <button className='p-3 border bg-white text-sm hover:bg-gray-300' onClick={()=>{
-                              navigate(`/search?type=user&text=${searchText}`)
-                              setSearchText('')
-                              setStateSearch(false)
-                            }}
-                          >Search among users</button>
-                        <button className='p-3 border bg-white text-sm hover:bg-gray-300' onClick={()=>{
-                            navigate(`/search?type=product&text=${searchText}`)
-                              setSearchText('')
-                              setStateSearch(false)
-                          }}
-                          >Search among products</button>
-                    </div>
-                  )}
-                </div>
-                <div className="sort-heart">
-                    <img src="Outline-green.png" alt="" />
-                </div>
-                {!checkToken ? (
-                  <>
-                    <Link className='nav-list' to={`/`}>Main</Link>
-                    <Link className='nav-list' to="/register">Register</Link>
-                    <button className='nav-list' onClick={()=>{
-                        reqBasket(),
-                        openBasketModal()
-                      }}>Basket</button>
-                    <button className='nav-list' onClick={()=>{
-                        reqOrder(),
-                        openOrderModal()
-                      }}>Order</button>
-                    <Link className='nav-list' to="/login">Login</Link>
-                  </>
-                ) : (
-                  <>
-                    <Link className='nav-list' to={`/`}>Main</Link>
-                    <Link className='nav-list' to={`/profile/${checkToken.id}`}>Profile</Link>
-                    <button className='nav-list' onClick={()=>{
-                        reqBasket(),
-                        openBasketModal()
-                      }}>Basket</button>
-                    <button className='nav-list' onClick={()=>{
-                        reqOrder(),
-                        openOrderModal()
-                      }}>Order</button>
-                  </>
-                )}
+              )}
             </div>
+
+            {/* BURGER */}
+            <button
+              className="lg:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              ☰
+            </button>
+          </div>
+
+          {/* MOBILE MENU */}
+          {menuOpen && (
+            <div className="flex flex-col gap-4 border-t bg-white px-4 py-4 lg:hidden">
+              <Link to="/">Main</Link>
+              <Link to="/aboutSeedra">About</Link>
+              <Link to="/ourBlog">Blog</Link>
+
+              {!checkToken ? (
+                <>
+                  <Link to="/register">Register</Link>
+                  <Link to="/login">Login</Link>
+                </>
+              ) : (
+                <Link to={`/profile/${checkToken.id}`}>Profile</Link>
+              )}
+
+              <button onClick={() => {
+                reqBasket()
+                openBasketModal()
+              }}>Basket</button>
+
+              <button onClick={() => {
+                reqOrder()
+                openOrderModal()
+              }}>Order</button>
+            </div>
+          )}
         </nav>
   )
 }

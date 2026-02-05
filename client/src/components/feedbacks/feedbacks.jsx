@@ -17,8 +17,19 @@ const feedbacks = () => {
 
   return (
     <div>
-        <div className="feedback">
-        <h2 className='text-center text-[25px] hover:text-[#359740] transition'>What our clients say</h2>
+        <div className="
+                grid
+                m-auto 
+                p-5
+
+                lg:w-[35%]
+                lg:grid-col-3
+
+                sm:w-[70%]
+                sm:grid-col-1
+                
+                ">
+        <h2 className='text-center text-[25px] hover:text-[#359740] transition sm:w-[100%]'>What our clients say</h2>
             {generalCommentsList && generalCommentsList.length > 0 ? (
             generalCommentsList.map((comment)=>(
             <div className='bg-[#EAF1EB] p-3 rounded-sm'>
