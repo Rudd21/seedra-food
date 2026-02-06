@@ -53,14 +53,14 @@ const Navigation = () => {
     }
 
   return (
-        <nav className='z-3' ref={searchRef}>
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+        <nav className='z-3 h-[100px]' ref={searchRef}>
+          <div className="mx-auto flex w-[90%] items-center justify-between px-4 py-3">
 
             {/* LOGO */}
             <img className="h-7" src="Frame.svg" alt="logo" />
 
             {/* DESKTOP MENU */}
-            <ul className="hidden items-center gap-6 lg:flex">
+            <ul className="hidden items-center gap-6 lg:flex lg:font-bold lg:text-gray-400">
               <li><button>ALL PRODUCTS</button></li>
               <li><Link to="/aboutSeedra">ABOUT SEEDRA</Link></li>
               <li><Link to="/ourBlog">OUR BLOG</Link></li>
@@ -83,7 +83,7 @@ const Navigation = () => {
             {/* SEARCH (desktop) */}
             <div className="relative hidden lg:block">
               <input
-                className="h-8 w-52 border px-2 text-sm"
+                className="h-8 w-52 rounded-[10px] border-gray-300 p-3 border px-2 text-sm"
                 placeholder="Search"
                 onInput={() => setStateSearch(true)}
                 onChange={(e) => setSearchText(e.target.value)}
@@ -112,10 +112,34 @@ const Navigation = () => {
                 </div>
               )}
             </div>
+            <div className="hidden flex flex-row gap-2 bg-white px-4 py-4 lg:block lg:justify-between lg:text-[17px] lg:text-gray-400 font-bold">
+              <Link className='p-3' to="/">Main</Link>
+              <Link className='p-3' to="/aboutSeedra">About</Link>
+              <Link className='p-3' to="/ourBlog">Blog</Link>
+
+              {!checkToken ? (
+                <>
+                  <Link className='p-3' to="/register">Register</Link>
+                  <Link className='p-3' to="/login">Login</Link>
+                </>
+              ) : (
+                <Link className='p-3' to={`/profile/${checkToken.id}`}>Profile</Link>
+              )}
+
+              <button className='p-3' onClick={() => {
+                reqBasket()
+                openBasketModal()
+              }}>Basket</button>
+
+              <button className='p-3' onClick={() => {
+                reqOrder()
+                openOrderModal()
+              }}>Order</button>
+            </div>
 
             {/* BURGER */}
             <button
-              className="lg:hidden"
+              className="text-[20px] lg:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               ☰
@@ -124,29 +148,35 @@ const Navigation = () => {
 
           {/* MOBILE MENU */}
           {menuOpen && (
-            <div className="flex flex-col gap-4 border-t bg-white px-4 py-4 lg:hidden">
-              <Link to="/">Main</Link>
-              <Link to="/aboutSeedra">About</Link>
-              <Link to="/ourBlog">Blog</Link>
+            <div className="flex flex-col gap-4 border p-2 bg-white fixed mt-[200%] w-[50%] lg:px-4 lg:py-4 lg:hidden lg:my-[0%]">
+              <Link className='p-3 text-center bg-gray-300' to="/">Main</Link>
+              <Link className='p-3 text-center bg-gray-300' to="/aboutSeedra">About</Link>
+              <Link className='p-3 text-center bg-gray-300' to="/ourBlog">Blog</Link>
 
               {!checkToken ? (
                 <>
-                  <Link to="/register">Register</Link>
-                  <Link to="/login">Login</Link>
+                  <Link className='p-3 text-center bg-gray-300' to="/register">Register</Link>
+                  <Link className='p-3 text-center bg-gray-300' to="/login">Login</Link>
                 </>
               ) : (
-                <Link to={`/profile/${checkToken.id}`}>Profile</Link>
+                <Link className='p-3 text-center bg-gray-300' to={`/profile/${checkToken.id}`}>Profile</Link>
               )}
 
-              <button onClick={() => {
+              <button className='p-3 text-center bg-gray-300' onClick={() => {
                 reqBasket()
                 openBasketModal()
               }}>Basket</button>
 
-              <button onClick={() => {
+              <button className='p-3 text-center bg-gray-300' onClick={() => {
                 reqOrder()
                 openOrderModal()
               }}>Order</button>
+              <button
+                className="bg-red-500"
+                onClick={() => setMenuOpen(false)}
+              >
+                x
+              </button>
             </div>
           )}
         </nav>

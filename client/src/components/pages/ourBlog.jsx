@@ -25,9 +25,9 @@ const OurBlog = () => {
   return (
     <div className='min-h-screen flex flex-col'>
         <Navigation/>
-        <main className='flex-grow w-[77%] m-auto p-5'>
+        <main className='flex-grow w-[90%] lg:w-[77%] m-auto p-5'>
           <h1>Latest posts in blog:</h1>
-          <div className='grid grid-cols-4 gap-3'>
+          <div className='grid grid-cols-1 lg:grid-cols-4 gap-3'>
                 {blogList && blogList.length > 0 ? (
                     blogList.map((blog)=>(
                     <div key={blog.id} className='rounded-lg bg-[#EAF1EB] '>

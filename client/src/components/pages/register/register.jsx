@@ -32,7 +32,7 @@ const addProduct = (e) => {
                 password: hashedPassword
             };
             
-            await axios.post('https://localhost:3000/register', dataToSend, {
+            await axios.post(`${apiRequest}/register`, dataToSend, {
                 withCredentials: true
             });
             console.log("Користувач успішно зарегіструвався!")
@@ -44,8 +44,8 @@ const addProduct = (e) => {
   return (
     <div className="min-h-screen flex flex-col">
         <Navigation/>
-        <main className='formRegister flex-grow'>
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form'>
+        <main className='formRegister flex-grow w-[40%] m-auto'>
+        <form onSubmit={handleSubmit} encType="multipart/form-data"  className='form lg:border lg:border-gray-300 lg:border-t-0 lg:border-b-0 m-5'>
             <div className="flex flex-col items-center">
             <label>
                     <p>Username:</p>

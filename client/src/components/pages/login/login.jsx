@@ -41,7 +41,7 @@ const addProduct = () => {
     <div className="min-h-screen flex flex-col">
         <Navigation />
         <main className='formRegister flex-grow w-[40%] m-auto'>
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form border border-gray-300 border-t-0 border-b-0 m-5'>
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className='form lg:border lg:border-gray-300 lg:border-t-0 lg:border-b-0 m-5'>
             <div className="flex flex-col items-center font-bold">
             <label>
                     <p>Email:</p>

@@ -6,8 +6,8 @@ const AboutSeedra = () => {
   return (
     <div className='min-h-screen flex flex-col'>
         <Navigation/>
-        <main className='flex-grow w-[65%] border m-auto border-gray-300 border-b-0 p-5'>
-            <div className='flex'>
+        <main className='flex-grow w-[90%] lg:w-[65%] border m-auto border-gray-300 border-b-0 p-5'>
+            <div className='flex flex-col lg:flex-row'>
                 <div>
                     <h1 className='text-[#359740] text-3xl'>
                         <b>Overall</b>
@@ -17,7 +17,7 @@ const AboutSeedra = () => {
                         Eius numquam excepturi consequuntur fugiat natus eum rem at corporis libero expedita error, impedit commodi ipsam quaerat cum. Quia vero voluptatem impedit dicta aliquam perspiciatis animi assumenda recusandae quos asperiores.
                     </p>
                 </div>
-                <img className='w-150 h-90 rounded-sm p-3' src="/farm.jpg" alt="" />
+                <img className='lg:w-150 lg:h-90 rounded-sm p-3' src="/farm.jpg" alt="" />
             </div>
             <br />
             <h1 className='text-[#359740] text-3xl'>

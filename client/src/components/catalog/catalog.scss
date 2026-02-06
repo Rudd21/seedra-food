@@ -95,8 +95,10 @@
 
 .sort-item {
     display: flex;
-    border: 1px solid lightgrey;
     height: 25px;
+    margin: 5px;
+    padding: 5px;
+    width: 100%;
     border-radius: 8px;
     align-items: center;
     justify-content: space-between;

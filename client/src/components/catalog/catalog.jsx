@@ -62,21 +62,17 @@ const catalog = () => {
       {/* Сортувальний список */}
       <ul className="
             flex 
-            justify-between 
+            lg:justify-between 
             
             lg:p-5 
-            lg:bg-purple-500 
             lg:flex-row 
-            lg:max-h-[100%] 
-            lg:min-h-[10vh] 
             
-            sm:bg-red-500 
-            sm:overflow-x-scroll
-            sm:m-5
+            p-3
+            overflow-x-scroll
             mt-10
             mb-10
           ">
-        <li className="sort-item">
+        <li className="sort-item lg:p-10">
           <button className="sort-text" onClick={(e)=>{ 
             e.preventDefault(); 
 
