@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
   return (
     <div className='min-h-screen flex flex-col'>
         <Navigation />
-        <main className='flex-grow border m-auto border-gray-300 w-[60%] border-b-0 p-5'>
+        <main className='flex-grow border m-auto border-gray-300 w-[90%] lg:w-[60%] border-b-0 p-5'>
             <h1>Privacy Policy</h1>
             <div className='flex- flex-col ml-5'>
                 <p className='underline'>Last updated: 20.01.2026</p>

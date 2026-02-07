@@ -48,7 +48,7 @@ const banner = () => {
   return (
     <div>
         <Navigation />
-        <main className='m-auto w-[80%]'>
+        <main className='m-auto w-[90%] lg:w-[80%]'>
           <div className="p-0 m-0 banner lg:h-[455px] flex-row">
             <div ref={ref} className="background-leafs flex">
               <img className='background-leaf leaf-1' src="leaf2.png" alt="" />
@@ -70,39 +70,41 @@ const banner = () => {
                     animate='center'
                     exit='exit'
                     transition={{duration: 0.4, ease: "easeInOut"}}
-                    className='flex w-[100%] items-center justify-between lg:justify-evenly flex-col lg:flex-row gap-4'>
-                    {/* <button className='flex z-2 rotate-[180deg] text-[30px] items-center mt-[70px]' 
+                    className='flex w-[110%] items-center justify-between flex-row gap-4'>
+                    <button className='flex z-2 rotate-[180deg] text-[30px] items-center mt-[70px]' 
                       onClick={()=>{
                         setDirection(-1)
                         setIndexSale(prev => (prev - 1) % mostSaleList.length);
                       }}>
                       <p className='bg-green-400 p-1 text-green-700 rounded-xs'>➔</p>
-                    </button> */}
-                    <div className='z-1 flex flex-col justify-center w-[90%] lg:w-[40%] font-bold'>
-                      <h1 className='text-[30px] lg:text-[40px]'>{mostSaleList[indexSale].name}</h1>
-                      <p className='text-[14px] lg:text-[17px]'>{mostSaleList[indexSale].description}</p>
-                      <div className='flex flex-col'>
-                        <div className="flex gap-2">
-                          <img src="fire (2).png" alt="" />
-                          <p className="text-[25px] text-green-800">${mostSaleList[indexSale].price}</p>
-                          <p className="text-[20px] text-gray-400 self-center">
-                            <s>${mostSaleList[indexSale].oldPrice}</s>
-                          </p>
-                        </div>
-                        <div className="flex flex-row mt-[10px] gap-2">
-                          <button className="banner-button1 transition text-[13px] lg:text-[20px]" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
-                          <button className="banner-button2 transition text-[13px] lg:text-[20px]" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                    </button>
+                    <div className='flex flex-col lg:flex-row justify-evenly'>
+                      <div className='z-1 flex flex-col justify-center w-[90%] lg:w-[40%] font-bold'>
+                        <h1 className='text-[30px] lg:text-[40px]'>{mostSaleList[indexSale].name}</h1>
+                        <p className='text-[14px] lg:text-[17px]'>{mostSaleList[indexSale].description}</p>
+                        <div className='flex flex-col'>
+                          <div className="flex gap-2">
+                            <img src="fire (2).png" alt="" />
+                            <p className="text-[25px] text-green-800">${mostSaleList[indexSale].price}</p>
+                            <p className="text-[20px] text-gray-400 self-center">
+                              <s>${mostSaleList[indexSale].oldPrice}</s>
+                            </p>
+                          </div>
+                          <div className="flex flex-row mt-[10px] gap-2 justify-center lg:justify-start p-2">
+                            <button className="transition text-white bg-[#359740] p-3 rounded-[5px] text-[13px] lg:text-[15px]" onClick={()=>addToBasket(mostSaleList[indexSale].id)}>Add to card</button>
+                            <button className="transition text-[#359740] bg-white p-3 rounded-[5px] text-[13px] lg:text-[15px]" onClick={()=>toProduct(mostSaleList[indexSale].id)}>Discover</button>
+                          </div>
                         </div>
                       </div>
+                      <img className="w-50 h-50 lg:w-80 lg:h-80 z-0" src={`${apiRequest}/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
                     </div>
-                    <img className="w-50 h-50 lg:w-80 lg:h-80 z-0" src={`${apiRequest}/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
-                    {/* <button className='flex z-2 text-[30px] items-center mt-[70px]' 
+                    <button className='flex z-2 text-[30px] items-center mt-[70px]' 
                       onClick={()=>{
                         setDirection(1)
                         setIndexSale(prev => (prev + 1) % mostSaleList.length);
                       }}>
                         <p className='bg-green-400 p-1 text-green-700 rounded-xs'>➔</p>
-                      </button> */}
+                      </button>
                   </motion.div>
                 </AnimatePresence>
               ) : (

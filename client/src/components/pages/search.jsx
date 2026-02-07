@@ -41,16 +41,16 @@ const Search = () => {
     return (
         <div className='flex flex-col min-h-screen'>
             <Navigation />
-            <main className='flex-grow border m-auto border-gray-300 w-[60%] border-b-0 p-5'>
+            <main className='flex-grow border m-auto border-gray-300 w-[90%] lg:w-[60%] border-b-0 p-5'>
             {searchList && searchList.length > 0 ? (
                 searchList.map((obj)=>(
-                    <div key={obj.id} className='border p-2 mt-3 rounded-lg border-gray-400'>
+                    <div key={obj.id} className='border flex p-2 mt-3 rounded-lg border-gray-400'>
                         {type === 'product' ? (
-                        <div className='flex p2'>
+                        <div className='flex flex-col justify-items-center lg:flex-row p-2'>
                             <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/products/${obj.image}`} alt="" />
-                            <div className='flex-grow flex ml-10 flex-row self-center justify-between'>
+                            <div className='flex-grow flex flex-col gap-5 lg:flex-row lg:ml-10 self-center justify-between'>
                                 <div className='flex flex-col justify-evenly h-[100%]'>
-                                    <p><strong>Product ID: {obj.id}</strong></p>
+                                    <p><strong className='text-[13px] lg:text-[20px]'>Product ID: {obj.id}</strong></p>
                                     <p><strong>{obj.name}</strong></p>
                                     <p className='text-gray-400 text-[13px]'><strong>Type: {obj.type}</strong></p>
                                     {obj.isSale ? (
@@ -70,9 +70,9 @@ const Search = () => {
                             </div>
                         </div>
                         ):(
-                        <div className='flex p2'>
+                        <div className='flex flex-col lg:flex-row p-2'>
                             <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/users/${obj.avatar}`} alt="" />
-                            <div className='flex-grow flex ml-10 flex-row self-center justify-between'>
+                            <div className='flex-grow flex lg:ml-10 flex-row self-center justify-between'>
                                 <div className='flex flex-col justify-evenly h-[100%]'>
                                     <p><strong>User ID: {obj.id}</strong></p>
                                     <p><strong>{obj.name}</strong></p>

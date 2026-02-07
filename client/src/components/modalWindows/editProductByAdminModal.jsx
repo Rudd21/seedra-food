@@ -74,12 +74,12 @@ export const EditProductModal = ()=>{
     if(!isOpen) return null;
 
     return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center overflow-y-scroll">
         <div className="bg-white p-4 rounded shadow-lg">
         <h2 className="text-lg font-bold mb-3">Edit product</h2>
         {productInfo && (
-            <div className="flex">
-                <div className='flex flex-col p-5'>
+            <div className="flex flex-col lg:flex-row">
+                <div className='flex w-[80%] m-auto lg:w-[100%] flex-col p-5'>
                     <h1 className='m-2'>Preview:</h1>
                         <div className="safe-productaImage items-end">
                             <button className='rounded-lg hover:bg-gray-300 w-10 h-10 transition duration-300'><img className="basket-product" src="../basket.png" alt="Basket" /></button>
@@ -107,7 +107,7 @@ export const EditProductModal = ()=>{
                             </div>
                         </div>
                 </div>
-                <div className='flex flex-col'>
+                <div className='flex flex-col w-[80%] m-auto lg:w-[100%]'>
                     <label className="flex flex-col">
                         Image:
                         <input id="productType" list="TypesProduct"
@@ -141,7 +141,7 @@ export const EditProductModal = ()=>{
                     />
                     </label>
                     <br />
-                    <div className="flex">
+                    <div className="flex flex-col lg:flex-row">
                         <label className="flex flex-col">
                             Price:
                             <input
@@ -157,7 +157,6 @@ export const EditProductModal = ()=>{
                             <div className="flex">
                                 <input type="checkbox" onChange={()=>{
                                     setIsOldPrice((prev)=> !prev)
-                                    console.log("IsOldPrice: ", isOldPrice)
                                 }} />
                                 <p className="ml-1" >Old Price:</p>
                             </div>
@@ -181,10 +180,10 @@ export const EditProductModal = ()=>{
                             </label>
                         </div>
                         <br />
-                        <label className="flex flex-row">
+                        <label className="flex flex-col lg:flex-row">
                             Description:
                             <textarea
-                            className='bg-white border ml-2 p-2 rounded-xl w-[200%]'
+                            className='bg-white border ml-2 p-2 rounded-xl lg:w-[200%]'
                             name="description"
                             value={productInfo.description}
                             onChange={handleChange}

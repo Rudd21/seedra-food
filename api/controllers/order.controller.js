@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export const createOrder = async(req, res) => {
 
-    const { phoneNumber, totalPrice } = req.body;
+    const { phoneNumber, totalPrice, productOwnerId } = req.body;
 
     const cleanTotalPrice = String(totalPrice)
 
@@ -26,7 +26,7 @@ export const createOrder = async(req, res) => {
         orders.push(publicToken);
 
         await prisma.order.create({
-            data: { phoneNumber, totalPrice: cleanTotalPrice, publicToken }
+            data: { phoneNumber, totalPrice: cleanTotalPrice, publicToken, productOwnerId }
         })
 
         res.cookie("order_tokens", JSON.stringify(orders), {
@@ -93,6 +93,21 @@ export const reqOrders = async(req, res) => {
         res.status(500).json({ message: "Помилка сервера!", error: err.message })
     }
 }
+
+export const reqOrdersByUser = async(req, res) => {
+    const { userId } = req.query;
+    try {
+        const orders = await prisma.order.findMany({
+            where: { productOwnerId: userId }
+        })
+
+        res.status(200).json(orders)
+    } catch (err) {
+        console.error("Помилка при запиті замовлень:", err);
+        res.status(500).json({ message: "Помилка сервера!", error: err.message })
+    }
+}
+
 
 
 export const deleteOrder = async(req, res) => {

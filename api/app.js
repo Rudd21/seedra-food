@@ -28,7 +28,7 @@ import { searchUsers, searchProduct } from './controllers/search.controller.js';
 import { reqUser } from './controllers/reqUser.controller.js';
 import { addGeneralComment, reqGeneralComments } from './controllers/generalComments.controller.js';
 import { reqBlogPosts, reqBlogPost, addBlogPost } from './controllers/blog.controller.js';
-import { createOrder, reqOrder, reqOrders, updateStatusOrder, deleteOrder } from './controllers/order.controller.js';
+import { createOrder, reqOrder, reqOrders, reqOrdersByUser, updateStatusOrder, deleteOrder } from './controllers/order.controller.js';
 import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
@@ -81,6 +81,7 @@ app.get('/reqBasket', reqBasket);
 app.post('/createOrder', createOrder)
 app.post('/updateStatusOrder', updateStatusOrder)
 app.get('/reqOrder', reqOrder)
+app.get('/reqOrdersByUser', reqOrdersByUser)
 app.delete('/deleteFromOrder', deleteOrder)
 
 app.get('/reqComment', reqComment);

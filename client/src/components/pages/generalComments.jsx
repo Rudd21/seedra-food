@@ -31,8 +31,8 @@ const GeneralComments = () => {
   return (
     <div className="min-h-screen flex flex-col">
         <Navigation />
-        <main className="flex-grow">
-            <form onSubmit={addGeneralComment}>
+        <main className="flex-grow w-[90%] m-auto lg:w-[60%]">
+            <form onSubmit={addGeneralComment} className='p-3'>
                 <label>
                     <input id='rating' type="range" min={0.5} max={5} step={0.5} defaultValue={4.5} onChange={(e) => setGeneralRating(e.target.value)} />
                     <label htmlFor="rating">{generalRating}</label>
@@ -46,7 +46,7 @@ const GeneralComments = () => {
                     required
                 />
                 </label>
-                <button className='bg-green-400 p-2 m-1 rounded-sm hover:bg-green-600 transition' type='submit'>Додати коментар</button>
+                <button className='bg-green-400 p-2 m-1 rounded-sm hover:bg-green-600 transition' type='submit'>Add comment</button>
             </form>
             {generalCommentsList && generalCommentsList.length > 0 ? (
                 generalCommentsList.map((comment)=>(

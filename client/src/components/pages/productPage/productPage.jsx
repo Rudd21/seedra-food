@@ -95,8 +95,8 @@ const ProductPage = () => {
   return (
     <div className='min-h-screen flex flex-col'>
         <Navigation />
-        <main className='flex-grow w-[70%] m-auto'>
-            <div className="flex">
+        <main className='flex-grow w-[90%] lg:w-[70%] m-auto'>
+            <div className="flex flex-col lg:flex-row">
                 <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`${apiRequest}/uploads/products/${productInfo?.image}`} alt="Product_photo" />
                 <div className="flex flex-col m-5 flex-grow">
                     <div className='flex border justify-between p-3 border-gray-400 text-[20px] rounded-lg'>
@@ -135,7 +135,7 @@ const ProductPage = () => {
                                 <button onClick={addReply} className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Reply</button>
                             </>
                         ) : (
-                            <div className='flex gap-5'>
+                            <div className='flex gap-5 flex-col lg:flex-row'>
                                 <label>
                                     <p>Rating:</p>
                                     <input id='rating' type="range" min={0.5} max={5} step={0.5} defaultValue={4.5} onChange={e => setCommentRating(e.target.value)} />

@@ -43,6 +43,7 @@ model User {
   comment Comment[]
   reports  Report[]
   blogPost  BlogPost[]
+  orders Order[]
   role Role @default(USER)
 }
 
@@ -124,6 +125,9 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   publicToken String @unique
+
+  ownerId User @relation(fields: [productOwnerId], references: [id])
+  productOwnerId String @db.ObjectId
 }
 
 enum OrderStatus{

@@ -54,24 +54,24 @@ const Navigation = () => {
 
   return (
         <nav className='z-3 h-[100px]' ref={searchRef}>
-          <div className="mx-auto flex w-[90%] items-center justify-between px-4 py-3">
+          <div className="mx-auto flex items-center lg:text-[14px] justify-between px-4 py-3">
 
             {/* LOGO */}
             <img className="h-7" src="Frame.svg" alt="logo" />
 
             {/* DESKTOP MENU */}
             <ul className="hidden items-center gap-6 lg:flex lg:font-bold lg:text-gray-400">
-              <li><button>ALL PRODUCTS</button></li>
-              <li><Link to="/aboutSeedra">ABOUT SEEDRA</Link></li>
-              <li><Link to="/ourBlog">OUR BLOG</Link></li>
+              <li><button className='p-2 hover:text-[#359740] transition'>ALL PRODUCTS</button></li>
+              <li><Link className='p-2 hover:text-[#359740] transition' to="/aboutSeedra">ABOUT SEEDRA</Link></li>
+              <li><Link className='p-2 hover:text-[#359740] transition' to="/ourBlog">OUR BLOG</Link></li>
 
               {checkToken ? (
                 <li>
-                  <button onClick={() => openReport("OTHER", checkToken.id)}>SUPPORT</button>
+                  <button className='p-2 hover:text-[#359740] transition' onClick={() => openReport("OTHER", checkToken.id)}>SUPPORT</button>
                 </li>
               ) : (
                 <li>
-                  <button onClick={() => {
+                  <button className='p-2 hover:text-[#359740] transition' onClick={() => {
                     setNameResult("Помилка")
                     setDescResult("Треба бути зареєстрованим")
                     openResultModal('error')
@@ -112,26 +112,26 @@ const Navigation = () => {
                 </div>
               )}
             </div>
-            <div className="hidden flex flex-row gap-2 bg-white px-4 py-4 lg:block lg:justify-between lg:text-[17px] lg:text-gray-400 font-bold">
-              <Link className='p-3' to="/">Main</Link>
-              <Link className='p-3' to="/aboutSeedra">About</Link>
-              <Link className='p-3' to="/ourBlog">Blog</Link>
+            <div className="hidden flex flex-row gap-2 bg-white px-4 py-4 lg:block lg:justify-between lg:text-gray-400 font-bold">
+              <Link className='p-2 hover:text-[#359740] transition' to="/">Main</Link>
+              <Link className='p-2 hover:text-[#359740] transition' to="/aboutSeedra">About</Link>
+              <Link className='p-2 hover:text-[#359740] transition' to="/ourBlog">Blog</Link>
 
               {!checkToken ? (
                 <>
-                  <Link className='p-3' to="/register">Register</Link>
-                  <Link className='p-3' to="/login">Login</Link>
+                  <Link className='p-2 hover:text-[#359740] transition' to="/register">Register</Link>
+                  <Link className='p-2 hover:text-[#359740] transition' to="/login">Login</Link>
                 </>
               ) : (
-                <Link className='p-3' to={`/profile/${checkToken.id}`}>Profile</Link>
+                <Link className='p-2 hover:text-[#359740] transition' to={`/profile/${checkToken.id}`}>Profile</Link>
               )}
 
-              <button className='p-3' onClick={() => {
+              <button className='p-2 hover:text-[#359740] transition' onClick={() => {
                 reqBasket()
                 openBasketModal()
               }}>Basket</button>
 
-              <button className='p-3' onClick={() => {
+              <button className='p-2 hover:text-[#359740] transition' onClick={() => {
                 reqOrder()
                 openOrderModal()
               }}>Order</button>
@@ -171,6 +171,19 @@ const Navigation = () => {
                 reqOrder()
                 openOrderModal()
               }}>Order</button>
+                {checkToken ? (
+                  <>
+                    <button className='p-3 text-center bg-red-300 hover:text-[#359740] transition' onClick={() => openReport("OTHER", checkToken.id)}>Support</button>
+                  </>
+                ) : (
+                  <>
+                    <button className='p-2 bg-red-300 hover:text-[#359740] transition' onClick={() => {
+                      setNameResult("Помилка")
+                      setDescResult("Треба бути зареєстрованим")
+                      openResultModal('error')
+                    }}>Support</button>
+                  </>
+                )}
               <button
                 className="bg-red-500"
                 onClick={() => setMenuOpen(false)}

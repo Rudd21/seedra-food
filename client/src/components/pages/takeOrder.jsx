@@ -40,6 +40,7 @@ const TakeOrder = () => {
             const order = {
             phoneNumber,
             totalPrice,
+            productOwnerId: productInfo?.userId,
             };
 
             axios.post(`${apiRequest}/createOrder`, order, {

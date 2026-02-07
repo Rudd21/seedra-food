@@ -18,6 +18,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState();
   const [userCatalog, setUserCatalog] = useState([]);
   const [productComments, setProductComments] = useState([]);
+  const [ownerOrders, setOwnerOrders] = useState([])
   const [avatar, setAvatar] = useState()
 
   const {openReport} = useReportContext()
@@ -44,6 +45,13 @@ const Profile = () => {
         setUserCatalog(res.data);
         })
       .catch(err=>{console.error("Помлка при отримані каталогу", err)})
+
+    // Запит наявних замолень у користувача
+      axios.get(`${apiRequest}/reqOrdersByUser?userId=${userId}`)
+      .then(res=>{
+        console.log(res.data);
+        })
+      .catch(err=>{console.error("Помлка при активних замовлень", err)})
 
     // Запит даних користувача, на чий профіль зайшли
         axios.get(`${apiRequest}/reqUser?userId=${userId}`)
@@ -106,10 +114,10 @@ const Profile = () => {
         <main className='flex-grow w-[80%] m-auto'>
             <div className="flex-col">
                 <h3>Інформація про вас:</h3>
-                <div className='flex justify-around'>
+                <div className='flex justify-around flex-col lg:flex-row'>
                     {checkToken?.id === userId ? (
                         <>
-                            <div className='flex-col'>
+                            <div className='flex-col items-center'>
                                 <div className='border-3 rounded-xl bg-green-200 w-57'>
                                 <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`${apiRequest}/uploads/users/${checkToken?.avatar}`} alt="" /></div>
                                 <label className='flex flex-col'>
@@ -123,7 +131,7 @@ const Profile = () => {
                                 </label>
                                 <button className='bg-green-400 p-3 my-3 mx-10 hover:bg-green-600 transition' onClick={changeAvatar}>Змінити аватарку</button>
                             </div>
-                            <div className="data_user">
+                            <div className="lg:w-[80%]">
                                 <p className="username">Ваш username: {checkToken?.name}</p>
                                 <p className='id_user'>Ваш id: {checkToken?.id}</p>
                                 <p className="email">Ваш email: {checkToken?.email}</p> 
@@ -156,9 +164,9 @@ const Profile = () => {
                         )}
                 </div>
             </div>
-            <div className="cata_user">
+            <div className="">
                 <h3>Товари користувача:</h3>
-                <div className='cata'>
+                <div className='grid mx-auto my-[5px] grid-cols-1 sm:grid-cols-5 gap-5'>
                 {userCatalog && userCatalog.length > 0 ? (
                     userCatalog.map((userCata) => (
                     <div>
@@ -205,24 +213,42 @@ const Profile = () => {
                 )}
                 </div>
             </div>
-            <div className="comment_user">
-                <h3>Коментарі щодо товару:</h3>
-                <div className='comments'>
-                    {productComments && productComments.length > 0 ? (
-                        productComments.map((comment) => (
-                        <div key={comment.id} className='flex m-5 p-5 border'>
-                        <img className='w-25' src="/user-default.png" alt="" />
-                        <div className='flex mx-5 flex-col justify-center'>
-                            <p><strong>User ID:</strong> {comment.userId}</p>
-                            <p><strong>Username:</strong> {comment.name}</p>
-                            <p><strong>Rating:</strong> {comment.rating}</p>
-                            <p><strong>Feedback:</strong>{comment.text}</p>
-                        </div>
-                        </div>
-                        ))
-                    ) : (
-                        <p className='mx-5 my-10 text-center underline text-gray-400'>...Коментарів поки немає...</p>
-                    )}
+            <div className='flex justify-between'>
+                <div className="comment_user">
+                    <h3>Коментарі щодо товару:</h3>
+                    <div className='comments'>
+                        {productComments && productComments.length > 0 ? (
+                            productComments.map((comment) => (
+                            <div key={comment.id} className='flex m-5 p-1 lg:p-5 border flex-col lg:flex-row'>
+                            <img className='w-25' src="/user-default.png" alt="" />
+                            <div className='flex mx-5 flex-col justify-center'>
+                                <p  className='text-[12px]'><strong>User ID:</strong> {comment.userId}</p>
+                                <p><strong></strong>{comment.text}</p>
+                            </div>
+                            </div>
+                            ))
+                        ) : (
+                            <p className='mx-5 my-10 text-center underline text-gray-400'>...Коментарів поки немає...</p>
+                        )}
+                    </div>
+                </div>
+                <div className="order_user">
+                    <h3>Замовлення товару товару:</h3>
+                    <div className='flex flex-col'>
+                        {ownerOrders && ownerOrders.length > 0 ? (
+                            ownerOrders.map((order) => (
+                            <div key={order.id} className='flex m-5 p-1 lg:p-5 border flex-col'>
+                                <p>Order id: {order.id}</p>
+                                <p>Phone number: {order.phoneNumber}</p>
+                                <p>Status: {order.status}</p>
+                                <p>Total price: {order.totalPrice}</p>
+                                <p>Created at: {order.createdAt}</p>
+                            </div>
+                            ))
+                        ) : (
+                            <p className='mx-5 my-10 text-center underline text-gray-400'>...Коментарів поки немає...</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </main>

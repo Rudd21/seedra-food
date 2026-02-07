@@ -15,9 +15,9 @@ export const OrderModal = () => {
     if(!isOpen) return null;
 
     return (
-        <div className='border w-100 h-1000 mx-[74%] bg-[#eaf1eb] fixed z-4 transition translate-x-0'>
+        <div className='border w-[80%] lg:w-100 h-1000 mx-[74%] bg-[#eaf1eb] overflow-y-scroll fixed z-4 transition translate-x-[-200px] lg:translate-x-0s'>
             <div className='flex items-center justify-between h-15'>
-                <h1 className='m-5'>Basket:</h1>            
+                <h1 className='m-5'>Orders:</h1>            
                 <button className='m-5 bg-green-700 p-1 text-white' onClick={()=> closeOrderModal()}>Close</button>
             </div>
             {orderList.length === 0 ? (
