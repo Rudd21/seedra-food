@@ -114,20 +114,28 @@ export const deleteOrder = async(req, res) => {
     const { publicToken } = req.body;
 
     let orders = req.cookies.order_tokens;
+    orders = JSON.parse(orders)
+    console.log("orders:", orders)
 
-    const removeIndex = orders.findIndex(item => item == publicToken);
+    try {
+        const removeIndex = orders.findIndex(item => item == publicToken);
 
-    if (removeIndex != -1) {
-        orders.splice(removeIndex, 1);
+        if (removeIndex != -1) {
+            orders.splice(removeIndex, 1);
+        }
+
+        console.log("ордер парс після ", orders)
+        res.cookie("order_tokens", JSON.stringify(orders), {
+            httpOnly: true,
+            sameSite: "Strict",
+            secure: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        res.json({ orders: orders });
+    } catch (err) {
+        console.error("Помилка при запиті видалення:", err);
+        res.status(500).json({ message: "Помилка сервера!", error: err.message })
     }
 
-    console.log("ордер парс після ", orders)
-    res.cookie("order_tokens", JSON.stringify(orders), {
-        httpOnly: true,
-        sameSite: "Strict",
-        secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    res.json({ orders: orders });
 }

@@ -16,7 +16,7 @@ const feedbacks = () => {
     }, [])
 
   return (
-    <div>
+    <div className='h-70'>
         <div className="
                 grid
                 m-auto 
@@ -57,7 +57,7 @@ const feedbacks = () => {
             )}
         </div>
         <div className='flex justify-center'>
-            <Link className='border text-center p-2 bg-gray-300 w-65 rounded-sm hover:bg-gray-500 transition' to={"https://localhost:5000/generalComments"}>Написати властий коментар</Link>
+            <Link className='text-white bg-gray-400 border border-b-5 border-black p-3 rounded-xs hover:bg-[#359740] hover:border-b-1 transition' to={"https://localhost:5000/generalComments"}>Write own comment</Link>
         </div>
     </div>
   )

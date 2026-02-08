@@ -20,6 +20,7 @@ const Profile = () => {
   const [productComments, setProductComments] = useState([]);
   const [ownerOrders, setOwnerOrders] = useState([])
   const [avatar, setAvatar] = useState()
+  const [filterOrder, setFilterOrder] = useState('PENDING')
 
   const {openReport} = useReportContext()
 
@@ -48,9 +49,7 @@ const Profile = () => {
 
     // Запит наявних замолень у користувача
       axios.get(`${apiRequest}/reqOrdersByUser?userId=${userId}`)
-      .then(res=>{
-        console.log(res.data);
-        })
+      .then(res=>{setOwnerOrders(res.data);})
       .catch(err=>{console.error("Помлка при активних замовлень", err)})
 
     // Запит даних користувача, на чий профіль зайшли
@@ -97,6 +96,20 @@ const Profile = () => {
         console.log("Виникла помилка при зміні аватару:", err)
     }
   }
+
+    const handleOrderStatus = (orderId, newStatus) =>{
+        axios.post(`${apiRequest}/updateStatusOrder`, {
+            orderId, 
+            status: newStatus
+        },{
+            withCredentials: true
+        })
+        .then(res=>fetchOrders())
+        .catch(err=>{
+            console.log(err)
+            console.error("Виникла помилка при змінені статуса")
+        })
+    }
 
   function handleLogout() {
     axios.post(`${apiRequest}/logout`, {}, {withCredentials: true})
@@ -170,7 +183,7 @@ const Profile = () => {
                 {userCatalog && userCatalog.length > 0 ? (
                     userCatalog.map((userCata) => (
                     <div>
-                        <div className="product" data-hashtag={userCata.type} onClick={()=>{reqCommentsProduct(userCata.id)}}>
+                        <div className="border p-3 h-[100%] border-gray-300 rounded-xl" data-hashtag={userCata.type} onClick={()=>{reqCommentsProduct(userCata.id)}}>
                             <div className="safe-productaImage">
                             {checkToken?.id === userId ? (
                                     <div className='flex justify-between'>
@@ -194,7 +207,7 @@ const Profile = () => {
                                 <span className='p-1'><span className='text-yellow-500'>:</span> 0 <span className='text-gray-400'>(no reviews)</span></span>
                             )}
                             </p>
-                            <h3 className='cardName' key={userCata.id}>{userCata.name}</h3>
+                            <h3 className='text-[15px]' key={userCata.id}>{userCata.name}</h3>
                             <div className="footer-card">
                                 {userCata.isSale ? (
                                     <div className='flex-col'>
@@ -204,7 +217,7 @@ const Profile = () => {
                                 ):(
                                     <p>$<span className="sort-price">{userCata.price}</span></p>
                                 )}
-                                <img className="basket-product" src="/basket.png" alt="Basket" />
+                                <button className='h-10 p-2 text-green-700 border border-[#CBCBCB] rounded-md hover:bg-gray-300 transition duration-300' onClick={()=>toProduct(product.id)}>Discover</button>
                             </div>
                         </div>
                     </div>
@@ -213,40 +226,104 @@ const Profile = () => {
                 )}
                 </div>
             </div>
-            <div className='flex justify-between'>
+            <div className='flex flex-col-reverse justify-between'>
                 <div className="comment_user">
                     <h3>Коментарі щодо товару:</h3>
-                    <div className='comments'>
+                    <div>
+                    {/* <p><strong>Comment ID:</strong> {comment.id}</p> */}
                         {productComments && productComments.length > 0 ? (
-                            productComments.map((comment) => (
-                            <div key={comment.id} className='flex m-5 p-1 lg:p-5 border flex-col lg:flex-row'>
-                            <img className='w-25' src="/user-default.png" alt="" />
-                            <div className='flex mx-5 flex-col justify-center'>
-                                <p  className='text-[12px]'><strong>User ID:</strong> {comment.userId}</p>
-                                <p><strong></strong>{comment.text}</p>
-                            </div>
+                            productComments
+                            .filter(c=> !c.parentId)
+                            .map((comment) => (
+                            <div key={comment.id} className='flex flex-col'>
+                                <div className='flex m-5 p-5 border'>
+                                    <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/users/${comment.user.avatar}`} alt="" />
+                                    <div className='flex-grow ml-10'>
+                                        <p className={comment.rating > 2.5 ? ('text-green-400') : ('text-yellow-400')}><strong>Rating: {comment.rating}</strong></p>
+                                        <div className='flex justify-between w-[40%]'>
+                                            <p><strong>{comment.user.name}</strong></p>
+                                            <p className='text-gray-400 text-[13px] self-center'><strong>{comment.createdAt}</strong></p>
+                                        </div>
+                                        <p className='mt-3'><strong>{comment.text}</strong></p>
+                                    </div>
+                                    <div className='flex flex-col self-center'>
+                                    <button 
+                                            className='w-25 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
+                                            onClick={()=>{toReply(comment.id)}}>Reply</button>  
+                                    </div>
+                                    <button 
+                                        className='w-10 h-10 bg-red-400 self-center m-3 text-[20px] text-white hover:bg-red-700 hover:text-white transition' 
+                                        onClick={()=>{
+                                            openReport('COMMENT', comment.id)
+                                        }}
+                                    >!</button>
+                                </div>
+                                <div>
+                                        {comment.replies?.map((reply)=>(
+                                            <div className='flex ml-25 p-5 border justify-between'>
+                                                <div className='flex-grow flex flex-col justify-center' key={reply.id}>
+                                                    {/* <h1>Відповідь на коментар: {reply.name}</h1>
+                                                    <h1>Відповідь на коментар: {reply.parentId}</h1> */}
+                                                    <h1>User ID: {reply.userId}</h1>
+                                                    <h1><strong>{reply.text}</strong></h1>
+                                                </div>
+                                                <div className='flex flex-col self-center'>
+                                                    <button 
+                                                            className='w-25 h-10 bg-gray-300 p-2 m-1 hover:bg-gray-600 hover:text-white transition' 
+                                                            onClick={()=>{toReply(comment.id)}}>Reply</button>  
+                                                    </div>
+                                                    <button 
+                                                        className='w-10 h-10 bg-red-400 self-center m-3 text-[20px] text-white hover:bg-red-700 hover:text-white transition' 
+                                                        onClick={()=>{
+                                                            openReport('COMMENT', comment.id)
+                                                        }}
+                                                >!</button>
+                                            </div>
+                                        ))}
+                                </div>
                             </div>
                             ))
                         ) : (
-                            <p className='mx-5 my-10 text-center underline text-gray-400'>...Коментарів поки немає...</p>
+                            <p className='text-gray-400 text-center p-5'>...Коментарів поки немає...</p>
                         )}
                     </div>
                 </div>
-                <div className="order_user">
-                    <h3>Замовлення товару товару:</h3>
-                    <div className='flex flex-col'>
+                <div className="reports border m-4 p-3">
+                    <h1>Фільтрація замовлень:</h1>
+                    <div className='flex'>
+                        <button className='bg-green-200 m-1 p-1 rounded-xs hover:bg-green-400 transition' onClick={()=>setFilterOrder('PENDING')}>PENDING</button>
+                        <button className='bg-green-400 m-1 p-1 rounded-xs hover:bg-yellow-400 transition' onClick={()=>setFilterOrder('PAID')}>PAID</button>
+                        <button className='bg-yellow-300 m-1 p-1 rounded-xs hover:bg-green-700 transition' onClick={()=>setFilterOrder('PROCESSING')}>PROCESSING</button>
+                        <button className='bg-purple-400 m-1 p-1 rounded-xs hover:bg-red-400 transition' onClick={()=>setFilterOrder('SHIPPED')}>SHIPPED</button>
+                        <button className='bg-green-500 m-1 p-1 rounded-xs hover:bg-red-400 transition' onClick={()=>setFilterOrder('COMPLETED')}>COMPLETED</button>
+                        <button className='bg-red-200 m-1 p-1 rounded-xs hover:bg-red-400 transition' onClick={()=>setFilterOrder('CANCELLED')}>CANCELLED</button>
+                    </div>
+
+                    <h1>Всього замовлень: {ownerOrders.length}</h1>
+
+                    <div className='max-h-[30vh] min-h-[30vh] overflow-y-scroll'>
                         {ownerOrders && ownerOrders.length > 0 ? (
-                            ownerOrders.map((order) => (
-                            <div key={order.id} className='flex m-5 p-1 lg:p-5 border flex-col'>
-                                <p>Order id: {order.id}</p>
-                                <p>Phone number: {order.phoneNumber}</p>
-                                <p>Status: {order.status}</p>
-                                <p>Total price: {order.totalPrice}</p>
-                                <p>Created at: {order.createdAt}</p>
-                            </div>
+                            ownerOrders
+                            .filter(order => order.status == filterOrder)
+                            .map(order=> (
+                                <div className='border m-4 p-3' key={order.id}>
+                                    <p>Order ID: {order.id}</p>
+                                    <p>Phone number: {order.phoneNumber}</p>
+                                    <p>Price: ${order.totalPrice}</p>
+                                    <p>Token: {order.publicToken}</p>
+                                    <label for='statues'>Статус замовлення:</label>
+                                    <select className='bg-gray-300 m-2 p-1 text-l' onChange={(e)=>handleOrderStatus(order.publicToken, e.target.value)} name="status" id="statues" defaultValue={order.status}>
+                                        <option value="PENDING">PENDING</option>
+                                        <option value="PAID">PAID</option>
+                                        <option value="PROCESSING">PROCESSING</option>
+                                        <option value="SHIPPED">SHIPPED</option>
+                                        <option value="COMPLETED">COMPLETED</option>
+                                        <option value="CANCELLED">CANCELLED</option>
+                                    </select>
+                                </div>
                             ))
                         ) : (
-                            <p className='mx-5 my-10 text-center underline text-gray-400'>...Коментарів поки немає...</p>
+                            <p>Замовлень не знайдено</p>
                         )}
                     </div>
                 </div>

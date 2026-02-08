@@ -1,5 +1,6 @@
 import React from 'react'
-import { useNavigate, useNavigation } from 'react-router-dom'
+import { Link, useNavigate, useNavigation } from 'react-router-dom'
+import { apiRequest } from '../../apiRequest';
 
 const Footer = () => {
 
@@ -13,7 +14,7 @@ const Footer = () => {
                 w-[80%] 
                 mx-auto 
                 mt-4
-                items-center 
+                content-center
 
                 lg:grid-cols-6
                 lg:grid-row-1
@@ -34,14 +35,18 @@ const Footer = () => {
                     
                     sm:border-r 
                     sm:border-white-100 
-                ">ABOUT SEEDRA</li>
+                ">
+                    <Link to='/aboutSeedra'>ABOUT SEEDRA</Link>
+                </li>
                 <li className="list-none text-center m-4 px-[15px] 
                     lg:border-r 
                     lg:border-[#4FA083]
                     
                     sm:border-r 
                     sm:border-white-100 
-                ">OUR BLOG</li>
+                ">
+                    <Link to='/ourBlog'>OUR BLOG</Link>
+                </li>
                 <li className="flex list-none items-center m-4 px-[15px] 
                     lg:border-r 
                     lg:border-[#4FA083]
@@ -49,7 +54,7 @@ const Footer = () => {
                     sm:border-r 
                     sm:border-white-100 
                 ">
-                    <img className='h-7 m-auto' src="Frame.svg" alt="" />
+                    <img className="h-7" src={`${apiRequest}/uploads/system/Logo.svg`} alt="logo" />
                 </li>
                 <li className='m-4 text-center
                     lg:border-r 

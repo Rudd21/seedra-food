@@ -58,7 +58,7 @@ const catalog = () => {
   
   const [catalogFilter, SetCatalogFilter] = useState(null)
   return (
-    <div className="catalog-block">
+    <div className="catalog-block" id='catalog'>
       {/* Сортувальний список */}
       <ul className="
             flex 

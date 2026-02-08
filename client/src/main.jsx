@@ -31,6 +31,7 @@ import { BasketModal } from './components/modalWindows/BasketModal.jsx';
 import { EditProfileModal } from './components/modalWindows/editProfileModal.jsx';
 import { ResultModal } from './components/modalWindows/resultModal.jsx';
 import { OrderModal } from './components/modalWindows/OrderModal.jsx';
+import { ScrollToHash } from './components/hooks/scrollToHash.jsx';
 
 // import { EditProductByUserModal } from './components/modalWindows/editProductByUserModal.jsx';
 import './index.css'
@@ -52,6 +53,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 <EditProfileModal />
                 <ResultModal />
                 <OrderModal />
+                <ScrollToHash />
                 <Routes>
                   <Route path='/' element={<App />}/>
                   <Route path='/addProduct' element={<AddProduct />}/>

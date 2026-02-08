@@ -289,7 +289,7 @@ const AdminPanel = () => {
                                     <p>Phone number: {order.phoneNumber}</p>
                                     <p>Price: ${order.totalPrice}</p>
                                     <p>Token: {order.publicToken}</p>
-                                    <label for='statues'>Статус скарги:</label>
+                                    <label for='statues'>Статус замовлення:</label>
                                     <select className='bg-gray-300 m-2 p-1 text-l' onChange={(e)=>handleOrderStatus(order.publicToken, e.target.value)} name="status" id="statues" defaultValue={order.status}>
                                         <option value="PENDING">PENDING</option>
                                         <option value="PAID">PAID</option>
@@ -301,7 +301,7 @@ const AdminPanel = () => {
                                 </div>
                             ))
                         ) : (
-                            <p>Скарг не знайдено</p>
+                            <p>Замовлень не знайдено</p>
                         )}
                     </div>
                 </div>

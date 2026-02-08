@@ -82,7 +82,7 @@ app.post('/createOrder', createOrder)
 app.post('/updateStatusOrder', updateStatusOrder)
 app.get('/reqOrder', reqOrder)
 app.get('/reqOrdersByUser', reqOrdersByUser)
-app.delete('/deleteFromOrder', deleteOrder)
+app.post('/deleteFromOrder', deleteOrder)
 
 app.get('/reqComment', reqComment);
 app.get('/catalog', reqCatalog);
