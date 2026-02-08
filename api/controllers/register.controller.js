@@ -10,7 +10,7 @@ export const register = async(req, res) => {
     }
 
     try {
-        const createUser = await prisma.user.create({
+        await prisma.user.create({
             data: { name, email, password }
         })
         res.status(200).json({ message: "Користувача додано до бази даних!" })

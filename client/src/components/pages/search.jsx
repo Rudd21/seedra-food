@@ -19,17 +19,13 @@ const Search = () => {
         if( type == 'product' ) {
 
             axios.get(`${apiRequest}/search/product?q=${text}`)
-            .then(res=>{setSearchList(res.data)
-                console.log(res.data)
-            })
+            .then(res=>{setSearchList(res.data)})
             .catch(err=>{console.error("Невдалося отримати список подіних : ", err)})
 
         } else if ( type == 'user' ) {
 
             axios.get(`${apiRequest}/search/user?q=${text}`)
-            .then(res=>{setSearchList(res.data)
-                console.log(res.data)
-            })
+            .then(res=>{setSearchList(res.data)})
             .catch(err=>{console.error("Невдалося отримати список подіних користувачів: ", err)})
         
         } else {

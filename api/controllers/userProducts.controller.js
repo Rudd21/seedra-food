@@ -4,7 +4,6 @@ const prisma = new PrismaClient()
 
 export const userProducts = async(req, res) => {
     const { id } = req.params;
-    console.log("На бекенді треба знайти такого:", id)
 
     try {
         const products = await prisma.product.findMany({

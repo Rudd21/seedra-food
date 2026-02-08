@@ -59,15 +59,12 @@ const Profile = () => {
   },[])
 
   const deleteProduct = (productId) => {
-    console.log("deleteProduct:", productId)
     axios.delete(`${apiRequest}/deleteProduct/${productId}`, {
         withCredentials: true
     })
   }
 
   const reqCommentsProduct = (productId) => {
-    console.log("userCatalog ", userCatalog)
-    console.log("Треба найти:", productId)
     axios.get(`${apiRequest}/reqComment?productId=${productId}`)
     .then(res=>{setProductComments(res.data)})
     .catch(err=>{console.error("Помилка при отримані коментарів:", err)})
@@ -86,7 +83,6 @@ const Profile = () => {
         const data = new FormData()
         data.append('image', avatar)
 
-        console.log("Що відправляю:", avatar)
         await axios.put(`${apiRequest}/user/changeAvatar`, data, {
             withCredentials: true
         })
@@ -115,7 +111,6 @@ const Profile = () => {
     axios.post(`${apiRequest}/logout`, {}, {withCredentials: true})
     .then(() => {
       setCheckToken(null);
-      console.log("має по ідеї очиститись",checkToken)
       navigate("/");
     })
     .catch(err => console.error("Помилка під час логауту", err));
@@ -158,23 +153,20 @@ const Profile = () => {
                             <button className='w-35 h-15 bg-red-400 p-4 m-3 hover:bg-red-700 hover:text-white transition' onClick={()=>openReport("USER", userInfo.id)}>Поскаржитись</button>
                         </div>
                     )}
-                        {checkToken?.id === userId ? (
-                            <div className='edit_data_user'>
-                                <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>{
-                                    setWindowType('username')
-                                    openEditProfileModal();
-                                }}>Change username</button>
-                                <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>{
-                                    setWindowType('password')
-                                    openEditProfileModal();
-                                }}>Change password</button>
-                                <Link className='p-4 rounded-md text-center hover:bg-gray-200 transition' to="/addProduct">AddProduct</Link>
-                                <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={handleLogout}>Log out</button>
-                            </div>
-                            
-                        ) : (
-                            <div></div>
-                        )}
+                    {checkToken?.id && (
+                        <div className='edit_data_user'>
+                            <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>{
+                                setWindowType('username')
+                                openEditProfileModal();
+                            }}>Change username</button>
+                            <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={()=>{
+                                setWindowType('password')
+                                openEditProfileModal();
+                            }}>Change password</button>
+                            <Link className='p-4 rounded-md text-center hover:bg-gray-200 transition' to="/addProduct">AddProduct</Link>
+                            <button className='p-4 rounded-md hover:bg-gray-200 transition' onClick={handleLogout}>Log out</button>
+                        </div>    
+                    )}
                 </div>
             </div>
             <div className="">
@@ -182,7 +174,7 @@ const Profile = () => {
                 <div className='grid mx-auto my-[5px] grid-cols-1 sm:grid-cols-5 gap-5'>
                 {userCatalog && userCatalog.length > 0 ? (
                     userCatalog.map((userCata) => (
-                    <div>
+                    <div key={userCata.id}>
                         <div className="border p-3 h-[100%] border-gray-300 rounded-xl" data-hashtag={userCata.type} onClick={()=>{reqCommentsProduct(userCata.id)}}>
                             <div className="safe-productaImage">
                             {checkToken?.id === userId ? (

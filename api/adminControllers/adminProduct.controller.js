@@ -16,7 +16,6 @@ export const searchProductById = async(req, res) => {
                 }
             }
         });
-        console.log("Що відправляєм на фронт:", productInfo)
         res.status(200).json(productInfo)
     } catch {
         res.status(500).json({ message: "Невдалося знайти товар за ID" })
@@ -41,18 +40,20 @@ export const changeStatus = async(req, res) => {
 export const updateProduct = async(req, res) => {
     const ProductTypes = ["BUNDLES", "HERBS", "VEGETABLES", "FRUITS", "SUPPLIES", "FLOWERS"]
 
-    console.log("Отриманий запит:", req.body);
-
     const { id, image, name, type, price, oldPrice, description } = req.body;
+
+    console.log("Отриманий oldPrice", req.body.oldPrice);
+
     const cleanType = type.trim().toUpperCase();
     const imageName = req.file ? req.file.filename : null;
 
-    const isSale = oldPrice == '' ? true : false
+    const isSale = oldPrice ? false : true
+    console.log("isSale", isSale)
     const checkOldPrice = oldPrice == '' ? null : oldPrice
     const checkImage = imageName ? imageName : image
 
     if (!ProductTypes.includes(cleanType)) {
-        return res.status(400).json({ error: "Не підходить під жодний тип! Челллл" });
+        return res.status(400).json({ error: "Не підходить під жодний тип!" });
     }
 
     try {
@@ -60,9 +61,9 @@ export const updateProduct = async(req, res) => {
             where: { id },
             data: { image: checkImage, name, type: cleanType, price, oldPrice: checkOldPrice, isSale, description }
         });
-        res.status(200).json({ message: "Продукт успішно додано!", data: newProduct });
+        res.status(200).json({ message: "Продукт успішно оновлено!", data: newProduct });
     } catch (err) {
-        console.error('Помилка при додаванні продукту:', err);
-        res.status(500).json({ error: 'Помилка при додаванні продукту:' });
+        console.error('Помилка при оновлені продукту:', err);
+        res.status(500).json({ error: 'Помилка прионовлені продукту:' });
     }
 }

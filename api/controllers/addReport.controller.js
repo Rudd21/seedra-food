@@ -6,7 +6,6 @@ export const addReport = async(req, res) => {
 
     const { name, description, target, targetId } = req.body
     const userId = req.user.id;
-    console.log("Так я працюю!", name, description, target, targetId)
     try {
         await prisma.report.create({
             data: { name, description, target, targetId, userId: req.user.id }

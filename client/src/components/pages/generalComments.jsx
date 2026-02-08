@@ -50,7 +50,7 @@ const GeneralComments = () => {
             </form>
             {generalCommentsList && generalCommentsList.length > 0 ? (
                 generalCommentsList.map((comment)=>(
-                    <div className='border p-2 m-2'>
+                    <div key={comment.id} className='border p-2 m-2'>
                         <p>User ID: {comment.userId}</p>
                         <p>Created: {comment.createdAt}</p>
                         <p>Feedback: {comment.text}</p>

@@ -1,7 +1,4 @@
 export const banGuard = (req, res, next) => {
-    console.log('BAN GUARD HIT');
-    console.log('req.user:', req.user);
-
     if (req.user && req.user.isBanned) {
         return res.status(403).json({
             message: "Користувач заблокований",

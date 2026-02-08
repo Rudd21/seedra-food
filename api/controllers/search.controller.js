@@ -32,7 +32,6 @@ export const searchProduct = async(req, res) => {
                 }
             }
         })
-        console.log("Що відправляєм на фронт:", products)
         res.status(200).json(products)
     } catch (err) {
         res.status(500).json({ message: "Невдалося дістати товари" })

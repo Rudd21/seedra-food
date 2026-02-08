@@ -12,7 +12,6 @@ export const reqUser = async(req, res) => {
             }
         });
 
-        console.log("ЧО МИ НАЙШЛИ user: ", user)
         res.status(200).json(user)
     } catch (err) {
         console.error("Помилка при отриманні профіля користувача:", err)

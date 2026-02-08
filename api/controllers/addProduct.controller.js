@@ -6,8 +6,6 @@ const prisma = new PrismaClient();
 export const addProduct = async(req, res) => {
     const ProductTypes = ["BUNDLES", "HERBS", "VEGETABLES", "FRUITS", "SUPPLIES", "FLOWERS"]
 
-    console.log("Отриманий запит:", req.body);
-
     const { name, type, price, description } = req.body;
     const cleanType = type.trim().toUpperCase();
     const imageName = req.file ? req.file.filename : null;

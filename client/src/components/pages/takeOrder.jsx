@@ -46,7 +46,7 @@ const TakeOrder = () => {
             axios.post(`${apiRequest}/createOrder`, order, {
                 withCredentials: true
             })
-            .then(res=>console.log("Успішно створено замолення"))
+            .then(console.log("Успішно створено замолення"))
             .catch(err=>console.error("Виникла проблема при створені замовлення",err))
             
             console.log("order: ", order)

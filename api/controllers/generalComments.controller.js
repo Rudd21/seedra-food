@@ -25,12 +25,13 @@ export const addGeneralComment = async(req, res) => {
 
     const cleanRating = Number(generalRating)
 
-    if (!generalComment || generalRating) {
+    if (!generalComment || !generalRating) {
         return res.status(500).json({ error: "Помилка при отриманні коментарів" })
     }
 
     try {
         await prisma.generalComment.create({
+            take: 3,
             data: { text: generalComment, rating: cleanRating, userId: req.user.id }
         });
 

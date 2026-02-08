@@ -7,8 +7,6 @@ export const addComment = async(req, res) => {
     const { productId, text, rating } = req.body
     const cleanRating = Number(rating)
 
-    console.log("productId, text, rating: ", productId, text, cleanRating, req.user.id)
-
     if (!rating) {
         return res.status(500).json({ message: "Немає рейтингу" })
     }
@@ -27,8 +25,6 @@ export const addComment = async(req, res) => {
 export const addReply = async(req, res) => {
 
     const { productId, parentId, replyText } = req.body
-
-    console.log(" productId, parentId, text : ", productId, parentId, replyText, req.user.id)
 
     if (!replyText) {
         return res.status(500).json({ message: "Немає тексту" })

@@ -20,7 +20,6 @@ export const reqBasket = async(req, res) => {
                 }
             }
 
-            console.log("Список що знайшлося для користувача: ", listProducts)
             res.status(200).json(listProducts)
 
             listProducts = []

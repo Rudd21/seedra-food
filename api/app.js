@@ -94,7 +94,7 @@ app.get('/productPage/:id', async(req, res) => {
     const { id } = req.params;
     try {
         const product = await prisma.product.findUnique({ where: { id: id } });
-        console.log("products", product)
+
         res.status(200).json(product)
     } catch (err) {
         res.status(500).json({ error: 'Не вдалось дістати дані продукту' })
@@ -108,7 +108,7 @@ app.get('')
 
 app.delete('/deleteProduct/:id', verifyToken, async(req, res) => {
     const { id } = req.params;
-    console.log("Товар що приходить:", id, " Від кого:", req.user.id)
+
     try {
         const deleted = await prisma.product.delete({
             where: {
@@ -123,7 +123,6 @@ app.delete('/deleteProduct/:id', verifyToken, async(req, res) => {
 
         res.status(200).json({ message: "Товар успішно видалено" })
     } catch (err) {
-        console.log(err);
         res.status(500).json({ error: 'Не вдалось видалити товар' })
     }
 })
@@ -144,7 +143,6 @@ app.put("/user/changeUsername", verifyToken, async(req, res) => {
 
         res.status(200).json({ message: "Ім'я користувача змінено!" })
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: "Невдалося змінити ім'я користувача" })
     }
 })
@@ -174,7 +172,6 @@ app.put("/user/changePassword", verifyToken, async(req, res) => {
 
         res.status(200).json({ message: "Пароль успішно змінено" })
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: "Невдалося змінити пароль користувача" })
     }
 })
@@ -191,7 +188,6 @@ app.put("/user/changeAvatar", verifyToken, uploadUserAvatar.single('image'), asy
 
         res.status(200).json({ message: "Аватар змінено!" })
     } catch (err) {
-        console.log(err)
         res.status(500).json({ error: "Невдалося змінити аватар!" })
     }
 })

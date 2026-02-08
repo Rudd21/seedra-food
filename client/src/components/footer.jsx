@@ -51,10 +51,9 @@ const Footer = () => {
                     lg:border-r 
                     lg:border-[#4FA083]
                     
-                    sm:border-r 
-                    sm:border-white-100 
+                    
                 ">
-                    <img className="h-7" src={`${apiRequest}/uploads/system/Logo.svg`} alt="logo" />
+                    <img className="h-7 m-auto" src={`${apiRequest}/uploads/system/Logo.svg`} alt="logo" />
                 </li>
                 <li className='m-4 text-center
                     lg:border-r 

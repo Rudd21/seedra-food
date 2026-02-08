@@ -26,7 +26,6 @@ const addProduct = (e) => {
         if(!file) return;
 
         setImage(file)
-        console.log("Файлик є")
     };
 
     const handleChange = (e) => {
@@ -48,6 +47,7 @@ const addProduct = (e) => {
 
             if(image) data.append('image', image);
 
+            console.log("data:", data)
             await axios.post(`${apiRequest}/addProduct`, data, {
                 withCredentials: true
             });
@@ -157,7 +157,7 @@ const addProduct = (e) => {
                     </label>
                 </form>
             </div>
-            <button className='bg-green-300 hover:bg-green-600 p-3 w-[70%] m-auto transition' type="submit">Add Product</button>
+            <button className='bg-green-300 hover:bg-green-600 p-3 w-[70%] m-auto transition' type="submit" onClick={handleSubmit}>Add Product</button>
         </main>
         <Footer />
     </div>

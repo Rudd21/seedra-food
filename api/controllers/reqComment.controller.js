@@ -20,7 +20,6 @@ export const reqComment = async(req, res) => {
                 countReplies: replies
             };
         })
-        console.log(JSON.stringify(cleanComments, null, 2));
         res.status(200).json(cleanComments)
     } catch (err) {
         console.error("Помилка при отриманні коментарів:", err)

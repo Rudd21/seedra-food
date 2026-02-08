@@ -42,9 +42,7 @@ const ProductPage = () => {
       axios.get(`${apiRequest}/reqComment?productId=${productId}`,{
         withCredentials: true
       })
-      .then(res=>{setGetComments(res.data)
-        console.log(res.data)
-      })
+      .then(res=>{setGetComments(res.data)})
       .catch(err=>{console.error("Немає мабуть коментарів:", err)})
     },[])
     
@@ -73,10 +71,9 @@ const ProductPage = () => {
 
     const addReply = () =>{
         setReplyState(false)
-        console.log("formReply: ", formReply)
         axios.post(`${apiRequest}/addReply`, formReply, {
             withCredentials: true
-        }).then(res=>{console.log("Відповідь на коментар успішно додано!")})
+        }).then(console.log("Відповідь на коментар успішно додано!"))
         .catch(err=>{
             console.log(err)
             console.error("Невдалося додати відповідь на коментар")

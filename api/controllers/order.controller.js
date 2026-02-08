@@ -115,7 +115,6 @@ export const deleteOrder = async(req, res) => {
 
     let orders = req.cookies.order_tokens;
     orders = JSON.parse(orders)
-    console.log("orders:", orders)
 
     try {
         const removeIndex = orders.findIndex(item => item == publicToken);
@@ -124,7 +123,6 @@ export const deleteOrder = async(req, res) => {
             orders.splice(removeIndex, 1);
         }
 
-        console.log("ордер парс після ", orders)
         res.cookie("order_tokens", JSON.stringify(orders), {
             httpOnly: true,
             sameSite: "Strict",

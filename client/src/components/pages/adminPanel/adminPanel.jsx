@@ -139,7 +139,7 @@ const AdminPanel = () => {
             {
                 withCredentials: true
             }
-        ).then(res=>console.log("Успішно видано бан"))
+        ).then(console.log("Успішно видано бан"))
         .catch(err=>{
             console.log(err)
             console.error("Невдалось видати бан")
@@ -165,7 +165,7 @@ const AdminPanel = () => {
             },{
                 withCredentials: true
             }
-        ).then(res=>{console.log("Успішно видалено коментар")})
+        ).then(console.log("Успішно видалено коментар"))
         .catch(err=>{
             console.log(err)
             console.error("Виникла помилка при спробі видалити коментар")
@@ -197,15 +197,8 @@ const AdminPanel = () => {
         if(!file) return;
 
         setImagePost(file)
-        console.log("Фото для поста є")
     }
 
-    // const meAsAdmin = () =>{
-    //     axios.get(`${apiRequest}/meAsAdmin`, {
-    //         withCredentials: true
-    //     }).then(res=>console.log(res))
-    //     .catch(err=>{console.error("Памілка", err)})
-    // }
 
   return (
     <div>
