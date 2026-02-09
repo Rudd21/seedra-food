@@ -7,7 +7,7 @@ import bcrypt from 'bcryptjs';
 import { apiRequest } from '../../../../serverRequest';
 import { useReportContext } from '../../modalWindows/ReportContext';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
-import { useEditProfileContext } from '../../modalWindows/editProfileContext';
+import { useEditProfileContext } from '../../modalWindows/EditProfileContext';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 

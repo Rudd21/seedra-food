@@ -20,7 +20,7 @@ import NotFound from './components/pages/notFound.jsx';
 import { ReportProvider } from './components/modalWindows/ReportContext.jsx';
 import { EditProductProvider } from './components/modalWindows/editProductByAdminContext.jsx';
 import { BasketContextProvider } from './components/modalWindows/BasketContext.jsx';
-import { EditProfileProvider } from './components/modalWindows/editProfileContext.jsx';
+import { EditProfileProvider } from './components/modalWindows/EditProfileContext.jsx';
 import { ResultProvider } from './components/modalWindows/resultContext.jsx';
 import { OrderContextProvider } from './components/modalWindows/OrderContext.jsx';
 // import { EditProductByUserProvider } from './components/modalWindows/editProductByUserContext.jsx';
