@@ -36,7 +36,7 @@ export const login = async(req, res) => {
         res.status(200).json({ message: "Авторизація успішна", token })
 
     } catch (err) {
-        console.error("Помилка під час логіну:", err); // Лог у консоль
+        console.error("Помилка під час логіну:", err);
         res.status(500).json({ message: "Помилка сервера!", error: err.message })
     }
 }

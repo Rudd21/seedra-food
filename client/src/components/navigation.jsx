@@ -2,7 +2,7 @@ import React, { useEffect, useState, useParams, useRef } from 'react'
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
 import {motion, transform} from 'framer-motion'
-import { apiRequest } from '../../apiRequest';
+import { apiRequest } from '../../serverRequest';
 import { useBasketContext } from './modalWindows/BasketContext';
 import { useReportContext } from './modalWindows/ReportContext';
 import { useResultContext } from './modalWindows/resultContext';
@@ -46,7 +46,6 @@ const Navigation = () => {
         axios.post(`${apiRequest}/logout`, {}, {withCredentials: true})
         .then(() => {
             setCheckToken(null);
-            console.log("має по ідеї очиститись", checkToken)
             navigate("/");
         })
         .catch(err => console.error("Помилка під час логауту", err));

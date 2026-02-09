@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom';
 import "./feedback.scss"
 import axios from 'axios';
-import {apiRequest} from '../../../apiRequest';
+import {apiRequest, clientRequest} from '../../../serverRequest';
 
 const feedbacks = () => {
     const [generalCommentsList, setGeneralCommentsList] = useState('')
@@ -52,7 +52,7 @@ const feedbacks = () => {
             </div>
         </div>
         <div className='flex justify-center'>
-            <Link className='text-white bg-gray-400 border border-b-5 border-black p-3 rounded-xs hover:bg-[#359740] hover:border-b-1 transition' to={"https://localhost:5000/generalComments"}>Write own comment</Link>
+            <Link className='text-white bg-gray-400 border border-b-5 border-black p-3 rounded-xs hover:bg-[#359740] hover:border-b-1 transition' to={`${clientRequest}/generalComments`}>Write own comment</Link>
         </div>
     </div>
   )

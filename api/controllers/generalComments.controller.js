@@ -11,7 +11,6 @@ export const reqGeneralComments = async(req, res) => {
             orderBy: { createdAt: 'desc' }
         });
 
-        console.log(generalComments)
         res.status(200).json(generalComments)
     } catch (err) {
         console.error("Помилка при отриманні коментарів:", err)

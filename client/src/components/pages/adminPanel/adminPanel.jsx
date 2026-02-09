@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
-import { apiRequest } from '../../../../apiRequest';
+import { apiRequest, clientRequest } from '../../../../serverRequest';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 
@@ -309,7 +309,7 @@ const AdminPanel = () => {
                                     <h1>ID користувача: {userList.id}</h1>
                                     <h1>Ім'я користувача: {userList.name}</h1>
                                     <h1>Email користувача: {userList.email}</h1>
-                                    <h1>Профіль: <a className='text-blue-500' href={`https://localhost:5000/profile/${userList.id}`}>{userList.name}</a></h1>
+                                    <h1>Профіль: <a className='text-blue-500' href={`${clientRequest}/profile/${userList.id}`}>{userList.name}</a></h1>
                                 </div>
                                 {userList.isBanned ? (
                                     <button className='h-10 bg-yellow-400 m-3 p-2 hover:bg-yellow-600 transition' onClick={()=>unbanUser(userList.id)}>Зняти бан</button>
@@ -322,7 +322,7 @@ const AdminPanel = () => {
                                         <button className='bg-red-400 m-3 p-2 hover:bg-red-700 transition' onClick={submitBan}>Заблокувати</button>
                                     </div>
                                 )}
-                            </div> {/*6954560c8f49bf1e5fdf5cef*/}
+                            </div>
                                 {userList.isBanned ? (
                                     <p>Присутній бан до: {userList.banUntil}</p>
                                 ):(
@@ -346,7 +346,7 @@ const AdminPanel = () => {
                             <h1>Опис товару: {productList.description}</h1>
                             <h1>Ціна товару: ${productList.price}</h1>
                             <h1>Видимість товару: {productList.isVisible? ("true"):("false")}</h1>
-                            <h1>Посилання на товар: <a className='text-blue-500 hover:text-blue-700' href={`https://localhost:5000/productPage/${productList.id}`}>{productList.name}</a></h1>
+                            <h1>Посилання на товар: <a className='text-blue-500 hover:text-blue-700' href={`${clientRequest}/productPage/${productList.id}`}>{productList.name}</a></h1>
                             <h1>ID автора: {productList.userId}</h1>
                             <button onClick={()=>openModal(productList.id)}>Редагувати</button>
                         </div>

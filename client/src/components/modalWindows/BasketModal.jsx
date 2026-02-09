@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useBasketContext } from './BasketContext'
-import { apiRequest } from '../../../apiRequest';
+import { apiRequest } from '../../../serverRequest';
 import { Link } from 'react-router-dom';
 
 export const BasketModal = () => {

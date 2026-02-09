@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEditProductContext } from "./editProductByAdminContext";
 import { useEffect, useState } from "react";
-import {apiRequest} from '../../../apiRequest';
+import {apiRequest} from '../../../serverRequest';
 
 export const EditProductModal = ()=>{
     const {
@@ -44,11 +44,9 @@ export const EditProductModal = ()=>{
         if(!file) return;
 
         setNewImage(file)
-        console.log("Файлик є")
     };
 
     const submitChanges = async (e) =>{
-        console.log("Що відправляєм на фронт:", productInfo)
         e.preventDefault();
 
         try{

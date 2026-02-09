@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import "./register.scss"
-import { apiRequest } from '../../../../apiRequest';
+import { apiRequest } from '../../../../serverRequest';
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';

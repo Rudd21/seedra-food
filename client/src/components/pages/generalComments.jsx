@@ -3,7 +3,7 @@ import { Link, useNavigate} from 'react-router-dom';
 import Navigation from "../navigation"
 import Footer from "../footer"
 import axios from 'axios'
-import { apiRequest } from '../../../apiRequest'
+import { apiRequest } from '../../../serverRequest'
 
 const GeneralComments = () => {
 

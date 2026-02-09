@@ -2,7 +2,7 @@ import React, { useEffect, useState, useParams, useRef } from 'react'
 import "./banner.scss"
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
-import {apiRequest} from '../../../apiRequest';
+import {apiRequest} from '../../../serverRequest';
 import {delay, motion, transform, AnimatePresence} from 'framer-motion'
 import { useBasketContext } from '../modalWindows/BasketContext';
 import Navigation from '../navigation';

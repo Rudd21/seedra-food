@@ -1,4 +1,3 @@
-//Схема, саме сюди направлюється запрос /addPruct  получається вміст форми через req.body
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEditProfileContext } from './editProfileContext';
-import {apiRequest} from '../../../apiRequest';
+import {apiRequest} from '../../../serverRequest';
 
 export const EditProfileModal = () => {
     const {

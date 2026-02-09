@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react"
-import { apiRequest } from '../../../apiRequest';
+import { apiRequest } from '../../../serverRequest';
 
 export const useOrder = () => {
     const [isOpen, setIsOpen] = useState(false);

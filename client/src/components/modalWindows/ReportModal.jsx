@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useReportContext } from "./ReportContext"
-import {apiRequest} from '../../../apiRequest';
+import {apiRequest} from '../../../serverRequest';
 
 export const ReportModal = ()=>{
     const {isOpen, formReport, setFormReport, closeReport} = useReportContext();

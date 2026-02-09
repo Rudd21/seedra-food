@@ -3,7 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { apiRequest } from '../../../apiRequest'
+import { apiRequest } from '../../../serverRequest'
 
 const TakeOrder = () => {
 
@@ -48,8 +48,6 @@ const TakeOrder = () => {
             })
             .then(console.log("Успішно створено замолення"))
             .catch(err=>console.error("Виникла проблема при створені замовлення",err))
-            
-            console.log("order: ", order)
         }catch(err){
             console.log(err)
             console.error("Невдалось додати коментар")

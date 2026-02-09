@@ -3,12 +3,10 @@ import { Link, useParams} from 'react-router-dom';
 import "../../../index.css"
 import "./productPage.scss"
 import axios from 'axios';
-import { apiRequest } from '../../../../apiRequest';
+import { apiRequest } from '../../../../serverRequest';
 import { useReportContext } from '../../modalWindows/ReportContext';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
-
-// ЗРОБИ ВИВІД КОМЕНТАРІВ МУДЄЄЄЄЄЄНЬ
 
 const ProductPage = () => {
     const [productInfo, setProductInfo] = useState(null);

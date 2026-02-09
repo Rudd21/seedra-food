@@ -3,7 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
-import { apiRequest } from '../../../apiRequest'
+import { apiRequest } from '../../../serverRequest'
 
 const BlogPost = () => {
 

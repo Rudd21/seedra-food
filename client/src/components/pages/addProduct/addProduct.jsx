@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import "./addProduct.scss"
 import { Link, useNavigate} from 'react-router-dom';
-import { apiRequest } from '../../../../apiRequest';
+import { apiRequest } from '../../../../serverRequest';
 import Navigation from '../../navigation';
 import axios from 'axios';
 import Footer from '../../footer';

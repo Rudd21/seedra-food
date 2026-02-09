@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import {apiRequest} from '../../../apiRequest';
+import {apiRequest} from '../../../serverRequest';
 
 const OurBlog = () => {
     const [blogList, seBlogList] = useState('')

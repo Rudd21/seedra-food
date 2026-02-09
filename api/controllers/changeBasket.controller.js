@@ -31,7 +31,6 @@ export const removeFromBasket = (req, res) => {
         basket.splice(removeIndex, 1);
     }
 
-    console.log("баскет парс після ", basket)
     res.cookie("basket", JSON.stringify(basket), {
         httpOnly: true,
         sameSite: "Strict",

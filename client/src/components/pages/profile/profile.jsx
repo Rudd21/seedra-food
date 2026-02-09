@@ -4,7 +4,7 @@ import "./profile.scss"
 import axios from 'axios';
 import { Link, useNavigate, useParams} from 'react-router-dom';
 import bcrypt from 'bcryptjs';
-import { apiRequest } from '../../../../apiRequest';
+import { apiRequest } from '../../../../serverRequest';
 import { useReportContext } from '../../modalWindows/ReportContext';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
 import { useEditProfileContext } from '../../modalWindows/editProfileContext';

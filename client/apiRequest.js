@@ -1,1 +1,0 @@
-export const apiRequest = "https://localhost:3000"

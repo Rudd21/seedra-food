@@ -6,7 +6,7 @@ import Feedback from "./components/feedbacks/feedbacks"
 import Footer from "./components/footer"
 import OurBlog from './components/ourBlog/ourBlog';
 import {ReportModal} from './components/modalWindows/ReportModal';
-import { apiRequest } from '../apiRequest';
+import { apiRequest } from '../serverRequest';
 
 const App=()=> {
   

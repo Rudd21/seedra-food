@@ -3,7 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
-import { apiRequest } from '../../../apiRequest'
+import { apiRequest } from '../../../serverRequest'
 
 const Search = () => {
 

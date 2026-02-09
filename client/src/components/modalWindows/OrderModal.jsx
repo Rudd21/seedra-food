@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useOrderContext } from './OrderContext';
 import axios from 'axios';
-import { apiRequest } from '../../../apiRequest';
+import { apiRequest } from '../../../serverRequest';
 
 export const OrderModal = () => {
     const {

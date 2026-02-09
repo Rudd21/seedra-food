@@ -1,6 +1,5 @@
 import React from 'react'
 import "./footer.scss"
-import {apiRequest} from '../../../apiRequest';
 
 const footer = () => {
   return (

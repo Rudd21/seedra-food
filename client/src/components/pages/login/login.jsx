@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import "./login.scss"
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { apiRequest } from '../../../../apiRequest';
+import { apiRequest } from '../../../../serverRequest';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 

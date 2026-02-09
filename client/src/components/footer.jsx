@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
-import { apiRequest } from '../../apiRequest';
+import { apiRequest } from '../../serverRequest';
 
 const Footer = () => {
 
