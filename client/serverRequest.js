@@ -1,2 +1,2 @@
-export const apiRequest = "https://localhost:3000"
-export const clientRequest = "https://localhost:5000"
+export const apiRequest = "https://seedra-food.vercel.app"
+export const clientRequest = "https://seedra-food.vercel.app"
