@@ -241,8 +241,9 @@ app.post('/addBlogPost', verifyToken, loadUser, uploadBlogImages.single('image')
 
 // app.get("/admin/checkServ", (req,res)=>res.send("OK"));
 
+export default app;
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Бекенд включився на http://localhost:${PORT}`);
-});
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//     console.log(`Бекенд включився на http://localhost:${PORT}`);
+// });
