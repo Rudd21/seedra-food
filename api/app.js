@@ -46,11 +46,6 @@ app.use('/uploads', express.static(
     path.resolve(process.cwd(), '../uploads')
 ))
 
-const httpOptions = {
-    key: fs.readFileSync('../client/localhost-key.pem'),
-    cert: fs.readFileSync('../client/localhost.pem'),
-}
-
 app.get("/user-data", verifyToken, async(req, res) => {
     const user = await prisma.user.findUnique({
         where: { id: req.user.id }
