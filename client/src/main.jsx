@@ -28,7 +28,7 @@ import { OrderContextProvider } from './components/modalWindows/OrderContext.jsx
 import { ReportModal } from './components/modalWindows/ReportModal.jsx';
 import { EditProductModal } from './components/modalWindows/editProductByAdminModal.jsx';
 import { BasketModal } from './components/modalWindows/BasketModal.jsx';
-import { EditProfileModal } from './components/modalWindows/editProfileModal.jsx';
+import { EditProfileModal } from './components/modalWindows/EditProfileModal.jsx';
 import { ResultModal } from './components/modalWindows/resultModal.jsx';
 import { OrderModal } from './components/modalWindows/OrderModal.jsx';
 import { ScrollToHash } from './components/hooks/scrollToHash.jsx';
