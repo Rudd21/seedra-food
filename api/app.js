@@ -33,7 +33,6 @@ import bcryptjs from 'bcryptjs';
 const prisma = new PrismaClient();
 
 const app = express();
-const PORT = 3000;
 
 app.use(cors({
     origin: [`${process.env.CLIENT_URL}`, `${process.env.SERVER_URL}`],
@@ -248,6 +247,7 @@ app.post('/addBlogPost', verifyToken, loadUser, uploadBlogImages.single('image')
 // app.get("/admin/checkServ", (req,res)=>res.send("OK"));
 
 
-https.createServer(httpOptions, app).listen(PORT, () => {
-    console.log('Бекенд включився')
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Бекенд включився на http://localhost:${PORT}`);
+});

@@ -1,0 +1,7 @@
+{
+    "name": "my-fullstack-app",
+    "scripts": {
+        "build": "cd client && npm install && npm run build",
+        "install": "npm install --prefix api && npm install --prefix client"
+    }
+}
