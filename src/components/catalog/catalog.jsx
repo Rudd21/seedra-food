@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./catalog.scss"
 import { useNavigate } from 'react-router-dom';
 import { useBasketContext } from '../modalWindows/BasketContext';
-import { apiRequest } from '../../serverRequest';
+import { apiRequest, uploads } from '../../serverRequest';
 
 const catalog = () => {
   const navigate = useNavigate();
@@ -164,7 +164,7 @@ const catalog = () => {
             data-hashtag={product.type}>
             <div className="safe-productaImage items-end">
               <motion.button className='rounded-lg hover:bg-gray-300 w-10 h-10 transition duration-300' onClick={()=>addToBasket(product.id)}><img className="basket-product" src="basket.png" alt="Basket" /></motion.button>
-              <img src={`${apiRequest}/uploads/products/${product.image}`} alt={product.name} />
+              <img src={`${uploads}/uploads/products/${product.image}`} alt={product.name} />
             </div>
             <p className="flex">
               <img className='p-1' src="/ratingStar.png" alt="" /> 

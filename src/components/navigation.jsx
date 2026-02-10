@@ -2,7 +2,7 @@ import React, { useEffect, useState, useParams, useRef } from 'react'
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
 import {motion, transform} from 'framer-motion'
-import { apiRequest } from '../serverRequest';
+import { apiRequest, uploads } from '../serverRequest';
 import { useBasketContext } from './modalWindows/BasketContext';
 import { useReportContext } from './modalWindows/ReportContext';
 import { useResultContext } from './modalWindows/resultContext';
@@ -56,7 +56,7 @@ const Navigation = () => {
           <div className="mx-auto flex items-center lg:text-[14px] justify-between px-4 py-3">
 
             {/* LOGO */}
-            <img className="h-7" src={`${apiRequest}/uploads/system/Logo.svg`} alt="logo" />
+            <img className="h-7" src={`${uploads}/uploads/system/Logo.svg`} alt="logo" />
 
             {/* DESKTOP MENU */}
             <ul className="hidden items-center gap-6 lg:flex lg:font-bold lg:text-gray-400">

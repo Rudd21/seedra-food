@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useNavigate, useNavigation } from 'react-router-dom'
-import { apiRequest } from '../serverRequest';
+import { apiRequest, uploads } from '../serverRequest';
 
 const Footer = () => {
 
@@ -53,7 +53,7 @@ const Footer = () => {
                     
                     
                 ">
-                    <img className="h-7 m-auto" src={`${apiRequest}/uploads/system/Logo.svg`} alt="logo" />
+                    <img className="h-7 m-auto" src={`${uploads}/uploads/system/Logo.svg`} alt="logo" />
                 </li>
                 <li className='m-4 text-center
                     lg:border-r 
