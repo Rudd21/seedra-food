@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom';
 import "./feedback.scss"
 import axios from 'axios';
-import {apiRequest, clientRequest} from '../../../serverRequest';
+import {apiRequest, clientRequest} from '../../serverRequest';
 
 const feedbacks = () => {
     const [generalCommentsList, setGeneralCommentsList] = useState('')

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react"
-import { apiRequest } from '../../../serverRequest';
+import { apiRequest } from '../../serverRequest';
 
 export const useBasket = () => {
     const [isOpen, setIsOpen] = useState(false);

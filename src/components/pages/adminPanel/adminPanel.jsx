@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
-import { apiRequest, clientRequest } from '../../../../serverRequest';
+import { apiRequest, clientRequest } from '../../../serverRequest';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 
