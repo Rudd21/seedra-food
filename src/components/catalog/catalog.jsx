@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./catalog.scss"
 import { useNavigate } from 'react-router-dom';
 import { useBasketContext } from '../modalWindows/BasketContext';
-import {apiRequest} from '../../../serverRequest';
+import { apiRequest } from '../../../serverRequest';
 
 const catalog = () => {
   const navigate = useNavigate();

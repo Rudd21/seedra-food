@@ -30,7 +30,3 @@ prisma/dev.db
 *.pem
 localhost-key.pem
 localhost.pem
-
-# Local HTTPS certs
-/client/*.pem
-/api/*.pem
