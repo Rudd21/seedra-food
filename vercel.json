@@ -1,16 +1,7 @@
 {
     "version": 2,
     "rewrites": [{
-            "source": "/server/(.*)",
-            "destination": "/server/index.js"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/client/dist/$1"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/client/dist/index.html"
-        }
-    ]
+        "source": "/(.*)",
+        "destination": "/index.html"
+    }]
 }
