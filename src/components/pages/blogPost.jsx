@@ -23,7 +23,7 @@ const BlogPost = () => {
             <main className='flex-grow w-[90%] lg:w-[65%] border m-auto border-gray-300 border-b-0 p-5'>
             {postInfo ? (
                 <div className='flex flex-col lg:flex-row'>
-                    <img className='rounded-lg' src={`${uploads}/uploads/posts/${postInfo.image}`} alt="" />
+                    <img className='rounded-lg' src={`${uploads}./uploads/posts/${postInfo.image}`} alt="" />
                     <div className='ml-3'>
                         <h1 className='text-[#359740] text-[25px]'><strong>{postInfo.name}</strong></h1>
                         <p>{postInfo.description}</p>

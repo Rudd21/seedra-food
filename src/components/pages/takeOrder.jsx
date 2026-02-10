@@ -69,7 +69,7 @@ const TakeOrder = () => {
         <Navigation />
         <main className='flex flex-grow w-[60%] m-auto items-center'>
             <div className='flex'>
-                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`${uploads}/uploads/products/${productInfo?.image}`} alt="Product_photo" />
+                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`${uploads}./uploads/products/${productInfo?.image}`} alt="Product_photo" />
                 <div className="flex flex-col m-5 flex-grow">
                     <div className='flex border justify-between p-3 border-gray-400 text-[20px] rounded-lg'>
                         <h3>{productInfo?.name}</h3>
