@@ -92,7 +92,7 @@ const ProductPage = () => {
         <Navigation />
         <main className='flex-grow w-[90%] lg:w-[70%] m-auto'>
             <div className="flex flex-col lg:flex-row">
-                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`${uploads}/uploads/products/${productInfo?.image}`} alt="Product_photo" />
+                <img className='w-[300px] m-5 border border-gray-400 rounded-lg p-5' src={`${uploads}./uploads/products/${productInfo?.image}`} alt="Product_photo" />
                 <div className="flex flex-col m-5 flex-grow">
                     <div className='flex border justify-between p-3 border-gray-400 text-[20px] rounded-lg'>
                         <h3>{productInfo?.name}</h3>
@@ -156,7 +156,7 @@ const ProductPage = () => {
                         .map((comment) => (
                         <div key={comment.id} className='flex flex-col'>
                             <div className='flex m-5 p-5 border'>
-                                <img className='w-30 h-30 rounded-xl' src={`${uploads}/uploads/users/${comment.user.avatar}`} alt="" />
+                                <img className='w-30 h-30 rounded-xl' src={`${uploads}./uploads/users/${comment.user.avatar}`} alt="" />
                                 <div className='flex-grow ml-10'>
                                     <p className={comment.rating > 2.5 ? ('text-green-400') : ('text-yellow-400')}><strong>Rating: {comment.rating}</strong></p>
                                     <div className='flex justify-between w-[40%]'>

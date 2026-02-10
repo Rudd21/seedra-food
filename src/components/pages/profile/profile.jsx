@@ -127,7 +127,7 @@ const Profile = () => {
                         <>
                             <div className='flex-col items-center'>
                                 <div className='border-3 rounded-xl bg-green-200 w-57'>
-                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`${uploads}/uploads/users/${checkToken?.avatar}`} alt="" /></div>
+                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`${uploads}./uploads/users/${checkToken?.avatar}`} alt="" /></div>
                                 <label className='flex flex-col'>
                                     Change avatar:
                                     <input id="changeAvatar"
@@ -189,7 +189,7 @@ const Profile = () => {
                                 ) : (
                                     <p></p>
                                 )}
-                                <img src={`${uploads}/uploads/products/${userCata.image}`} alt="Product" />
+                                <img src={`${uploads}./uploads/products/${userCata.image}`} alt="Product" />
                             </div>
                             <p className="flex">
                             <img className='p-1' src="/ratingStar.png" alt="" /> 
@@ -229,7 +229,7 @@ const Profile = () => {
                             .map((comment) => (
                             <div key={comment.id} className='flex flex-col'>
                                 <div className='flex m-5 p-5 border'>
-                                    <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/users/${comment.user.avatar}`} alt="" />
+                                    <img className='w-30 h-30 rounded-xl' src={`${uploads}./uploads/users/${comment.user.avatar}`} alt="" />
                                     <div className='flex-grow ml-10'>
                                         <p className={comment.rating > 2.5 ? ('text-green-400') : ('text-yellow-400')}><strong>Rating: {comment.rating}</strong></p>
                                         <div className='flex justify-between w-[40%]'>

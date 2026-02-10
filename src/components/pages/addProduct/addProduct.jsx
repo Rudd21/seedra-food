@@ -77,7 +77,7 @@ const addProduct = (e) => {
                             />
                         ):(
                             <img
-                                src={`${uploads}/uploads/products/default.png`}
+                                src={`${uploads}./uploads/products/default.png`}
                                 alt='preview'
                                 className='h-55 w-55'
                             />
