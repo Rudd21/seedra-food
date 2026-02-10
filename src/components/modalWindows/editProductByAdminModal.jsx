@@ -84,7 +84,7 @@ export const EditProductModal = ()=>{
                             {newImage ? (
                                 <img className="h-55 w-55" src={URL.createObjectURL(newImage)} alt={productInfo.name} />
                             ):(
-                                <img className="h-55 w-55" src={`${uploads}/uploads/products/${productInfo.image}`} alt={productInfo.name} /> 
+                                <img className="h-55 w-55" src={`${uploads}./uploads/products/${productInfo.image}`} alt={productInfo.name} /> 
                             )}
                         </div>
                         <p className="flex">
