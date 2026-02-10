@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import AddProduct from "./components/pages/addProduct/addProduct.jsx"
 import Register from "./components/pages/register/register.jsx"

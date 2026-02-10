@@ -9,43 +9,32 @@ const BlogPost = () => {
 
     const [postInfo, setPostInfo] = useState()
 
-    const { id: blogId } = useParams();
+    const {id: blogId} = useParams();
 
-    useEffect(() => {
+    useEffect(()=>{
         axios.get(`${apiRequest}/reqBlogPost?id=${blogId}`)
-            .then(res => { setPostInfo(res.data) })
-            .catch(err => { console.error("Невдалося получити детальнішу інформацію про пост: ", err) })
+        .then(res=>{setPostInfo(res.data)})
+        .catch(err=>{console.error("Невдалося получити детальнішу інформацію про пост: ", err)})
     }, [])
 
-    return ( <
-        div className = 'min-h-screen flex flex-col' >
-        <
-        Navigation / >
-        <
-        main className = 'flex-grow w-[90%] lg:w-[65%] border m-auto border-gray-300 border-b-0 p-5' > {
-            postInfo ? ( <
-                div className = 'flex flex-col lg:flex-row' >
-                <
-                img className = 'rounded-lg'
-                src = { `${apiRequest}/uploads/posts/${postInfo.image}` }
-                alt = "" / >
-                <
-                div className = 'ml-3' >
-                <
-                h1 className = 'text-[#359740] text-[25px]' > < strong > { postInfo.name } < /strong></h
-                1 >
-                <
-                p > { postInfo.description } < /p> <
-                /div> <
-                /div>
-            ) : ( <
-                p className = 'text-center text-gray-400' > ...Невдалося получити детальнішу інформацію про пост... < /p>
-            )
-        } <
-        /main> <
-        Footer / >
-        <
-        /div>
+    return (
+        <div className='min-h-screen flex flex-col'>
+            <Navigation />
+            <main className='flex-grow w-[90%] lg:w-[65%] border m-auto border-gray-300 border-b-0 p-5'>
+            {postInfo ? (
+                <div className='flex flex-col lg:flex-row'>
+                    <img className='rounded-lg' src={`${apiRequest}/uploads/posts/${postInfo.image}`} alt="" />
+                    <div className='ml-3'>
+                        <h1 className='text-[#359740] text-[25px]'><strong>{postInfo.name}</strong></h1>
+                        <p>{postInfo.description}</p>
+                    </div>
+                </div>
+            ):(
+                <p className='text-center text-gray-400'>...Невдалося получити детальнішу інформацію про пост...</p>
+            )}
+            </main>
+            <Footer />
+        </div>
     )
 }
 
