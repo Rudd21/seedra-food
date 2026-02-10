@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEditProductContext } from "./editProductByAdminContext";
 import { useEffect, useState } from "react";
-import {apiRequest} from '../../serverRequest';
+import {apiRequest, uploads} from '../../serverRequest';
 
 export const EditProductModal = ()=>{
     const {
@@ -84,7 +84,7 @@ export const EditProductModal = ()=>{
                             {newImage ? (
                                 <img className="h-55 w-55" src={URL.createObjectURL(newImage)} alt={productInfo.name} />
                             ):(
-                                <img className="h-55 w-55" src={`${apiRequest}/uploads/products/${productInfo.image}`} alt={productInfo.name} /> 
+                                <img className="h-55 w-55" src={`${uploads}/uploads/products/${productInfo.image}`} alt={productInfo.name} /> 
                             )}
                         </div>
                         <p className="flex">

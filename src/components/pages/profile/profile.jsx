@@ -4,7 +4,7 @@ import "./profile.scss"
 import axios from 'axios';
 import { Link, useNavigate, useParams} from 'react-router-dom';
 import bcrypt from 'bcryptjs';
-import { apiRequest } from '../../../serverRequest';
+import { apiRequest, uploads } from '../../../serverRequest';
 import { useReportContext } from '../../modalWindows/ReportContext';
 import { useEditProductContext } from '../../modalWindows/editProductByAdminContext';
 import { useEditProfileContext } from '../../modalWindows/EditProfileContext';
@@ -127,7 +127,7 @@ const Profile = () => {
                         <>
                             <div className='flex-col items-center'>
                                 <div className='border-3 rounded-xl bg-green-200 w-57'>
-                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`${apiRequest}/uploads/users/${checkToken?.avatar}`} alt="" /></div>
+                                <img className='w-50 h-50 m-3 rounded-xl  bg-white' src={`${uploads}/uploads/users/${checkToken?.avatar}`} alt="" /></div>
                                 <label className='flex flex-col'>
                                     Change avatar:
                                     <input id="changeAvatar"
@@ -189,7 +189,7 @@ const Profile = () => {
                                 ) : (
                                     <p></p>
                                 )}
-                                <img src={`${apiRequest}/uploads/products/${userCata.image}`} alt="Product" />
+                                <img src={`${uploads}/uploads/products/${userCata.image}`} alt="Product" />
                             </div>
                             <p className="flex">
                             <img className='p-1' src="/ratingStar.png" alt="" /> 

@@ -3,7 +3,7 @@ import Navigation from '../navigation'
 import Footer from '../footer'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
-import { apiRequest } from '../../serverRequest'
+import { apiRequest, uploads } from '../../serverRequest'
 
 const Search = () => {
 
@@ -43,7 +43,7 @@ const Search = () => {
                     <div key={obj.id} className='border flex p-2 mt-3 rounded-lg border-gray-400'>
                         {type === 'product' ? (
                         <div className='flex flex-col justify-items-center lg:flex-row p-2'>
-                            <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/products/${obj.image}`} alt="" />
+                            <img className='w-30 h-30 rounded-xl' src={`${uploads}/uploads/products/${obj.image}`} alt="" />
                             <div className='flex-grow flex flex-col gap-5 lg:flex-row lg:ml-10 self-center justify-between'>
                                 <div className='flex flex-col justify-evenly h-[100%]'>
                                     <p><strong className='text-[13px] lg:text-[20px]'>Product ID: {obj.id}</strong></p>
@@ -67,7 +67,7 @@ const Search = () => {
                         </div>
                         ):(
                         <div className='flex flex-col lg:flex-row p-2'>
-                            <img className='w-30 h-30 rounded-xl' src={`${apiRequest}/uploads/users/${obj.avatar}`} alt="" />
+                            <img className='w-30 h-30 rounded-xl' src={`${uploads}/uploads/users/${obj.avatar}`} alt="" />
                             <div className='flex-grow flex lg:ml-10 flex-row self-center justify-between'>
                                 <div className='flex flex-col justify-evenly h-[100%]'>
                                     <p><strong>User ID: {obj.id}</strong></p>

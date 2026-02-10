@@ -2,7 +2,7 @@ import React, { useEffect, useState, useParams, useRef } from 'react'
 import "./banner.scss"
 import axios from 'axios';
 import { Link, useNavigate} from 'react-router-dom';
-import { apiRequest } from '../../serverRequest';
+import { apiRequest, uploads } from '../../serverRequest';
 import {delay, motion, transform, AnimatePresence} from 'framer-motion'
 import { useBasketContext } from '../modalWindows/BasketContext';
 import Navigation from '../navigation';
@@ -96,7 +96,7 @@ const banner = () => {
                           </div>
                         </div>
                       </div>
-                      <img className="w-50 h-50 lg:w-80 lg:h-80 z-0" src={`${apiRequest}/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
+                      <img className="w-50 h-50 lg:w-80 lg:h-80 z-0" src={`${uploads}/uploads/products/${mostSaleList[indexSale].image}`} alt="" />
                     </div>
                     <button className='flex z-2 text-[30px] items-center mt-[70px]' 
                       onClick={()=>{

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useBasketContext } from './BasketContext'
-import { apiRequest } from '../../serverRequest';
+import { apiRequest, uploads } from '../../serverRequest';
 import { Link } from 'react-router-dom';
 
 export const BasketModal = () => {
@@ -33,7 +33,7 @@ export const BasketModal = () => {
                         <p>x</p>
                     </button>
                     <div className='flex w-[100%] flex-col items-center lg:flex-row'>
-                        <img className='w-25 h-25' src={`${apiRequest}/uploads/products/${product.image}`} alt="" />
+                        <img className='w-25 h-25' src={`${uploads}/uploads/products/${product.image}`} alt="" />
                             <div className='flex-grow flex ml-1 flex-row self-center justify-between'>
                                 <div className='flex flex-col justify-evenly text-[13px] h-[100%]'>
                                     <p><strong>ID: {product.id}</strong></p>

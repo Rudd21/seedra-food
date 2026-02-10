@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import "./addProduct.scss"
 import { Link, useNavigate} from 'react-router-dom';
-import { apiRequest } from '../../../serverRequest';
+import { apiRequest, uploads } from '../../../serverRequest';
 import Navigation from '../../navigation';
 import axios from 'axios';
 import Footer from '../../footer';
@@ -77,7 +77,7 @@ const addProduct = (e) => {
                             />
                         ):(
                             <img
-                                src={`${apiRequest}/uploads/products/default.png`}
+                                src={`${uploads}/uploads/products/default.png`}
                                 alt='preview'
                                 className='h-55 w-55'
                             />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate} from 'react-router-dom';
 import "./feedback.scss"
 import axios from 'axios';
-import {apiRequest, clientRequest} from '../../serverRequest';
+import {apiRequest, clientRequest, uploads} from '../../serverRequest';
 
 const feedbacks = () => {
     const [generalCommentsList, setGeneralCommentsList] = useState('')
@@ -29,7 +29,7 @@ const feedbacks = () => {
                 <div key={comment.id} className='bg-[#EAF1EB] p-4 rounded-sm'>
                     <div className="feedback-item">
                         <div className="user-logo-feedback">
-                            <img className='w-[55px] h-[55px] rounded-full' src={`${apiRequest}/uploads/users/${comment.user.avatar}`} alt={comment.user.name} />
+                            <img className='w-[55px] h-[55px] rounded-full' src={`${uploads}/uploads/users/${comment.user.avatar}`} alt={comment.user.name} />
                             <div className="text-user">
                                 <p className="name-user">{comment.user.name}</p>
                                 <div className='flex text-[12px] items-center'>
