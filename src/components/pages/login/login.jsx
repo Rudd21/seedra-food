@@ -6,7 +6,7 @@ import { apiRequest } from '../../../serverRequest';
 import Navigation from '../../navigation';
 import Footer from '../../footer';
 
-const addProduct = () => {
+const Login = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -25,7 +25,7 @@ const addProduct = () => {
         e.preventDefault();
 
         try{
-            const response = await axios.post(`${apiRequest}/login`, formData, {
+            await axios.post(`${apiRequest}/login`, formData, {
                 withCredentials: true
             });
 
@@ -80,4 +80,4 @@ const addProduct = () => {
   )
 }
 
-export default addProduct
+export default Login

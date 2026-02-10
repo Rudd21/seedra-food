@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import AddProduct from "./components/pages/addProduct/addProduct.jsx"
 import Register from "./components/pages/register/register.jsx"
-import Login from "./components/pages/login/login.jsx"
+import Login from './components/pages/login/login.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Profile from './components/pages/profile/profile.jsx';
 import ProductPage from './components/pages/productPage/productPage.jsx';
